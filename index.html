@@ -1,0 +1,3452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1A1F2E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Estimate Pro">
+<title>Driftocity Estimate Pro</title>
+<style>
+/* =============================================
+   CONTRACTORPRO — DESIGN TOKENS
+   Palette: Steel Navy + Safety Orange + Concrete
+   Type: Barlow Condensed (headers) + Inter (body)
+   Signature: Diagonal "blueprint grid" on dashboard hero
+   ============================================= */
+
+:root {
+  /* Color Palette */
+  --navy:       #1A1F2E;
+  --navy-mid:   #242938;
+  --navy-light: #2E3447;
+  --orange:     #FF6B35;
+  --orange-dim: #FF6B3520;
+  --orange-mid: #E5582A;
+  --steel:      #8B95A8;
+  --concrete:   #C8CDD8;
+  --white:      #FFFFFF;
+  --off-white:  #F4F6FA;
+  --green:      #2ECC71;
+  --green-dim:  #2ECC7120;
+  --blue:       #3B82F6;
+  --blue-dim:   #3B82F620;
+  --red:        #EF4444;
+  --red-dim:    #EF444420;
+  --purple:     #8B5CF6;
+  --purple-dim: #8B5CF620;
+  --yellow:     #F59E0B;
+
+  /* Spacing */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  32px;
+  --space-2xl: 48px;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+
+  /* Typography */
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body:    'Inter', sans-serif;
+
+  /* Safe areas for notch/home bar */
+  --safe-top:    env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --top-bar-h:   56px;
+  --bottom-nav-h: 64px;
+}
+
+/* =============================================
+   RESET & BASE
+   ============================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  height: 100%;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--navy);
+  color: var(--white);
+  height: 100%;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app { height: 100%; min-height: 100dvh; }
+
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+input, select, textarea { font-family: inherit; }
+a { color: var(--orange); text-decoration: none; }
+
+/* =============================================
+   SPLASH SCREEN
+   ============================================= */
+.splash-screen {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--navy);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.3s ease;
+}
+.splash-inner { text-align: center; }
+.splash-icon { margin-bottom: 16px; animation: splash-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
+.splash-name {
+  font-family: var(--font-display);
+  font-size: 32px; font-weight: 700; letter-spacing: 0.04em;
+  color: var(--white);
+  animation: splash-fade 0.6s 0.2s ease both;
+}
+.splash-sub {
+  font-size: 13px; color: var(--steel); letter-spacing: 0.12em; text-transform: uppercase;
+  margin-top: 4px;
+  animation: splash-fade 0.6s 0.35s ease both;
+}
+.splash-loader {
+  width: 120px; height: 3px; background: var(--navy-light); border-radius: 99px;
+  margin: 24px auto 0; overflow: hidden;
+  animation: splash-fade 0.4s 0.4s ease both;
+}
+.splash-bar {
+  height: 100%; width: 0%; background: var(--orange); border-radius: 99px;
+  animation: splash-load 0.8s 0.5s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+
+@keyframes splash-pop { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes splash-fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes splash-load { to { width: 100%; } }
+
+/* =============================================
+   APP SHELL
+   ============================================= */
+.app-shell {
+  display: flex; flex-direction: column;
+  height: 100dvh; max-width: 480px;
+  margin: 0 auto; position: relative;
+  background: var(--navy);
+}
+
+/* =============================================
+   TOP BAR
+   ============================================= */
+.top-bar {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; gap: var(--space-sm);
+  padding: calc(var(--safe-top) + 10px) var(--space-md) 10px;
+  background: var(--navy);
+  border-bottom: 1px solid var(--navy-light);
+  min-height: var(--top-bar-h);
+}
+.top-bar-left, .top-bar-right {
+  display: flex; align-items: center; gap: var(--space-sm);
+  flex: 0 0 auto; min-width: 40px;
+}
+.top-bar-right { justify-content: flex-end; }
+.top-bar-title {
+  flex: 1; text-align: center;
+  font-family: var(--font-display);
+  font-size: 20px; font-weight: 700; letter-spacing: 0.04em;
+  color: var(--white);
+}
+.app-logo { display: flex; align-items: center; }
+
+.btn-icon {
+  width: 38px; height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-sm);
+  color: var(--steel);
+  transition: color 0.15s, background 0.15s;
+}
+.btn-icon:hover, .btn-icon:active { color: var(--white); background: var(--navy-light); }
+
+.trial-badge {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+  padding: 3px 8px; border-radius: 99px;
+  background: var(--orange-dim); color: var(--orange);
+  text-transform: uppercase;
+}
+
+/* =============================================
+   BOTTOM NAV
+   ============================================= */
+.bottom-nav {
+  position: sticky; bottom: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  padding-bottom: var(--safe-bottom);
+  background: var(--navy-mid);
+  border-top: 1px solid var(--navy-light);
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 3px; padding: 8px 4px;
+  color: var(--steel);
+  transition: color 0.15s;
+  position: relative;
+}
+.nav-item.active { color: var(--orange); }
+.nav-item.active::before {
+  content: '';
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 28px; height: 2px; border-radius: 99px;
+  background: var(--orange);
+}
+.nav-icon { display: flex; }
+.nav-label { font-size: 10px; font-weight: 500; letter-spacing: 0.04em; }
+
+.nav-fab {
+  color: var(--white) !important;
+}
+.nav-fab .nav-icon {
+  width: 44px; height: 44px;
+  background: var(--orange);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px #FF6B3560;
+  margin-top: -12px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.nav-fab:active .nav-icon { transform: scale(0.93); box-shadow: 0 2px 8px #FF6B3540; }
+
+/* =============================================
+   MAIN CONTENT
+   ============================================= */
+.main-content {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+.main-content::-webkit-scrollbar { display: none; }
+
+/* =============================================
+   DASHBOARD
+   ============================================= */
+.view-dashboard { padding-bottom: var(--space-xl); }
+
+.dashboard-hero {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--space-lg) var(--space-md) var(--space-md);
+  /* Signature element: Blueprint grid overlay */
+  background:
+    linear-gradient(rgba(26,31,46,0.92), rgba(26,31,46,0.92)),
+    repeating-linear-gradient(0deg, transparent, transparent 23px, rgba(255,107,53,0.08) 24px),
+    repeating-linear-gradient(90deg, transparent, transparent 23px, rgba(255,107,53,0.08) 24px);
+}
+.hero-greeting { flex: 1; }
+.hero-sub { font-size: 12px; color: var(--steel); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; }
+.hero-name {
+  font-family: var(--font-display);
+  font-size: 26px; font-weight: 700; letter-spacing: 0.02em;
+  color: var(--white); line-height: 1.1;
+}
+
+.btn-new-estimate {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 16px; border-radius: var(--radius-md);
+  background: var(--orange); color: var(--white);
+  font-size: 14px; font-weight: 600; letter-spacing: 0.02em;
+  box-shadow: 0 4px 16px #FF6B3550;
+  white-space: nowrap;
+  transition: transform 0.12s, background 0.12s;
+}
+.btn-new-estimate:active { transform: scale(0.96); background: var(--orange-mid); }
+
+/* Stats Grid */
+.stats-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm); padding: var(--space-sm) var(--space-md) var(--space-md);
+}
+.stat-card {
+  padding: var(--space-md);
+  background: var(--navy-mid);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--navy-light);
+  position: relative; overflow: hidden;
+}
+.stat-card::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+.accent-orange::before { background: var(--orange); }
+.accent-blue::before   { background: var(--blue); }
+.accent-green::before  { background: var(--green); }
+.accent-purple::before { background: var(--purple); }
+
+.stat-label { font-size: 11px; color: var(--steel); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+.stat-value { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--white); line-height: 1.1; }
+.stat-sub { font-size: 11px; color: var(--steel); margin-top: 3px; }
+
+/* Section Block */
+.section-block { padding: 0 var(--space-md) var(--space-md); }
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-sm); }
+.section-header h3 {
+  font-family: var(--font-display);
+  font-size: 16px; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--concrete);
+}
+.btn-link { font-size: 13px; color: var(--orange); font-weight: 500; }
+
+/* Trade Pills */
+.trade-pills { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+.trade-pill {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 12px; border-radius: var(--radius-sm);
+  background: var(--navy-mid); border: 1px solid var(--navy-light);
+  color: var(--concrete); font-size: 13px; font-weight: 500;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.trade-pill:active { border-color: var(--orange); color: var(--orange); background: var(--orange-dim); }
+
+/* Empty State */
+.empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: var(--space-2xl) var(--space-md);
+  text-align: center; gap: var(--space-sm);
+}
+.empty-icon { font-size: 48px; line-height: 1; }
+.empty-state h3 { font-size: 18px; font-weight: 600; color: var(--white); }
+.empty-state p { font-size: 14px; color: var(--steel); max-width: 240px; }
+
+/* =============================================
+   LIST VIEWS (Estimates & Invoices)
+   ============================================= */
+.view-list { padding-bottom: var(--space-xl); }
+
+.list-filter-bar {
+  display: flex; gap: var(--space-sm);
+  padding: var(--space-md) var(--space-md) var(--space-sm);
+  position: sticky; top: 0; z-index: 10;
+  background: var(--navy);
+}
+.search-input {
+  flex: 1; padding: 10px 14px;
+  background: var(--navy-mid); border: 1px solid var(--navy-light);
+  border-radius: var(--radius-sm); color: var(--white);
+  font-size: 14px;
+}
+.filter-select {
+  padding: 10px 10px; min-width: 110px;
+  background: var(--navy-mid); border: 1px solid var(--navy-light);
+  border-radius: var(--radius-sm); color: var(--concrete);
+  font-size: 13px;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238B95A8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 28px;
+}
+
+#estimates-list-container,
+#invoices-list-container { padding: 0 var(--space-md); }
+
+.list-card {
+  background: var(--navy-mid);
+  border: 1px solid var(--navy-light);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-sm);
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+.list-card:active { border-color: var(--navy-light); }
+.card-top { display: flex; gap: var(--space-md); padding: var(--space-md); align-items: flex-start; }
+.card-info { flex: 1; min-width: 0; }
+.card-title { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-sub { font-size: 13px; color: var(--steel); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-meta { font-size: 12px; color: var(--steel); }
+.card-right { text-align: right; flex: 0 0 auto; }
+.card-amount { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+.status-badge { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 99px; text-transform: capitalize; letter-spacing: 0.04em; }
+
+.card-actions {
+  display: flex; gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md) var(--space-md);
+  border-top: 1px solid var(--navy-light);
+  flex-wrap: wrap;
+}
+.card-btn {
+  font-size: 12px; font-weight: 500; padding: 6px 12px;
+  border-radius: var(--radius-sm); color: var(--concrete);
+  background: var(--navy-light);
+  transition: color 0.12s, background 0.12s;
+}
+.card-btn:active { color: var(--white); background: var(--navy); }
+.card-btn.danger { color: var(--red); }
+.card-btn.danger:active { background: var(--red-dim); }
+
+/* =============================================
+   ESTIMATE BUILDER
+   ============================================= */
+.view-estimate-builder { padding-bottom: var(--space-xl); }
+
+.form-section {
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--navy-light);
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: 14px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: var(--space-md);
+}
+
+.form-row { margin-bottom: var(--space-sm); }
+.form-row-split { display: flex; gap: var(--space-sm); margin-bottom: var(--space-sm); }
+.form-row-split > * { flex: 1; min-width: 0; }
+.zip-input { max-width: 100px; flex: 0 0 100px; }
+
+.form-group { display: flex; flex-direction: column; gap: 4px; }
+.form-label { font-size: 11px; color: var(--steel); letter-spacing: 0.06em; text-transform: uppercase; }
+
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--navy-mid);
+  border: 1px solid var(--navy-light);
+  border-radius: var(--radius-sm);
+  color: var(--white);
+  font-size: 14px;
+  transition: border-color 0.15s;
+  -webkit-appearance: none;
+}
+.form-input:focus { outline: none; border-color: var(--orange); }
+.form-input::placeholder { color: var(--steel); }
+.form-textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+select.form-input {
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238B95A8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.zip-info {
+  font-size: 12px; color: var(--steel);
+  padding: 6px 10px; margin-top: -4px; margin-bottom: var(--space-sm);
+  background: var(--navy-light); border-radius: var(--radius-sm);
+}
+.zip-info strong { color: var(--orange); }
+
+/* Quick Add Bar */
+.quick-add-bar {
+  background: var(--navy-light);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px; margin-bottom: var(--space-sm);
+}
+.quick-add-label { font-size: 12px; color: var(--steel); margin-bottom: 8px; }
+.quick-add-categories { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.quick-cat-btn {
+  font-size: 12px; font-weight: 500; padding: 5px 10px;
+  border-radius: var(--radius-sm); color: var(--concrete);
+  background: var(--navy-mid); border: 1px solid var(--navy-light);
+  transition: border-color 0.12s, color 0.12s;
+}
+.quick-cat-btn:active { border-color: var(--orange); color: var(--orange); }
+
+/* Line Items */
+.empty-items {
+  padding: var(--space-lg); text-align: center;
+  background: var(--navy-light); border-radius: var(--radius-sm);
+  font-size: 13px; color: var(--steel);
+}
+
+.line-item-row {
+  background: var(--navy-light);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-sm);
+  padding: 12px;
+  border: 1px solid var(--navy-mid);
+}
+.line-item-top {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: var(--space-sm);
+  margin-bottom: 10px;
+}
+.line-item-name-wrap { flex: 1; min-width: 0; }
+.li-name {
+  width: 100%; background: transparent; border: none;
+  color: var(--white); font-size: 14px; font-weight: 500;
+  padding: 4px 0; border-bottom: 1px solid var(--navy-light);
+}
+.li-name:focus { outline: none; border-bottom-color: var(--orange); }
+.li-trade-badge {
+  font-size: 10px; color: var(--steel); display: block; margin-top: 3px;
+}
+.li-delete {
+  color: var(--steel); width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-sm); flex-shrink: 0;
+  transition: color 0.12s, background 0.12s;
+}
+.li-delete:active { color: var(--red); background: var(--red-dim); }
+
+.line-item-bottom {
+  display: grid; grid-template-columns: 72px 1fr 1fr 1fr;
+  gap: var(--space-xs); align-items: end; margin-bottom: 10px;
+}
+.li-field { display: flex; flex-direction: column; gap: 3px; }
+.li-field label { font-size: 10px; color: var(--steel); letter-spacing: 0.06em; text-transform: uppercase; }
+.li-field input, .li-field select {
+  width: 100%; padding: 6px 8px;
+  background: var(--navy-mid); border: 1px solid var(--navy-light);
+  border-radius: var(--radius-sm); color: var(--white); font-size: 13px;
+  -webkit-appearance: none;
+}
+.li-field input:focus, .li-field select:focus { outline: none; border-color: var(--orange); }
+.li-price-wrap { display: flex; align-items: center; gap: 4px; }
+.li-price-wrap span { font-size: 13px; color: var(--steel); }
+.li-price-wrap input { flex: 1; }
+.li-subtotal label { font-size: 10px; color: var(--steel); }
+.li-subtotal span { font-size: 14px; font-weight: 600; color: var(--orange); display: block; }
+
+.li-split-row { display: flex; align-items: center; gap: var(--space-sm); }
+.li-toggle-wrap { display: flex; align-items: center; gap: 4px; }
+.li-toggle-label { font-size: 11px; color: var(--steel); }
+.li-pct { font-size: 12px; font-weight: 600; color: var(--concrete); }
+
+.li-notes { font-size: 12px; color: var(--steel); padding-top: 8px; border-top: 1px solid var(--navy-mid); margin-top: 8px; }
+
+/* Add buttons */
+.btn-add {
+  font-size: 13px; font-weight: 600; color: var(--orange);
+  display: flex; align-items: center; gap: 4px;
+  padding: 6px 12px; border-radius: var(--radius-sm);
+  border: 1px solid var(--orange);
+  transition: background 0.12s;
+}
+.btn-add:active { background: var(--orange-dim); }
+
+.btn-add-custom {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 12px;
+  margin-top: var(--space-sm);
+  border: 1px dashed var(--navy-light);
+  border-radius: var(--radius-sm);
+  color: var(--steel); font-size: 13px;
+  transition: border-color 0.12s, color 0.12s;
+}
+.btn-add-custom:active { border-color: var(--orange); color: var(--orange); }
+
+/* Totals Card */
+.totals-card {
+  margin: 0 var(--space-md) var(--space-md);
+  background: var(--navy-mid);
+  border: 1px solid var(--navy-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.totals-inner { padding: var(--space-md); }
+.totals-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 0; font-size: 14px;
+}
+.totals-row span:first-child { color: var(--concrete); }
+.totals-row span:last-child { color: var(--white); font-weight: 500; }
+.totals-row.muted span { color: var(--steel) !important; font-size: 13px; }
+.totals-divider { height: 1px; background: var(--navy-light); margin: 8px 0; }
+.totals-row.total {
+  padding: 10px 0;
+  border-top: 2px solid var(--orange);
+  border-bottom: 2px solid var(--orange);
+  margin: 4px 0;
+}
+.totals-row.total span { color: var(--white) !important; font-family: var(--font-display); font-size: 22px !important; font-weight: 700 !important; }
+.totals-row.deposit span { color: var(--orange) !important; font-weight: 600 !important; }
+.totals-note { font-size: 11px; color: var(--steel); margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--navy-light); }
+
+/* Action Buttons */
+.action-buttons {
+  display: flex; flex-direction: column; gap: var(--space-sm);
+  padding: var(--space-md);
+}
+.btn-primary {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px var(--space-md);
+  background: var(--orange); color: var(--white);
+  border-radius: var(--radius-md);
+  font-size: 15px; font-weight: 600; letter-spacing: 0.02em;
+  box-shadow: 0 4px 16px #FF6B3540;
+  transition: transform 0.12s, background 0.12s;
+}
+.btn-primary:active { transform: scale(0.98); background: var(--orange-mid); }
+
+.btn-secondary {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px var(--space-md);
+  background: var(--navy-mid); color: var(--concrete);
+  border: 1px solid var(--navy-light);
+  border-radius: var(--radius-md);
+  font-size: 14px; font-weight: 500;
+  transition: border-color 0.12s, color 0.12s;
+}
+.btn-secondary:active { border-color: var(--orange); color: var(--orange); }
+.btn-secondary.danger { border-color: var(--red-dim); color: var(--red); }
+
+/* =============================================
+   ITEM PICKER MODAL
+   ============================================= */
+.modal {
+  position: fixed; inset: 0; z-index: 500;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.modal.hidden { display: none; }
+.modal-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+}
+.modal-sheet {
+  position: relative; z-index: 1;
+  background: var(--navy-mid);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  max-height: 80dvh; overflow-y: auto;
+  padding: 0 var(--space-md) calc(var(--safe-bottom) + var(--space-lg));
+  -webkit-overflow-scrolling: touch;
+}
+.modal-sheet::-webkit-scrollbar { display: none; }
+.modal-handle {
+  width: 36px; height: 4px;
+  background: var(--navy-light); border-radius: 99px;
+  margin: 12px auto 16px; flex-shrink: 0;
+}
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 20px; font-weight: 700; letter-spacing: 0.04em;
+  color: var(--white); margin-bottom: var(--space-md);
+}
+.modal-tabs {
+  display: flex; gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--navy-light);
+}
+.modal-tab {
+  flex: 1; padding: 8px; border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 500; color: var(--steel);
+  background: var(--navy-light);
+  transition: background 0.12s, color 0.12s;
+}
+.modal-tab.active { background: var(--orange); color: var(--white); }
+.modal-back {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; color: var(--steel); margin-bottom: var(--space-md);
+  padding: 6px 0;
+}
+.modal-sub-title {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 700;
+  color: var(--white); margin-bottom: var(--space-md);
+}
+
+/* Trade Picker Grid */
+.trade-picker-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+}
+.trade-picker-item {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 6px;
+  padding: 16px var(--space-sm);
+  background: var(--navy-light);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--navy-mid);
+  transition: border-color 0.12s, background 0.12s;
+}
+.trade-picker-item:active { border-color: var(--orange); background: var(--orange-dim); }
+.tpi-icon { font-size: 24px; }
+.tpi-label { font-size: 12px; font-weight: 500; color: var(--concrete); text-align: center; }
+
+/* Picker Categories */
+.picker-category { margin-bottom: var(--space-md); }
+.picker-cat-name {
+  font-size: 11px; font-weight: 700; color: var(--steel);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: var(--space-sm) 0; margin-bottom: 4px;
+  border-bottom: 1px solid var(--navy-light);
+}
+.picker-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 0; border-bottom: 1px solid var(--navy-light);
+  transition: opacity 0.12s;
+  cursor: pointer;
+}
+.picker-item:active { opacity: 0.7; }
+.pi-left { flex: 1; }
+.pi-name { font-size: 14px; font-weight: 500; color: var(--white); margin-bottom: 2px; }
+.pi-unit { font-size: 12px; color: var(--steel); }
+.pi-right { text-align: right; }
+.pi-price { font-size: 15px; font-weight: 700; color: var(--orange); }
+.pi-per { font-size: 11px; color: var(--steel); }
+
+/* Custom Item Form */
+.custom-item-form { display: flex; flex-direction: column; gap: var(--space-sm); }
+
+/* =============================================
+   DETAIL VIEWS
+   ============================================= */
+.view-detail { padding: var(--space-md); padding-bottom: var(--space-xl); }
+
+.detail-header {
+  display: flex; align-items: baseline; gap: var(--space-sm); flex-wrap: wrap;
+  margin-bottom: var(--space-md);
+}
+.detail-number {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--white);
+}
+.detail-date { font-size: 13px; color: var(--steel); margin-left: auto; }
+.detail-due { font-size: 13px; color: var(--yellow); }
+
+/* Company Header */
+.company-header {
+  display: flex; align-items: flex-start; gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--navy-light);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-md);
+}
+.company-header-empty {
+  padding: var(--space-md);
+  background: var(--navy-light);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-md);
+  font-size: 13px; color: var(--steel); text-align: center;
+}
+.company-logo { width: 52px; height: 52px; object-fit: contain; border-radius: var(--radius-sm); }
+.company-logo-placeholder { font-size: 36px; width: 52px; text-align: center; }
+.company-name { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 2px; }
+.company-meta { font-size: 12px; color: var(--steel); }
+
+/* Bill-to / Project sections */
+.detail-parties { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); margin-bottom: var(--space-md); }
+.detail-party {
+  background: var(--navy-mid); border: 1px solid var(--navy-light);
+  border-radius: var(--radius-md); padding: var(--space-md);
+}
+.party-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--steel); margin-bottom: 4px; }
+.party-name { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 3px; }
+.party-address { font-size: 12px; color: var(--steel); }
+.party-trade { font-size: 13px; color: var(--orange); }
+.party-contact { font-size: 12px; color: var(--steel); }
+
+.detail-notes {
+  font-size: 13px; color: var(--concrete); line-height: 1.5;
+  padding: var(--space-md); background: var(--navy-mid);
+  border-radius: var(--radius-md); margin-bottom: var(--space-md);
+}
+
+/* Items Table */
+.items-table {
+  width: 100%; border-collapse: collapse;
+  background: var(--navy-mid);
+  border-radius: var(--radius-md); overflow: hidden;
+  margin-bottom: var(--space-md); font-size: 13px;
+}
+.items-table thead { background: var(--navy-light); }
+.items-table th {
+  padding: 10px 12px; text-align: left;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--steel);
+}
+.items-table th:last-child, .items-table td:last-child { text-align: right; }
+.items-table td { padding: 10px 12px; color: var(--concrete); border-bottom: 1px solid var(--navy-light); vertical-align: top; }
+.items-table tbody tr:last-child td { border-bottom: none; }
+.items-table .right { text-align: right; }
+.item-name-cell { color: var(--white) !important; font-weight: 500; }
+.item-trade-tag {
+  display: block; font-size: 10px; color: var(--steel);
+  margin-top: 2px; font-weight: 400;
+}
+
+/* Detail Totals */
+.detail-totals {
+  background: var(--navy-mid); border: 1px solid var(--navy-light);
+  border-radius: var(--radius-md); padding: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+.dt-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 0; font-size: 13px; color: var(--steel);
+  border-bottom: 1px solid var(--navy-light);
+}
+.dt-row:last-child { border-bottom: none; }
+.dt-row span:last-child { color: var(--concrete); font-weight: 500; }
+.dt-total { padding: 12px 0 !important; }
+.dt-total span { font-family: var(--font-display); font-size: 20px !important; font-weight: 700 !important; color: var(--white) !important; }
+.dt-deposit span { color: var(--orange) !important; font-size: 15px !important; font-weight: 700 !important; }
+
+.detail-terms {
+  background: var(--navy-light); border-radius: var(--radius-md);
+  padding: var(--space-md); margin-bottom: var(--space-md);
+}
+.detail-terms h4 { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--steel); margin-bottom: 8px; }
+.detail-terms p { font-size: 12px; color: var(--steel); line-height: 1.6; }
+
+/* =============================================
+   SETTINGS
+   ============================================= */
+.view-settings { padding-bottom: var(--space-xl); }
+
+.sub-active, .sub-trial {
+  background: var(--navy-light); border-radius: var(--radius-md);
+  padding: var(--space-md); margin-bottom: var(--space-sm);
+}
+.sub-check { font-size: 16px; font-weight: 600; color: var(--green); margin-bottom: 6px; }
+.sub-active p, .sub-trial p { font-size: 13px; color: var(--steel); margin-bottom: 8px; }
+.sub-trial strong { color: var(--orange); }
+
+.about-info { font-size: 13px; color: var(--steel); line-height: 1.6; }
+.about-info p { margin-bottom: 4px; }
+.about-info strong { color: var(--white); }
+.about-note { font-size: 11px; color: var(--steel); opacity: 0.7; margin-top: 8px !important; }
+
+/* =============================================
+   SUBSCRIBE VIEW
+   ============================================= */
+.view-subscribe {
+  padding: var(--space-xl) var(--space-md);
+  display: flex; flex-direction: column; gap: var(--space-md);
+  min-height: 100%;
+}
+.sub-hero { text-align: center; padding: var(--space-md) 0; }
+.sub-logo { font-size: 56px; margin-bottom: var(--space-md); }
+.sub-hero h2 {
+  font-family: var(--font-display);
+  font-size: 32px; font-weight: 700; letter-spacing: 0.04em;
+  color: var(--white); margin-bottom: 8px;
+}
+.sub-tagline { font-size: 15px; color: var(--steel); line-height: 1.5; }
+
+.pricing-card {
+  text-align: center;
+  background: linear-gradient(135deg, var(--orange), var(--orange-mid));
+  border-radius: var(--radius-xl); padding: var(--space-xl);
+  box-shadow: 0 8px 32px #FF6B3540;
+}
+.price-amount {
+  font-family: var(--font-display);
+  font-size: 52px; font-weight: 700; color: var(--white); line-height: 1;
+}
+.price-amount span { font-size: 22px; font-weight: 500; opacity: 0.85; }
+.price-label { font-size: 14px; color: rgba(255,255,255,0.8); margin-top: 8px; }
+
+.features-list {
+  background: var(--navy-mid); border-radius: var(--radius-md);
+  padding: var(--space-md);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.feature-item { font-size: 14px; color: var(--concrete); }
+
+.btn-subscribe {
+  padding: 16px var(--space-md);
+  background: var(--orange); color: var(--white);
+  border-radius: var(--radius-md); font-size: 16px; font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 6px 24px #FF6B3550;
+  transition: transform 0.12s;
+}
+.btn-subscribe:active { transform: scale(0.98); }
+
+.btn-trial {
+  padding: 13px var(--space-md);
+  background: transparent; color: var(--concrete);
+  border: 1px solid var(--navy-light);
+  border-radius: var(--radius-md); font-size: 14px;
+  transition: border-color 0.12s;
+}
+.btn-trial:active { border-color: var(--orange); color: var(--orange); }
+
+.sub-disclaimer { font-size: 11px; color: var(--steel); text-align: center; line-height: 1.5; padding: 0 var(--space-sm); }
+
+.demo-activate {
+  text-align: center;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--navy-light);
+}
+.demo-activate p { font-size: 12px; color: var(--steel); margin-bottom: 6px; }
+
+/* =============================================
+   INSTALL BANNER
+   ============================================= */
+.install-banner {
+  position: fixed; bottom: calc(var(--bottom-nav-h) + var(--safe-bottom) + 8px);
+  left: var(--space-md); right: var(--space-md);
+  z-index: 200; max-width: 448px; margin: 0 auto;
+}
+.install-banner.hidden { display: none; }
+.install-banner-content {
+  display: flex; align-items: center; gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--navy-mid);
+  border: 1px solid var(--orange);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+}
+.install-icon { font-size: 24px; flex-shrink: 0; }
+.install-text { flex: 1; min-width: 0; }
+.install-text strong { display: block; font-size: 13px; color: var(--white); }
+.install-text span { font-size: 12px; color: var(--steel); }
+.install-btn {
+  padding: 8px 14px; background: var(--orange); color: var(--white);
+  border-radius: var(--radius-sm); font-size: 13px; font-weight: 600;
+  flex-shrink: 0;
+}
+.install-dismiss { color: var(--steel); padding: 4px; flex-shrink: 0; font-size: 14px; }
+
+/* =============================================
+   TOAST
+   ============================================= */
+.toast {
+  position: fixed; bottom: calc(var(--bottom-nav-h) + var(--safe-bottom) + 16px);
+  left: 50%; transform: translateX(-50%);
+  z-index: 999;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-size: 14px; font-weight: 500;
+  white-space: nowrap;
+  box-shadow: var(--shadow-lg);
+  animation: toast-in 0.25s ease;
+}
+.toast.hidden { display: none; }
+.toast-success { background: var(--green); color: var(--white); }
+.toast-error { background: var(--red); color: var(--white); }
+@keyframes toast-in { from { opacity: 0; transform: translateX(-50%) translateY(12px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+
+/* =============================================
+   PRINT STYLES — generates clean PDF
+   ============================================= */
+@media print {
+  body { background: white !important; color: black !important; }
+  .top-bar, .bottom-nav, .action-buttons, .install-banner, .toast, .card-actions { display: none !important; }
+  .app-shell { height: auto; max-width: none; }
+  .main-content { overflow: visible; }
+  .view-detail { padding: 20px; }
+  .company-header, .detail-party, .detail-totals, .items-table { background: white !important; border-color: #ddd !important; }
+  .detail-number, .company-name, .party-name, .card-title { color: black !important; }
+  .dt-row, .detail-date, .party-label, .party-address, .party-contact, .party-trade,
+  .dt-total span, .dt-deposit span, .detail-terms h4, .detail-terms p,
+  .items-table th, .items-table td { color: #333 !important; }
+  .items-table thead { background: #f5f5f5 !important; }
+  .detail-notes { background: #f9f9f9 !important; color: #333 !important; }
+  .dt-total { border-color: #FF6B35 !important; }
+  .totals-row.total { border-color: #FF6B35 !important; }
+  a[href]::after { content: none; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* =============================================
+   UTILITIES
+   ============================================= */
+.hidden { display: none !important; }
+.text-orange { color: var(--orange); }
+.text-steel  { color: var(--steel); }
+
+/* Tap highlight removal for mobile */
+* { -webkit-tap-highlight-color: transparent; }
+
+/* Scrollbar hide for Firefox */
+* { scrollbar-width: none; }
+
+/* Focus visible for accessibility */
+:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* =============================================
+   RESPONSIVE — desktop centering
+   ============================================= */
+@media (min-width: 480px) {
+  #app { display: flex; justify-content: center; }
+  .app-shell { border-left: 1px solid var(--navy-light); border-right: 1px solid var(--navy-light); }
+  .install-banner { left: 50%; transform: translateX(-50%); right: auto; width: 440px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* =============================================
+   AI SCOPE WRITER
+   ============================================= */
+.ai-scope-section {
+  margin: 0 var(--space-md) var(--space-md);
+  background: linear-gradient(135deg, #1e2538, #242938);
+  border: 1px solid #3a4060;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.ai-scope-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px var(--space-md) 10px;
+  border-bottom: 1px solid #2e3447;
+}
+.ai-scope-badge {
+  display: flex; align-items: center; gap: 6px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border-radius: 99px; padding: 4px 10px;
+  font-size: 11px; font-weight: 700; color: white;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  box-shadow: 0 2px 8px #6366f140;
+}
+.ai-scope-badge svg { flex-shrink: 0; }
+.ai-scope-title {
+  font-size: 14px; font-weight: 600; color: var(--white);
+  flex: 1;
+}
+.ai-scope-body { padding: var(--space-md); }
+.ai-scope-textarea {
+  width: 100%; padding: 12px 14px;
+  background: #1a1f2e; border: 1px solid #3a4060;
+  border-radius: var(--radius-sm); color: var(--white);
+  font-size: 14px; line-height: 1.6; resize: vertical;
+  min-height: 90px; font-family: var(--font-body);
+  transition: border-color 0.15s;
+}
+.ai-scope-textarea:focus { outline: none; border-color: #6366f1; }
+.ai-scope-textarea::placeholder { color: #4a5270; }
+.ai-scope-actions { display: flex; gap: var(--space-sm); margin-top: 10px; }
+.btn-ai-generate {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px var(--space-md);
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white; border-radius: var(--radius-md);
+  font-size: 14px; font-weight: 600; letter-spacing: 0.02em;
+  box-shadow: 0 4px 16px #6366f140;
+  transition: transform 0.12s, opacity 0.12s;
+}
+.btn-ai-generate:active { transform: scale(0.97); opacity: 0.9; }
+.btn-ai-generate:disabled { opacity: 0.5; pointer-events: none; }
+.btn-ai-clear {
+  padding: 12px 16px; border-radius: var(--radius-md);
+  background: var(--navy-light); color: var(--steel);
+  font-size: 13px; border: 1px solid var(--navy-light);
+  transition: color 0.12s;
+}
+.btn-ai-clear:active { color: var(--red); }
+.ai-scope-hint {
+  font-size: 11px; color: #4a5270; margin-top: 8px; line-height: 1.5;
+}
+.ai-loading {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  padding: var(--space-md); color: #8b8fff; font-size: 13px;
+}
+.ai-spinner {
+  width: 18px; height: 18px; border: 2px solid #3a3f6a;
+  border-top-color: #6366f1; border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.ai-result-preview {
+  background: #1a1f2e; border: 1px solid #2e3447;
+  border-radius: var(--radius-sm); padding: var(--space-sm);
+  margin-top: 10px;
+}
+.ai-result-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 10px; border-bottom: 1px solid #2e3447;
+  font-size: 13px;
+}
+.ai-result-item:last-child { border-bottom: none; }
+.ai-result-name { color: var(--white); font-weight: 500; flex: 1; }
+.ai-result-detail { color: var(--steel); font-size: 12px; text-align: right; }
+.ai-result-price { color: var(--orange); font-weight: 600; font-size: 13px; }
+.ai-add-bar {
+  display: flex; gap: var(--space-sm); margin-top: 10px; align-items: center;
+}
+.ai-add-count { font-size: 12px; color: var(--steel); flex: 1; }
+.btn-ai-add-all {
+  padding: 10px 16px; background: var(--orange); color: white;
+  border-radius: var(--radius-sm); font-size: 13px; font-weight: 600;
+  transition: transform 0.12s;
+}
+.btn-ai-add-all:active { transform: scale(0.97); }
+.ai-error {
+  padding: 10px 14px; background: #2a1a1a; border: 1px solid var(--red);
+  border-radius: var(--radius-sm); color: var(--red); font-size: 13px;
+  margin-top: 10px; line-height: 1.5;
+}
+
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="splash-screen" id="splash">
+    <div class="splash-inner">
+      <div class="splash-icon">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <rect width="64" height="64" rx="16" fill="#FF6B35"/>
+          <path d="M14 46V26L32 12L50 26V46H37V34H27V46H14Z" fill="white"/>
+          <rect x="25" y="36" width="14" height="12" rx="2" fill="#FF6B35"/>
+        </svg>
+      </div>
+      <div class="splash-name">Driftocity Estimate Pro</div>
+      <div class="splash-sub">Estimates &amp; Invoices</div>
+      <div class="splash-loader"><div class="splash-bar"></div></div>
+    </div>
+  </div>
+</div>
+
+<div id="install-banner" class="install-banner hidden">
+  <div class="install-banner-content">
+    <div class="install-icon">🏗️</div>
+    <div class="install-text">
+      <strong>Install Driftocity Estimate Pro</strong>
+      <span>Add to home screen for offline access</span>
+    </div>
+    <button class="install-btn" id="install-btn">Install</button>
+    <button class="install-dismiss" id="install-dismiss">✕</button>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script>
+// Regional pricing multipliers by ZIP code prefix (first 3 digits)
+// Base rates are national averages; multipliers adjust for local COL
+const REGIONAL_MULTIPLIERS = {
+  // Northeast (high COL)
+  "100": 1.55, "101": 1.55, "102": 1.55, "103": 1.55, "104": 1.55, // NYC
+  "110": 1.45, "111": 1.45, "112": 1.45, "113": 1.45, "114": 1.45, // NYC boroughs
+  "020": 1.40, "021": 1.40, "022": 1.38, "023": 1.35, "024": 1.35, // Boston
+  "060": 1.38, "061": 1.38, "062": 1.35, "063": 1.33, "064": 1.33, // Connecticut
+  "080": 1.30, "081": 1.30, "082": 1.28, "083": 1.28, "084": 1.28, // NJ
+  "190": 1.32, "191": 1.32, "192": 1.30, "193": 1.28, "194": 1.28, // Philadelphia
+  // Mid-Atlantic
+  "200": 1.42, "201": 1.42, "202": 1.42, "203": 1.40, "204": 1.40, // DC/Northern VA
+  "210": 1.22, "211": 1.22, "212": 1.22, "213": 1.20, "214": 1.20, // Baltimore
+  // Southeast (moderate)
+  "300": 1.05, "301": 1.05, "302": 1.05, "303": 1.05, "304": 1.02, // Atlanta
+  "320": 0.98, "321": 0.98, "322": 0.96, "323": 0.95, "324": 0.95, // Jacksonville
+  "330": 1.08, "331": 1.08, "332": 1.06, "333": 1.05, "334": 1.05, // Miami
+  "340": 1.02, "341": 1.02, "342": 1.00, "343": 1.00, "344": 1.00, // Tampa
+  "270": 0.97, "271": 0.97, "272": 0.96, "273": 0.95, "274": 0.95, // NC
+  "280": 0.97, "281": 0.97, "282": 0.96, "283": 0.95, "284": 0.95, // NC Piedmont
+  "290": 0.94, "291": 0.94, "292": 0.93, "293": 0.93, "294": 0.93, // SC
+  // Midwest (below average)
+  "600": 1.25, "601": 1.25, "602": 1.23, "603": 1.22, "604": 1.22, // Chicago
+  "480": 1.10, "481": 1.10, "482": 1.08, "483": 1.08, "484": 1.07, // Detroit
+  "550": 1.05, "551": 1.05, "552": 1.04, "553": 1.04, "554": 1.03, // Minneapolis
+  "430": 1.00, "431": 1.00, "432": 0.99, "433": 0.99, "434": 0.99, // Columbus
+  "440": 1.02, "441": 1.02, "442": 1.00, "443": 1.00, "444": 1.00, // Cleveland
+  "630": 1.00, "631": 1.00, "632": 0.99, "633": 0.98, "634": 0.98, // St. Louis
+  "640": 0.96, "641": 0.96, "642": 0.95, "643": 0.95, "644": 0.95, // Kansas City
+  // South/Southwest (moderate-low)
+  "750": 1.00, "751": 1.00, "752": 0.99, "753": 0.99, "754": 0.98, // Dallas
+  "770": 0.99, "771": 0.99, "772": 0.98, "773": 0.97, "774": 0.97, // Houston
+  "730": 0.93, "731": 0.93, "732": 0.92, "733": 0.92, "734": 0.91, // Oklahoma City
+  "870": 0.92, "871": 0.92, "872": 0.91, "873": 0.91, "874": 0.91, // Albuquerque
+  // Mountain West
+  "800": 1.08, "801": 1.08, "802": 1.07, "803": 1.06, "804": 1.06, // Denver
+  "840": 0.98, "841": 0.98, "842": 0.97, "843": 0.97, "844": 0.97, // Salt Lake
+  "850": 1.00, "851": 1.00, "852": 0.99, "853": 0.98, "854": 0.98, // Phoenix
+  "890": 1.03, "891": 1.03, "892": 1.02, "893": 1.01, "894": 1.01, // Las Vegas
+  // West Coast (high COL)
+  "900": 1.45, "901": 1.45, "902": 1.42, "903": 1.42, "904": 1.40, // LA
+  "910": 1.40, "911": 1.40, "912": 1.38, "913": 1.38, "914": 1.35, // San Fernando
+  "940": 1.52, "941": 1.52, "942": 1.50, "943": 1.48, "944": 1.48, // San Francisco
+  "950": 1.45, "951": 1.45, "952": 1.43, "953": 1.42, "954": 1.42, // San Jose
+  "970": 1.22, "971": 1.22, "972": 1.20, "973": 1.18, "974": 1.18, // Portland
+  "980": 1.28, "981": 1.28, "982": 1.26, "983": 1.24, "984": 1.24, // Seattle
+  // Alaska/Hawaii
+  "995": 1.60, "996": 1.60, "997": 1.58, "998": 1.58, "999": 1.60, // Alaska
+  "967": 1.55, "968": 1.55, // Hawaii
+};
+
+// Default multiplier for unlisted ZIP prefixes
+const DEFAULT_MULTIPLIER = 1.00;
+
+function getMultiplier(zip) {
+  if (!zip || zip.length < 3) return DEFAULT_MULTIPLIER;
+  const prefix = zip.substring(0, 3);
+  return REGIONAL_MULTIPLIERS[prefix] || DEFAULT_MULTIPLIER;
+}
+
+// =============================================
+// TRADE TYPES & THEIR LINE ITEMS
+// =============================================
+const TRADES = {
+  general: {
+    label: "General Contracting",
+    icon: "🏗️",
+    description: "General construction, project management, site work",
+    categories: [
+      {
+        name: "Site Preparation",
+        items: [
+          { id: "site_survey", name: "Site Survey & Layout", unit: "ls", basePrice: 850, laborPct: 0.70 },
+          { id: "excavation", name: "Excavation (per cubic yard)", unit: "cy", basePrice: 22, laborPct: 0.65 },
+          { id: "grading", name: "Grading & Leveling", unit: "sqft", basePrice: 1.80, laborPct: 0.60 },
+          { id: "demo_interior", name: "Interior Demolition", unit: "sqft", basePrice: 3.50, laborPct: 0.75 },
+          { id: "demo_exterior", name: "Exterior Demolition", unit: "sqft", basePrice: 5.00, laborPct: 0.70 },
+          { id: "hauling", name: "Debris Hauling (per load)", unit: "load", basePrice: 380, laborPct: 0.60 },
+        ]
+      },
+      {
+        name: "Framing & Structure",
+        items: [
+          { id: "framing_wall", name: "Wall Framing (per LF)", unit: "lf", basePrice: 28, laborPct: 0.55 },
+          { id: "framing_floor", name: "Floor Framing (per sqft)", unit: "sqft", basePrice: 8.50, laborPct: 0.50 },
+          { id: "framing_roof", name: "Roof Framing (per sqft)", unit: "sqft", basePrice: 11, laborPct: 0.50 },
+          { id: "sheathing", name: "OSB/Plywood Sheathing", unit: "sqft", basePrice: 3.20, laborPct: 0.45 },
+          { id: "subfloor", name: "Subfloor Installation", unit: "sqft", basePrice: 4.50, laborPct: 0.50 },
+          { id: "lvl_beam", name: "LVL Beam Installation (per LF)", unit: "lf", basePrice: 95, laborPct: 0.55 },
+        ]
+      },
+      {
+        name: "Project Management",
+        items: [
+          { id: "pm_daily", name: "Project Management (per day)", unit: "day", basePrice: 650, laborPct: 1.00 },
+          { id: "permit_pull", name: "Permit Pulling & Filing", unit: "ls", basePrice: 450, laborPct: 0.80 },
+          { id: "inspection", name: "Inspection Coordination", unit: "ls", basePrice: 300, laborPct: 1.00 },
+          { id: "cleanup", name: "Final Cleanup", unit: "ls", basePrice: 550, laborPct: 0.85 },
+        ]
+      }
+    ]
+  },
+
+  electrical: {
+    label: "Electrical",
+    icon: "⚡",
+    description: "Wiring, panels, outlets, lighting, EV chargers",
+    categories: [
+      {
+        name: "Panel & Service",
+        items: [
+          { id: "panel_100", name: "100A Panel Upgrade", unit: "ls", basePrice: 1800, laborPct: 0.55 },
+          { id: "panel_200", name: "200A Panel Upgrade", unit: "ls", basePrice: 2800, laborPct: 0.50 },
+          { id: "panel_400", name: "400A Panel Upgrade", unit: "ls", basePrice: 4500, laborPct: 0.50 },
+          { id: "subpanel", name: "Subpanel Installation (60A)", unit: "ls", basePrice: 1400, laborPct: 0.55 },
+          { id: "meter_socket", name: "Meter Socket Replacement", unit: "ls", basePrice: 750, laborPct: 0.60 },
+          { id: "grounding", name: "Grounding System", unit: "ls", basePrice: 650, laborPct: 0.60 },
+        ]
+      },
+      {
+        name: "Wiring & Circuits",
+        items: [
+          { id: "circuit_20a", name: "New 20A Circuit", unit: "ea", basePrice: 320, laborPct: 0.60 },
+          { id: "circuit_15a", name: "New 15A Circuit", unit: "ea", basePrice: 275, laborPct: 0.60 },
+          { id: "circuit_240", name: "240V Circuit (dryer/range)", unit: "ea", basePrice: 480, laborPct: 0.58 },
+          { id: "rewire_room", name: "Room Rewire", unit: "room", basePrice: 900, laborPct: 0.65 },
+          { id: "rewire_house", name: "Whole House Rewire (per sqft)", unit: "sqft", basePrice: 8.50, laborPct: 0.65 },
+          { id: "conduit_run", name: "Conduit Run (per LF)", unit: "lf", basePrice: 18, laborPct: 0.60 },
+        ]
+      },
+      {
+        name: "Devices & Fixtures",
+        items: [
+          { id: "outlet_install", name: "Outlet Installation", unit: "ea", basePrice: 185, laborPct: 0.65 },
+          { id: "gfci_outlet", name: "GFCI Outlet Installation", unit: "ea", basePrice: 220, laborPct: 0.65 },
+          { id: "switch_install", name: "Switch Installation", unit: "ea", basePrice: 175, laborPct: 0.65 },
+          { id: "light_fixture", name: "Light Fixture Install", unit: "ea", basePrice: 195, laborPct: 0.60 },
+          { id: "recessed_light", name: "Recessed Lighting (per can)", unit: "ea", basePrice: 280, laborPct: 0.60 },
+          { id: "ceiling_fan", name: "Ceiling Fan Installation", unit: "ea", basePrice: 310, laborPct: 0.65 },
+          { id: "ev_charger", name: "EV Charger (Level 2)", unit: "ls", basePrice: 1200, laborPct: 0.55 },
+          { id: "smoke_detector", name: "Smoke/CO Detector", unit: "ea", basePrice: 145, laborPct: 0.65 },
+        ]
+      }
+    ]
+  },
+
+  plumbing: {
+    label: "Plumbing",
+    icon: "🔧",
+    description: "Pipes, fixtures, water heaters, drains",
+    categories: [
+      {
+        name: "Pipe Work",
+        items: [
+          { id: "pipe_copper", name: "Copper Pipe (per LF)", unit: "lf", basePrice: 22, laborPct: 0.60 },
+          { id: "pipe_pex", name: "PEX Pipe (per LF)", unit: "lf", basePrice: 14, laborPct: 0.55 },
+          { id: "pipe_pvc", name: "PVC Drain Pipe (per LF)", unit: "lf", basePrice: 16, laborPct: 0.58 },
+          { id: "pipe_cast", name: "Cast Iron Replacement (per LF)", unit: "lf", basePrice: 55, laborPct: 0.65 },
+          { id: "repipe_bath", name: "Bathroom Repipe", unit: "ls", basePrice: 1800, laborPct: 0.62 },
+          { id: "repipe_house", name: "Whole House Repipe (per sqft)", unit: "sqft", basePrice: 6.50, laborPct: 0.62 },
+          { id: "shutoff_valve", name: "Shutoff Valve Installation", unit: "ea", basePrice: 225, laborPct: 0.65 },
+        ]
+      },
+      {
+        name: "Fixtures",
+        items: [
+          { id: "toilet_install", name: "Toilet Installation", unit: "ea", basePrice: 380, laborPct: 0.60 },
+          { id: "sink_bath", name: "Bathroom Sink Install", unit: "ea", basePrice: 320, laborPct: 0.60 },
+          { id: "sink_kitchen", name: "Kitchen Sink Install", unit: "ea", basePrice: 420, laborPct: 0.58 },
+          { id: "faucet_install", name: "Faucet Installation", unit: "ea", basePrice: 280, laborPct: 0.65 },
+          { id: "shower_install", name: "Shower Installation", unit: "ls", basePrice: 2200, laborPct: 0.60 },
+          { id: "tub_install", name: "Bathtub Installation", unit: "ls", basePrice: 1800, laborPct: 0.58 },
+          { id: "dishwasher_install", name: "Dishwasher Hook-up", unit: "ls", basePrice: 350, laborPct: 0.70 },
+          { id: "garbage_disposal", name: "Garbage Disposal Install", unit: "ls", basePrice: 320, laborPct: 0.70 },
+        ]
+      },
+      {
+        name: "Water Heaters & Drains",
+        items: [
+          { id: "wh_tank", name: "Tank Water Heater (40 gal)", unit: "ls", basePrice: 1350, laborPct: 0.48 },
+          { id: "wh_tankless", name: "Tankless Water Heater", unit: "ls", basePrice: 2800, laborPct: 0.42 },
+          { id: "wh_hybrid", name: "Hybrid Heat Pump WH", unit: "ls", basePrice: 3200, laborPct: 0.42 },
+          { id: "drain_clean", name: "Drain Cleaning (per drain)", unit: "ea", basePrice: 225, laborPct: 0.85 },
+          { id: "sewer_camera", name: "Sewer Camera Inspection", unit: "ls", basePrice: 380, laborPct: 0.75 },
+          { id: "sewer_line", name: "Sewer Line Repair (per LF)", unit: "lf", basePrice: 95, laborPct: 0.65 },
+        ]
+      }
+    ]
+  },
+
+  hvac: {
+    label: "HVAC",
+    icon: "❄️",
+    description: "Heating, cooling, ventilation, ductwork",
+    categories: [
+      {
+        name: "AC & Cooling",
+        items: [
+          { id: "ac_2ton", name: "2-Ton AC System (split)", unit: "ls", basePrice: 4200, laborPct: 0.45 },
+          { id: "ac_3ton", name: "3-Ton AC System (split)", unit: "ls", basePrice: 5200, laborPct: 0.43 },
+          { id: "ac_4ton", name: "4-Ton AC System (split)", unit: "ls", basePrice: 6400, laborPct: 0.42 },
+          { id: "ac_5ton", name: "5-Ton AC System (split)", unit: "ls", basePrice: 7800, laborPct: 0.42 },
+          { id: "minisplit_1z", name: "Mini-Split 1 Zone", unit: "ls", basePrice: 3200, laborPct: 0.50 },
+          { id: "minisplit_2z", name: "Mini-Split 2 Zone", unit: "ls", basePrice: 5400, laborPct: 0.48 },
+          { id: "minisplit_4z", name: "Mini-Split 4 Zone", unit: "ls", basePrice: 8800, laborPct: 0.46 },
+          { id: "condenser_only", name: "Condenser Replacement Only", unit: "ls", basePrice: 2800, laborPct: 0.50 },
+          { id: "airhandler_only", name: "Air Handler Replacement Only", unit: "ls", basePrice: 1800, laborPct: 0.55 },
+        ]
+      },
+      {
+        name: "Heating",
+        items: [
+          { id: "furnace_gas", name: "Gas Furnace (80K BTU)", unit: "ls", basePrice: 3200, laborPct: 0.48 },
+          { id: "furnace_elec", name: "Electric Furnace", unit: "ls", basePrice: 2200, laborPct: 0.50 },
+          { id: "heatpump", name: "Heat Pump System (3 ton)", unit: "ls", basePrice: 5800, laborPct: 0.45 },
+          { id: "boiler_gas", name: "Gas Boiler Replacement", unit: "ls", basePrice: 5500, laborPct: 0.50 },
+          { id: "baseboard_elec", name: "Electric Baseboard (per LF)", unit: "lf", basePrice: 85, laborPct: 0.55 },
+          { id: "radiant_floor", name: "Radiant Floor Heat (sqft)", unit: "sqft", basePrice: 22, laborPct: 0.55 },
+        ]
+      },
+      {
+        name: "Ductwork & Ventilation",
+        items: [
+          { id: "duct_new", name: "New Ductwork (per LF)", unit: "lf", basePrice: 28, laborPct: 0.60 },
+          { id: "duct_seal", name: "Duct Sealing (per house)", unit: "ls", basePrice: 1200, laborPct: 0.80 },
+          { id: "duct_clean", name: "Duct Cleaning", unit: "ls", basePrice: 550, laborPct: 0.75 },
+          { id: "exhaust_fan", name: "Bathroom Exhaust Fan", unit: "ea", basePrice: 380, laborPct: 0.65 },
+          { id: "range_hood", name: "Range Hood Install", unit: "ls", basePrice: 520, laborPct: 0.62 },
+          { id: "erv_hrv", name: "ERV/HRV System", unit: "ls", basePrice: 2800, laborPct: 0.52 },
+          { id: "register_install", name: "Register/Grille Install", unit: "ea", basePrice: 120, laborPct: 0.65 },
+          { id: "thermostat_smart", name: "Smart Thermostat Install", unit: "ea", basePrice: 280, laborPct: 0.65 },
+        ]
+      }
+    ]
+  },
+
+  roofing: {
+    label: "Roofing",
+    icon: "🏠",
+    description: "Shingles, flat roofs, gutters, flashing",
+    categories: [
+      {
+        name: "Roof Installation",
+        items: [
+          { id: "shingle_3tab", name: "3-Tab Shingles (per sq)", unit: "sq", basePrice: 380, laborPct: 0.55 },
+          { id: "shingle_arch", name: "Architectural Shingles (per sq)", unit: "sq", basePrice: 480, laborPct: 0.53 },
+          { id: "shingle_premium", name: "Premium Shingles (per sq)", unit: "sq", basePrice: 680, laborPct: 0.50 },
+          { id: "metal_standing", name: "Standing Seam Metal (per sq)", unit: "sq", basePrice: 1100, laborPct: 0.50 },
+          { id: "metal_corrugated", name: "Corrugated Metal (per sq)", unit: "sq", basePrice: 750, laborPct: 0.52 },
+          { id: "flat_tpo", name: "TPO Flat Roof (per sq)", unit: "sq", basePrice: 580, laborPct: 0.55 },
+          { id: "flat_epdm", name: "EPDM Flat Roof (per sq)", unit: "sq", basePrice: 520, laborPct: 0.55 },
+          { id: "cedar_shake", name: "Cedar Shake (per sq)", unit: "sq", basePrice: 850, laborPct: 0.55 },
+          { id: "tile_clay", name: "Clay Tile (per sq)", unit: "sq", basePrice: 1200, laborPct: 0.52 },
+          { id: "tile_concrete", name: "Concrete Tile (per sq)", unit: "sq", basePrice: 900, laborPct: 0.52 },
+        ]
+      },
+      {
+        name: "Decking & Underlayment",
+        items: [
+          { id: "decking_osb", name: "Roof Decking/Sheathing (per sq)", unit: "sq", basePrice: 220, laborPct: 0.55 },
+          { id: "underlayment", name: "Felt/Synthetic Underlayment", unit: "sq", basePrice: 45, laborPct: 0.60 },
+          { id: "ice_water", name: "Ice & Water Shield (per sq)", unit: "sq", basePrice: 95, laborPct: 0.55 },
+          { id: "ridge_vent", name: "Ridge Vent (per LF)", unit: "lf", basePrice: 22, laborPct: 0.60 },
+          { id: "soffit_vent", name: "Soffit Vent (per ea)", unit: "ea", basePrice: 65, laborPct: 0.65 },
+        ]
+      },
+      {
+        name: "Gutters & Flashing",
+        items: [
+          { id: "gutter_alum", name: "Aluminum Gutters (per LF)", unit: "lf", basePrice: 14, laborPct: 0.60 },
+          { id: "gutter_copper", name: "Copper Gutters (per LF)", unit: "lf", basePrice: 42, laborPct: 0.58 },
+          { id: "gutter_guard", name: "Gutter Guards (per LF)", unit: "lf", basePrice: 18, laborPct: 0.55 },
+          { id: "downspout", name: "Downspout (per LF)", unit: "lf", basePrice: 10, laborPct: 0.65 },
+          { id: "flashing_chimney", name: "Chimney Flashing", unit: "ls", basePrice: 850, laborPct: 0.65 },
+          { id: "flashing_skylight", name: "Skylight Flashing", unit: "ea", basePrice: 480, laborPct: 0.65 },
+          { id: "drip_edge", name: "Drip Edge (per LF)", unit: "lf", basePrice: 5.50, laborPct: 0.65 },
+        ]
+      }
+    ]
+  },
+
+  flooring: {
+    label: "Flooring",
+    icon: "🏢",
+    description: "Hardwood, tile, LVP, carpet installation",
+    categories: [
+      {
+        name: "Hardwood & Engineered",
+        items: [
+          { id: "hw_solid", name: "Solid Hardwood (per sqft)", unit: "sqft", basePrice: 12, laborPct: 0.48 },
+          { id: "hw_engineered", name: "Engineered Hardwood (per sqft)", unit: "sqft", basePrice: 9.50, laborPct: 0.48 },
+          { id: "hw_refinish", name: "Hardwood Refinish (per sqft)", unit: "sqft", basePrice: 4.50, laborPct: 0.80 },
+          { id: "hw_sand_stain", name: "Sand, Stain & Poly (per sqft)", unit: "sqft", basePrice: 6.50, laborPct: 0.78 },
+        ]
+      },
+      {
+        name: "Tile & Stone",
+        items: [
+          { id: "tile_ceramic", name: "Ceramic Tile (per sqft)", unit: "sqft", basePrice: 8.50, laborPct: 0.55 },
+          { id: "tile_porcelain", name: "Porcelain Tile (per sqft)", unit: "sqft", basePrice: 12, laborPct: 0.52 },
+          { id: "tile_natural", name: "Natural Stone Tile (per sqft)", unit: "sqft", basePrice: 18, laborPct: 0.50 },
+          { id: "tile_large", name: "Large Format Tile 24x24+ (sqft)", unit: "sqft", basePrice: 22, laborPct: 0.50 },
+          { id: "tile_mosaic", name: "Mosaic/Backsplash Tile (sqft)", unit: "sqft", basePrice: 28, laborPct: 0.58 },
+          { id: "tile_grout", name: "Grout Only (per sqft)", unit: "sqft", basePrice: 2.50, laborPct: 0.82 },
+        ]
+      },
+      {
+        name: "LVP, Laminate & Carpet",
+        items: [
+          { id: "lvp", name: "Luxury Vinyl Plank (per sqft)", unit: "sqft", basePrice: 7.50, laborPct: 0.48 },
+          { id: "lvt", name: "Luxury Vinyl Tile (per sqft)", unit: "sqft", basePrice: 7.00, laborPct: 0.48 },
+          { id: "laminate", name: "Laminate Flooring (per sqft)", unit: "sqft", basePrice: 6.00, laborPct: 0.50 },
+          { id: "carpet", name: "Carpet Installation (per sqft)", unit: "sqft", basePrice: 5.50, laborPct: 0.45 },
+          { id: "carpet_pad", name: "Carpet Padding (per sqft)", unit: "sqft", basePrice: 1.80, laborPct: 0.65 },
+          { id: "floor_remove", name: "Old Flooring Removal (sqft)", unit: "sqft", basePrice: 2.50, laborPct: 0.80 },
+        ]
+      }
+    ]
+  },
+
+  painting: {
+    label: "Painting",
+    icon: "🎨",
+    description: "Interior, exterior, cabinets, specialty coatings",
+    categories: [
+      {
+        name: "Interior Painting",
+        items: [
+          { id: "int_wall", name: "Interior Walls (per sqft)", unit: "sqft", basePrice: 2.80, laborPct: 0.72 },
+          { id: "int_ceiling", name: "Interior Ceiling (per sqft)", unit: "sqft", basePrice: 2.50, laborPct: 0.74 },
+          { id: "int_room", name: "Room Paint (walls + ceiling)", unit: "room", basePrice: 650, laborPct: 0.70 },
+          { id: "int_trim", name: "Trim & Baseboard (per LF)", unit: "lf", basePrice: 4.50, laborPct: 0.75 },
+          { id: "int_door", name: "Interior Door Paint", unit: "ea", basePrice: 180, laborPct: 0.75 },
+          { id: "int_cabinet", name: "Cabinet Painting (per door/drawer)", unit: "ea", basePrice: 95, laborPct: 0.75 },
+          { id: "int_full_house", name: "Full House Interior (sqft)", unit: "sqft", basePrice: 3.20, laborPct: 0.70 },
+        ]
+      },
+      {
+        name: "Exterior Painting",
+        items: [
+          { id: "ext_siding", name: "Exterior Siding (per sqft)", unit: "sqft", basePrice: 3.50, laborPct: 0.68 },
+          { id: "ext_trim", name: "Exterior Trim (per LF)", unit: "lf", basePrice: 6.00, laborPct: 0.72 },
+          { id: "ext_door", name: "Exterior Door Paint", unit: "ea", basePrice: 280, laborPct: 0.72 },
+          { id: "ext_full_house", name: "Full Exterior House (sqft)", unit: "sqft", basePrice: 4.20, laborPct: 0.66 },
+          { id: "deck_stain", name: "Deck Stain (per sqft)", unit: "sqft", basePrice: 3.00, laborPct: 0.70 },
+          { id: "power_wash", name: "Power Washing (per sqft)", unit: "sqft", basePrice: 0.50, laborPct: 0.80 },
+        ]
+      },
+      {
+        name: "Specialty Coatings",
+        items: [
+          { id: "drywall_prime", name: "Drywall Prime Coat (sqft)", unit: "sqft", basePrice: 1.20, laborPct: 0.72 },
+          { id: "epoxy_floor", name: "Epoxy Floor Coating (sqft)", unit: "sqft", basePrice: 6.50, laborPct: 0.60 },
+          { id: "texture_wall", name: "Wall Texture (sqft)", unit: "sqft", basePrice: 3.80, laborPct: 0.75 },
+          { id: "popcorn_remove", name: "Popcorn Ceiling Removal (sqft)", unit: "sqft", basePrice: 2.80, laborPct: 0.82 },
+          { id: "faux_finish", name: "Faux/Decorative Finish (sqft)", unit: "sqft", basePrice: 12, laborPct: 0.75 },
+        ]
+      }
+    ]
+  },
+
+  carpentry: {
+    label: "Carpentry & Millwork",
+    icon: "🪚",
+    description: "Trim, cabinets, doors, custom woodwork",
+    categories: [
+      {
+        name: "Trim & Moldings",
+        items: [
+          { id: "baseboard", name: "Baseboard Install (per LF)", unit: "lf", basePrice: 8.50, laborPct: 0.65 },
+          { id: "crown_molding", name: "Crown Molding (per LF)", unit: "lf", basePrice: 14, laborPct: 0.68 },
+          { id: "casing_door", name: "Door Casing (per door)", unit: "ea", basePrice: 220, laborPct: 0.65 },
+          { id: "casing_window", name: "Window Casing (per window)", unit: "ea", basePrice: 195, laborPct: 0.65 },
+          { id: "wainscoting", name: "Wainscoting (per sqft)", unit: "sqft", basePrice: 22, laborPct: 0.65 },
+          { id: "chair_rail", name: "Chair Rail (per LF)", unit: "lf", basePrice: 10, laborPct: 0.68 },
+        ]
+      },
+      {
+        name: "Doors & Windows",
+        items: [
+          { id: "door_interior", name: "Interior Door Install", unit: "ea", basePrice: 380, laborPct: 0.60 },
+          { id: "door_exterior", name: "Exterior Door Install", unit: "ea", basePrice: 650, laborPct: 0.55 },
+          { id: "door_prehung", name: "Pre-hung Door Install", unit: "ea", basePrice: 480, laborPct: 0.58 },
+          { id: "door_barn", name: "Barn Door Install", unit: "ea", basePrice: 850, laborPct: 0.55 },
+          { id: "window_install", name: "Window Installation", unit: "ea", basePrice: 750, laborPct: 0.55 },
+          { id: "window_replace", name: "Window Replacement", unit: "ea", basePrice: 950, laborPct: 0.52 },
+          { id: "skylight_install", name: "Skylight Installation", unit: "ea", basePrice: 1800, laborPct: 0.50 },
+        ]
+      },
+      {
+        name: "Cabinets & Built-ins",
+        items: [
+          { id: "cabinet_install", name: "Cabinet Install (per LF)", unit: "lf", basePrice: 280, laborPct: 0.55 },
+          { id: "shelving_custom", name: "Custom Shelving (per LF)", unit: "lf", basePrice: 180, laborPct: 0.62 },
+          { id: "closet_system", name: "Closet System Install", unit: "ls", basePrice: 1400, laborPct: 0.55 },
+          { id: "bookcase_built", name: "Built-in Bookcase (per LF)", unit: "lf", basePrice: 320, laborPct: 0.60 },
+          { id: "countertop_laminate", name: "Laminate Countertop (per LF)", unit: "lf", basePrice: 85, laborPct: 0.55 },
+          { id: "countertop_granite", name: "Granite Countertop (per sqft)", unit: "sqft", basePrice: 85, laborPct: 0.45 },
+          { id: "countertop_quartz", name: "Quartz Countertop (per sqft)", unit: "sqft", basePrice: 95, laborPct: 0.43 },
+          { id: "countertop_butcher", name: "Butcher Block (per sqft)", unit: "sqft", basePrice: 65, laborPct: 0.50 },
+        ]
+      }
+    ]
+  },
+
+  drywall: {
+    label: "Drywall & Plaster",
+    icon: "🧱",
+    description: "Hanging, taping, finishing, patching",
+    categories: [
+      {
+        name: "Drywall Installation",
+        items: [
+          { id: "dw_hang", name: "Drywall Hanging (per sqft)", unit: "sqft", basePrice: 1.80, laborPct: 0.60 },
+          { id: "dw_tape_mud", name: "Tape & Mud Only (per sqft)", unit: "sqft", basePrice: 2.20, laborPct: 0.78 },
+          { id: "dw_complete", name: "Full Install + Finish (sqft)", unit: "sqft", basePrice: 4.50, laborPct: 0.68 },
+          { id: "dw_ceiling", name: "Ceiling Drywall (per sqft)", unit: "sqft", basePrice: 5.50, laborPct: 0.68 },
+          { id: "dw_moisture", name: "Moisture Resistant DW (sqft)", unit: "sqft", basePrice: 5.80, laborPct: 0.65 },
+          { id: "dw_fire", name: "Fire-rated Drywall (per sqft)", unit: "sqft", basePrice: 6.20, laborPct: 0.65 },
+          { id: "dw_sound", name: "Soundproof Drywall (per sqft)", unit: "sqft", basePrice: 8.00, laborPct: 0.62 },
+        ]
+      },
+      {
+        name: "Patching & Repairs",
+        items: [
+          { id: "patch_small", name: "Small Hole Patch (<6\")", unit: "ea", basePrice: 180, laborPct: 0.82 },
+          { id: "patch_medium", name: "Medium Patch (6-12\")", unit: "ea", basePrice: 280, laborPct: 0.80 },
+          { id: "patch_large", name: "Large Area Patch (per sqft)", unit: "sqft", basePrice: 12, laborPct: 0.78 },
+          { id: "crack_repair", name: "Crack Repair (per LF)", unit: "lf", basePrice: 18, laborPct: 0.82 },
+          { id: "water_damage", name: "Water Damage Repair (sqft)", unit: "sqft", basePrice: 18, laborPct: 0.75 },
+        ]
+      }
+    ]
+  },
+
+  concrete: {
+    label: "Concrete & Masonry",
+    icon: "⚙️",
+    description: "Foundations, flatwork, block, brick, stone",
+    categories: [
+      {
+        name: "Flatwork",
+        items: [
+          { id: "concrete_slab", name: "Concrete Slab (per sqft, 4\")", unit: "sqft", basePrice: 8.50, laborPct: 0.55 },
+          { id: "concrete_driveway", name: "Concrete Driveway (per sqft)", unit: "sqft", basePrice: 9.50, laborPct: 0.52 },
+          { id: "concrete_sidewalk", name: "Sidewalk (per sqft)", unit: "sqft", basePrice: 8.00, laborPct: 0.55 },
+          { id: "concrete_patio", name: "Patio/Pad (per sqft)", unit: "sqft", basePrice: 8.50, laborPct: 0.53 },
+          { id: "stamped_concrete", name: "Stamped Concrete (per sqft)", unit: "sqft", basePrice: 18, laborPct: 0.55 },
+          { id: "concrete_stain", name: "Concrete Stain/Seal (sqft)", unit: "sqft", basePrice: 3.80, laborPct: 0.68 },
+          { id: "concrete_break", name: "Concrete Removal (per sqft)", unit: "sqft", basePrice: 5.50, laborPct: 0.72 },
+        ]
+      },
+      {
+        name: "Foundation & Structure",
+        items: [
+          { id: "foundation_pour", name: "Foundation Pour (per cy)", unit: "cy", basePrice: 320, laborPct: 0.52 },
+          { id: "footer_install", name: "Footer Installation (per LF)", unit: "lf", basePrice: 65, laborPct: 0.55 },
+          { id: "wall_block", name: "Block Wall (per sqft face)", unit: "sqft", basePrice: 22, laborPct: 0.60 },
+          { id: "retaining_wall", name: "Retaining Wall (per sqft face)", unit: "sqft", basePrice: 32, laborPct: 0.58 },
+          { id: "crack_inject", name: "Foundation Crack Injection", unit: "ea", basePrice: 550, laborPct: 0.70 },
+          { id: "waterproofing", name: "Foundation Waterproofing (sqft)", unit: "sqft", basePrice: 18, laborPct: 0.62 },
+        ]
+      },
+      {
+        name: "Brick & Stone",
+        items: [
+          { id: "brick_lay", name: "Brick Laying (per sqft)", unit: "sqft", basePrice: 28, laborPct: 0.62 },
+          { id: "tuckpointing", name: "Tuckpointing (per sqft)", unit: "sqft", basePrice: 14, laborPct: 0.80 },
+          { id: "stone_veneer", name: "Stone Veneer (per sqft)", unit: "sqft", basePrice: 32, laborPct: 0.55 },
+          { id: "chimney_repair", name: "Chimney Repair (per ea)", unit: "ls", basePrice: 1800, laborPct: 0.65 },
+          { id: "chimney_rebuild", name: "Chimney Rebuild (per LF)", unit: "lf", basePrice: 380, laborPct: 0.62 },
+          { id: "fireplace_install", name: "Fireplace Installation", unit: "ls", basePrice: 4500, laborPct: 0.55 },
+        ]
+      }
+    ]
+  },
+
+  landscaping: {
+    label: "Landscaping",
+    icon: "🌿",
+    description: "Grading, irrigation, sod, hardscaping, drainage",
+    categories: [
+      {
+        name: "Lawn & Planting",
+        items: [
+          { id: "sod_install", name: "Sod Installation (per sqft)", unit: "sqft", basePrice: 1.80, laborPct: 0.55 },
+          { id: "seed_hydro", name: "Hydroseeding (per sqft)", unit: "sqft", basePrice: 0.45, laborPct: 0.60 },
+          { id: "mulch_install", name: "Mulch Install (per sqyd)", unit: "sqyd", basePrice: 12, laborPct: 0.65 },
+          { id: "shrub_plant", name: "Shrub Planting (per ea)", unit: "ea", basePrice: 120, laborPct: 0.55 },
+          { id: "tree_plant", name: "Tree Planting (per ea)", unit: "ea", basePrice: 380, laborPct: 0.50 },
+          { id: "tree_remove", name: "Tree Removal (per ea)", unit: "ea", basePrice: 950, laborPct: 0.70 },
+          { id: "stump_grind", name: "Stump Grinding (per ea)", unit: "ea", basePrice: 280, laborPct: 0.72 },
+          { id: "garden_bed", name: "Garden Bed Creation (sqft)", unit: "sqft", basePrice: 8.50, laborPct: 0.62 },
+        ]
+      },
+      {
+        name: "Irrigation & Drainage",
+        items: [
+          { id: "irrigation_zone", name: "Irrigation Zone (per zone)", unit: "ea", basePrice: 680, laborPct: 0.58 },
+          { id: "irrigation_full", name: "Full Irrigation System (sqft)", unit: "sqft", basePrice: 0.95, laborPct: 0.60 },
+          { id: "french_drain", name: "French Drain (per LF)", unit: "lf", basePrice: 28, laborPct: 0.65 },
+          { id: "dry_creek", name: "Dry Creek Bed (per LF)", unit: "lf", basePrice: 38, laborPct: 0.60 },
+          { id: "catch_basin", name: "Catch Basin Install", unit: "ea", basePrice: 520, laborPct: 0.62 },
+          { id: "downspout_ext", name: "Downspout Extension (per LF)", unit: "lf", basePrice: 18, laborPct: 0.65 },
+        ]
+      },
+      {
+        name: "Hardscaping",
+        items: [
+          { id: "paver_patio", name: "Paver Patio (per sqft)", unit: "sqft", basePrice: 22, laborPct: 0.58 },
+          { id: "paver_walk", name: "Paver Walkway (per sqft)", unit: "sqft", basePrice: 20, laborPct: 0.60 },
+          { id: "gravel_drive", name: "Gravel Driveway (per sqft)", unit: "sqft", basePrice: 3.50, laborPct: 0.60 },
+          { id: "deck_wood", name: "Wood Deck (per sqft)", unit: "sqft", basePrice: 32, laborPct: 0.55 },
+          { id: "deck_composite", name: "Composite Deck (per sqft)", unit: "sqft", basePrice: 45, laborPct: 0.52 },
+          { id: "fence_wood", name: "Wood Fence (per LF)", unit: "lf", basePrice: 28, laborPct: 0.58 },
+          { id: "fence_vinyl", name: "Vinyl Fence (per LF)", unit: "lf", basePrice: 32, laborPct: 0.55 },
+          { id: "fence_chain", name: "Chain Link Fence (per LF)", unit: "lf", basePrice: 22, laborPct: 0.55 },
+          { id: "pergola", name: "Pergola Installation", unit: "ls", basePrice: 4800, laborPct: 0.52 },
+          { id: "retaining_landscape", name: "Landscape Retaining Wall (LF)", unit: "lf", basePrice: 85, laborPct: 0.60 },
+        ]
+      }
+    ]
+  },
+
+  insulation: {
+    label: "Insulation",
+    icon: "🏚️",
+    description: "Blown-in, batt, spray foam, radiant barrier",
+    categories: [
+      {
+        name: "Insulation Types",
+        items: [
+          { id: "batt_fiberglass", name: "Fiberglass Batt (per sqft)", unit: "sqft", basePrice: 1.80, laborPct: 0.60 },
+          { id: "batt_mineral", name: "Mineral Wool Batt (sqft)", unit: "sqft", basePrice: 2.50, laborPct: 0.60 },
+          { id: "blown_attic", name: "Blown Attic Insulation (sqft)", unit: "sqft", basePrice: 1.50, laborPct: 0.65 },
+          { id: "blown_wall", name: "Dense Pack Wall (per sqft)", unit: "sqft", basePrice: 2.20, laborPct: 0.68 },
+          { id: "spray_open", name: "Open Cell Spray Foam (sqft)", unit: "sqft", basePrice: 1.80, laborPct: 0.55 },
+          { id: "spray_closed", name: "Closed Cell Spray Foam (sqft)", unit: "sqft", basePrice: 3.50, laborPct: 0.52 },
+          { id: "rigid_foam", name: "Rigid Foam Board (per sqft)", unit: "sqft", basePrice: 2.80, laborPct: 0.58 },
+          { id: "radiant_barrier", name: "Radiant Barrier (per sqft)", unit: "sqft", basePrice: 1.20, laborPct: 0.65 },
+          { id: "crawl_encap", name: "Crawl Space Encapsulation (sqft)", unit: "sqft", basePrice: 5.50, laborPct: 0.60 },
+        ]
+      }
+    ]
+  },
+
+  windows_doors: {
+    label: "Windows & Doors",
+    icon: "🪟",
+    description: "Replacement windows, entry doors, patio doors, garage doors",
+    categories: [
+      {
+        name: "Windows",
+        items: [
+          { id: "window_dh", name: "Double Hung Window Replace", unit: "ea", basePrice: 850, laborPct: 0.45 },
+          { id: "window_casement", name: "Casement Window Replace", unit: "ea", basePrice: 950, laborPct: 0.45 },
+          { id: "window_picture", name: "Picture Window Replace", unit: "ea", basePrice: 1100, laborPct: 0.42 },
+          { id: "window_bay", name: "Bay Window Replace", unit: "ea", basePrice: 3200, laborPct: 0.40 },
+          { id: "window_egress", name: "Egress Window Install", unit: "ea", basePrice: 2800, laborPct: 0.45 },
+          { id: "window_storm", name: "Storm Window Install", unit: "ea", basePrice: 380, laborPct: 0.55 },
+        ]
+      },
+      {
+        name: "Doors",
+        items: [
+          { id: "entry_door", name: "Entry Door Replace (incl. frame)", unit: "ea", basePrice: 1800, laborPct: 0.42 },
+          { id: "storm_door", name: "Storm Door Install", unit: "ea", basePrice: 650, laborPct: 0.55 },
+          { id: "sliding_patio", name: "Sliding Patio Door", unit: "ea", basePrice: 2200, laborPct: 0.42 },
+          { id: "french_door", name: "French Patio Door", unit: "ea", basePrice: 2800, laborPct: 0.40 },
+          { id: "garage_door_single", name: "Garage Door (Single)", unit: "ea", basePrice: 1400, laborPct: 0.50 },
+          { id: "garage_door_double", name: "Garage Door (Double)", unit: "ea", basePrice: 2200, laborPct: 0.48 },
+          { id: "garage_opener", name: "Garage Door Opener", unit: "ea", basePrice: 580, laborPct: 0.55 },
+        ]
+      }
+    ]
+  },
+
+  siding: {
+    label: "Siding & Exterior",
+    icon: "🏘️",
+    description: "Vinyl, fiber cement, wood, stucco siding",
+    categories: [
+      {
+        name: "Siding Materials",
+        items: [
+          { id: "siding_vinyl", name: "Vinyl Siding (per sqft)", unit: "sqft", basePrice: 6.50, laborPct: 0.55 },
+          { id: "siding_hardie", name: "Fiber Cement (per sqft)", unit: "sqft", basePrice: 11, laborPct: 0.52 },
+          { id: "siding_wood", name: "Wood Clapboard (per sqft)", unit: "sqft", basePrice: 14, laborPct: 0.52 },
+          { id: "siding_cedar", name: "Cedar Shake Siding (sqft)", unit: "sqft", basePrice: 16, laborPct: 0.50 },
+          { id: "stucco_apply", name: "Stucco Application (sqft)", unit: "sqft", basePrice: 12, laborPct: 0.55 },
+          { id: "eifs_apply", name: "EIFS System (per sqft)", unit: "sqft", basePrice: 14, laborPct: 0.52 },
+          { id: "siding_remove", name: "Old Siding Removal (sqft)", unit: "sqft", basePrice: 2.80, laborPct: 0.78 },
+          { id: "house_wrap", name: "House Wrap (per sqft)", unit: "sqft", basePrice: 1.50, laborPct: 0.62 },
+          { id: "soffit_fascia", name: "Soffit & Fascia (per LF)", unit: "lf", basePrice: 18, laborPct: 0.60 },
+        ]
+      }
+    ]
+  }
+};
+
+// Unit labels for display
+const UNIT_LABELS = {
+  sqft: "sq ft", lf: "lin ft", ea: "each", ls: "lump sum",
+  cy: "cu yd", sq: "square (100 sqft)", room: "room",
+  day: "day", load: "load", sqyd: "sq yd"
+};
+
+// Overhead & profit defaults
+const DEFAULT_OVERHEAD = 15; // %
+const DEFAULT_PROFIT = 10;   // %
+const DEFAULT_TAX_RATE = 8.5; // % (materials only)
+
+
+
+// =============================================
+// APP STATE
+// =============================================
+const App = {
+  currentView: 'dashboard',
+  currentEstimate: null,
+  estimates: [],
+  invoices: [],
+  subscription: null,
+  companyInfo: {},
+  lineItems: [],
+
+  init() {
+    this.loadData();
+    this.checkSubscription();
+    this.render();
+  },
+
+  loadData() {
+    try {
+      this.estimates = JSON.parse(localStorage.getItem('ce_estimates') || '[]');
+      this.invoices = JSON.parse(localStorage.getItem('ce_invoices') || '[]');
+      this.companyInfo = JSON.parse(localStorage.getItem('ce_company') || '{}');
+      this.subscription = JSON.parse(localStorage.getItem('ce_subscription') || 'null');
+    } catch(e) { console.warn('Load error', e); }
+  },
+
+  saveData() {
+    localStorage.setItem('ce_estimates', JSON.stringify(this.estimates));
+    localStorage.setItem('ce_invoices', JSON.stringify(this.invoices));
+    localStorage.setItem('ce_company', JSON.stringify(this.companyInfo));
+    localStorage.setItem('ce_subscription', JSON.stringify(this.subscription));
+  },
+
+  checkSubscription() {
+    if (!this.subscription) {
+      // Check for trial/demo mode
+      const installed = localStorage.getItem('ce_install_date');
+      if (!installed) {
+        localStorage.setItem('ce_install_date', Date.now());
+      }
+      const days = Math.floor((Date.now() - parseInt(localStorage.getItem('ce_install_date'))) / 86400000);
+      this.trialDaysLeft = Math.max(0, 14 - days);
+    }
+  },
+
+  isSubscribed() {
+    return this.subscription && this.subscription.active;
+  },
+
+  canUseApp() {
+    return this.isSubscribed() || (this.trialDaysLeft > 0);
+  },
+
+  render() {
+    const root = document.getElementById('app');
+    if (!root) return;
+    if (!this.canUseApp() && this.currentView !== 'subscribe' && this.currentView !== 'settings') {
+      this.currentView = 'subscribe';
+    }
+    root.innerHTML = this.buildLayout();
+    this.attachEventListeners();
+    // Remove splash screen now that app has rendered
+    if (typeof window.removeSplash === 'function') window.removeSplash();
+  },
+
+  buildLayout() {
+    return `
+      <div class="app-shell">
+        ${this.buildTopBar()}
+        <main class="main-content">
+          ${this.buildView()}
+        </main>
+        ${this.buildBottomNav()}
+      </div>
+    `;
+  },
+
+  buildTopBar() {
+    const titles = {
+      dashboard: 'Dashboard',
+      new_estimate: this.currentEstimate ? `Edit Estimate` : 'New Estimate',
+      estimates: 'My Estimates',
+      invoices: 'My Invoices',
+      settings: 'Settings',
+      subscribe: 'Subscription',
+      estimate_detail: 'Estimate Detail',
+      invoice_detail: 'Invoice Detail',
+    };
+    return `
+      <header class="top-bar">
+        <div class="top-bar-left">
+          ${this.currentView !== 'dashboard' ? `<button class="btn-icon back-btn" onclick="App.goBack()">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M5 12l7-7M5 12l7 7"/></svg>
+          </button>` : `<div class="app-logo">
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#FF6B35"/><path d="M8 22V14l8-6 8 6v8H19v-5h-6v5H8z" fill="white"/><rect x="13" y="19" width="6" height="5" rx="1" fill="#FF6B35"/></svg>
+          </div>`}
+        </div>
+        <h1 class="top-bar-title">${titles[this.currentView] || 'Driftocity Estimate Pro'}</h1>
+        <div class="top-bar-right">
+          ${!this.isSubscribed() && this.currentView !== 'subscribe' ? `<span class="trial-badge">${this.trialDaysLeft}d trial</span>` : ''}
+          ${this.currentView === 'estimate_detail' && this.currentEstimate ? 
+            `<button class="btn-icon" onclick="App.convertToInvoice()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </button>` : ''}
+        </div>
+      </header>
+    `;
+  },
+
+  buildBottomNav() {
+    const navItems = [
+      { view: 'dashboard', icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`, label: 'Home' },
+      { view: 'estimates', icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`, label: 'Estimates' },
+      { view: 'new_estimate', icon: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>`, label: 'New', fab: true },
+      { view: 'invoices', icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`, label: 'Invoices' },
+      { view: 'settings', icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`, label: 'Settings' },
+    ];
+
+    return `
+      <nav class="bottom-nav">
+        ${navItems.map(item => `
+          <button class="nav-item ${item.fab ? 'nav-fab' : ''} ${this.currentView === item.view ? 'active' : ''}"
+            onclick="App.navigate('${item.view}')">
+            <span class="nav-icon">${item.icon}</span>
+            <span class="nav-label">${item.label}</span>
+          </button>
+        `).join('')}
+      </nav>
+    `;
+  },
+
+  buildView() {
+    switch(this.currentView) {
+      case 'dashboard': return this.viewDashboard();
+      case 'new_estimate': return this.viewNewEstimate();
+      case 'estimates': return this.viewEstimates();
+      case 'invoices': return this.viewInvoices();
+      case 'settings': return this.viewSettings();
+      case 'subscribe': return this.viewSubscribe();
+      case 'estimate_detail': return this.viewEstimateDetail();
+      case 'invoice_detail': return this.viewInvoiceDetail();
+      default: return this.viewDashboard();
+    }
+  },
+
+  // =============================================
+  // DASHBOARD VIEW
+  // =============================================
+  viewDashboard() {
+    const totalEstimated = this.estimates.reduce((s, e) => s + (e.total || 0), 0);
+    const totalInvoiced = this.invoices.reduce((s, i) => s + (i.total || 0), 0);
+    const totalPaid = this.invoices.filter(i => i.status === 'paid').reduce((s, i) => s + (i.total || 0), 0);
+    const recentEstimates = [...this.estimates].sort((a, b) => b.date - a.date).slice(0, 3);
+    const company = this.companyInfo.name || 'Your Company';
+
+    return `
+      <div class="view-dashboard">
+        <div class="dashboard-hero">
+          <div class="hero-greeting">
+            <p class="hero-sub">Welcome back</p>
+            <h2 class="hero-name">${company}</h2>
+          </div>
+          <button class="btn-new-estimate" onclick="App.navigate('new_estimate')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Estimate
+          </button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card accent-orange">
+            <div class="stat-label">Estimated</div>
+            <div class="stat-value">${this.formatCurrency(totalEstimated)}</div>
+            <div class="stat-sub">${this.estimates.length} estimates</div>
+          </div>
+          <div class="stat-card accent-blue">
+            <div class="stat-label">Invoiced</div>
+            <div class="stat-value">${this.formatCurrency(totalInvoiced)}</div>
+            <div class="stat-sub">${this.invoices.length} invoices</div>
+          </div>
+          <div class="stat-card accent-green">
+            <div class="stat-label">Collected</div>
+            <div class="stat-value">${this.formatCurrency(totalPaid)}</div>
+            <div class="stat-sub">${this.invoices.filter(i => i.status === 'paid').length} paid</div>
+          </div>
+          <div class="stat-card accent-purple">
+            <div class="stat-label">Outstanding</div>
+            <div class="stat-value">${this.formatCurrency(totalInvoiced - totalPaid)}</div>
+            <div class="stat-sub">${this.invoices.filter(i => i.status !== 'paid').length} pending</div>
+          </div>
+        </div>
+
+        ${recentEstimates.length ? `
+          <div class="section-block">
+            <div class="section-header">
+              <h3>Recent Estimates</h3>
+              <button class="btn-link" onclick="App.navigate('estimates')">See all</button>
+            </div>
+            ${recentEstimates.map(est => this.buildEstimateCard(est)).join('')}
+          </div>
+        ` : `
+          <div class="empty-state">
+            <div class="empty-icon">📋</div>
+            <h3>No estimates yet</h3>
+            <p>Tap "New Estimate" to create your first quote</p>
+          </div>
+        `}
+
+        <div class="section-block">
+          <h3>Contractor Trades</h3>
+          <div class="trade-pills">
+            ${Object.entries(TRADES).map(([key, trade]) => `
+              <button class="trade-pill" onclick="App.startEstimateWithTrade('${key}')">
+                <span>${trade.icon}</span>
+                <span>${trade.label}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  },
+
+  // =============================================
+  // NEW ESTIMATE VIEW
+  // =============================================
+  viewNewEstimate() {
+    const est = this.currentEstimate || this.blankEstimate();
+    
+    return `
+      <div class="view-estimate-builder">
+        <!-- CLIENT INFO -->
+        <div class="form-section">
+          <h3 class="section-title">Client Information</h3>
+          <div class="form-row">
+            <input class="form-input" id="client_name" placeholder="Client Name *" value="${est.clientName || ''}" onchange="App.updateEstField('clientName', this.value)">
+          </div>
+          <div class="form-row">
+            <input class="form-input" id="client_email" placeholder="Email" type="email" value="${est.clientEmail || ''}" onchange="App.updateEstField('clientEmail', this.value)">
+          </div>
+          <div class="form-row">
+            <input class="form-input" id="client_phone" placeholder="Phone" type="tel" value="${est.clientPhone || ''}" onchange="App.updateEstField('clientPhone', this.value)">
+          </div>
+          <div class="form-row">
+            <input class="form-input" id="project_address" placeholder="Project Address" value="${est.projectAddress || ''}" onchange="App.updateEstField('projectAddress', this.value)">
+          </div>
+          <div class="form-row-split">
+            <input class="form-input" id="project_city" placeholder="City" value="${est.projectCity || ''}" onchange="App.updateEstField('projectCity', this.value)">
+            <input class="form-input zip-input" id="project_zip" placeholder="ZIP Code" maxlength="5" value="${est.projectZip || ''}" 
+              onchange="App.updateEstField('projectZip', this.value); App.onZipChange(this.value)">
+          </div>
+          ${est.projectZip ? `<div class="zip-info">📍 Regional multiplier: <strong>${(getMultiplier(est.projectZip) * 100).toFixed(0)}%</strong> of national average</div>` : ''}
+        </div>
+
+        <!-- PROJECT INFO -->
+        <div class="form-section">
+          <h3 class="section-title">Project Details</h3>
+          <div class="form-row">
+            <input class="form-input" id="project_name" placeholder="Project Name / Description *" value="${est.projectName || ''}" onchange="App.updateEstField('projectName', this.value)">
+          </div>
+          <div class="form-row-split">
+            <select class="form-input" id="trade_type" onchange="App.updateEstField('tradeType', this.value); App.render()">
+              <option value="">Select Trade Type</option>
+              ${Object.entries(TRADES).map(([key, t]) => `
+                <option value="${key}" ${est.tradeType === key ? 'selected' : ''}>${t.icon} ${t.label}</option>
+              `).join('')}
+            </select>
+            <select class="form-input" id="est_status" onchange="App.updateEstField('status', this.value)">
+              <option value="draft" ${est.status === 'draft' ? 'selected' : ''}>Draft</option>
+              <option value="sent" ${est.status === 'sent' ? 'selected' : ''}>Sent</option>
+              <option value="approved" ${est.status === 'approved' ? 'selected' : ''}>Approved</option>
+              <option value="declined" ${est.status === 'declined' ? 'selected' : ''}>Declined</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <textarea class="form-input form-textarea" id="project_notes" placeholder="Project notes / scope description..." 
+              onchange="App.updateEstField('notes', this.value)">${est.notes || ''}</textarea>
+          </div>
+          <div class="form-row-split">
+            <div class="form-group">
+              <label class="form-label">Valid Until</label>
+              <input class="form-input" type="date" id="valid_until" value="${est.validUntil || ''}" onchange="App.updateEstField('validUntil', this.value)">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Est. Start Date</label>
+              <input class="form-input" type="date" id="start_date" value="${est.startDate || ''}" onchange="App.updateEstField('startDate', this.value)">
+            </div>
+          </div>
+        </div>
+
+
+        <!-- AI SCOPE WRITER -->
+        <div class="ai-scope-section">
+          <div class="ai-scope-header">
+            <div class="ai-scope-badge">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              AI
+            </div>
+            <div class="ai-scope-title">Describe the Job</div>
+          </div>
+          <div class="ai-scope-body">
+            <textarea class="ai-scope-textarea" id="ai-scope-input"
+              placeholder="e.g. Replace master bath — demo tile, new shower pan, retile walls 60 sqft, replace toilet and vanity, paint ceiling..."></textarea>
+            <div class="ai-scope-actions">
+              <button class="btn-ai-generate" id="ai-gen-btn" onclick="App.generateFromScope()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                Generate Line Items
+              </button>
+              <button class="btn-ai-clear" onclick="App.clearAiScope()">Clear</button>
+            </div>
+            <div class="ai-scope-hint">Describe the work in plain English — AI will identify the right line items, quantities, and trade pricing.</div>
+            <div id="ai-result-area"></div>
+          </div>
+        </div>
+
+        <!-- LINE ITEMS -->
+        <div class="form-section">
+          <div class="section-header">
+            <h3 class="section-title">Line Items</h3>
+            <button class="btn-add" onclick="App.showItemPicker()">+ Add Item</button>
+          </div>
+
+          ${est.tradeType && TRADES[est.tradeType] ? `
+            <div class="quick-add-bar">
+              <p class="quick-add-label">Quick add from ${TRADES[est.tradeType].label}:</p>
+              <div class="quick-add-categories">
+                ${TRADES[est.tradeType].categories.map((cat, ci) => `
+                  <button class="quick-cat-btn" onclick="App.showCategoryItems('${est.tradeType}', ${ci})">
+                    ${cat.name}
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          <div id="line-items-list">
+            ${(est.lineItems || []).length === 0 ? `
+              <div class="empty-items">
+                <p>No line items yet. Add items above or pick a trade type for quick-add options.</p>
+              </div>
+            ` : `
+              ${est.lineItems.map((item, idx) => this.buildLineItemRow(item, idx)).join('')}
+            `}
+          </div>
+
+          <button class="btn-add-custom" onclick="App.addCustomItem()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Custom Line Item
+          </button>
+        </div>
+
+        <!-- PRICING SETTINGS -->
+        <div class="form-section">
+          <h3 class="section-title">Pricing Settings</h3>
+          <div class="form-row-split">
+            <div class="form-group">
+              <label class="form-label">Overhead %</label>
+              <input class="form-input" type="number" min="0" max="50" value="${est.overhead ?? DEFAULT_OVERHEAD}" 
+                onchange="App.updateEstField('overhead', parseFloat(this.value)); App.recalculate()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Profit Margin %</label>
+              <input class="form-input" type="number" min="0" max="50" value="${est.profit ?? DEFAULT_PROFIT}" 
+                onchange="App.updateEstField('profit', parseFloat(this.value)); App.recalculate()">
+            </div>
+          </div>
+          <div class="form-row-split">
+            <div class="form-group">
+              <label class="form-label">Sales Tax % (materials)</label>
+              <input class="form-input" type="number" min="0" max="15" step="0.1" value="${est.taxRate ?? DEFAULT_TAX_RATE}" 
+                onchange="App.updateEstField('taxRate', parseFloat(this.value)); App.recalculate()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Deposit Required %</label>
+              <input class="form-input" type="number" min="0" max="100" value="${est.depositPct ?? 30}" 
+                onchange="App.updateEstField('depositPct', parseFloat(this.value)); App.recalculate()">
+            </div>
+          </div>
+        </div>
+
+        <!-- TOTALS -->
+        <div class="totals-card" id="totals-section">
+          ${this.buildTotalsHTML(est)}
+        </div>
+
+        <!-- TERMS -->
+        <div class="form-section">
+          <h3 class="section-title">Terms & Conditions</h3>
+          <textarea class="form-input form-textarea" id="terms" 
+            onchange="App.updateEstField('terms', this.value)"
+            placeholder="Payment terms, warranty info, scope exclusions...">${est.terms || this.defaultTerms()}</textarea>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="action-buttons">
+          <button class="btn-primary" onclick="App.saveEstimate()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Save Estimate
+          </button>
+          <button class="btn-secondary" onclick="App.previewEstimate()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Preview PDF
+          </button>
+          <button class="btn-secondary" onclick="App.convertToInvoice()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Convert to Invoice
+          </button>
+        </div>
+
+        <!-- ITEM PICKER MODAL -->
+        <div id="item-picker-modal" class="modal hidden">
+          <div class="modal-backdrop" onclick="App.closeModal()"></div>
+          <div class="modal-sheet" id="modal-sheet-content">
+            <!-- Dynamic content -->
+          </div>
+        </div>
+      </div>
+    `;
+  },
+
+  buildLineItemRow(item, idx) {
+    const subtotal = (item.qty || 0) * (item.unitPrice || 0);
+    return `
+      <div class="line-item-row" data-idx="${idx}">
+        <div class="line-item-top">
+          <div class="line-item-name-wrap">
+            <input class="li-name" value="${this.escHtml(item.name)}" placeholder="Item name"
+              onchange="App.updateLineItem(${idx}, 'name', this.value)">
+            <span class="li-trade-badge">${item.tradeLabel || ''}</span>
+          </div>
+          <button class="li-delete" onclick="App.removeLineItem(${idx})">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+          </button>
+        </div>
+        <div class="line-item-bottom">
+          <div class="li-field">
+            <label>Qty</label>
+            <input type="number" min="0" step="0.01" value="${item.qty || 1}" 
+              onchange="App.updateLineItem(${idx}, 'qty', parseFloat(this.value)); App.recalculate()">
+          </div>
+          <div class="li-field">
+            <label>Unit</label>
+            <select onchange="App.updateLineItem(${idx}, 'unit', this.value)">
+              ${Object.entries(UNIT_LABELS).map(([k, v]) => `<option value="${k}" ${item.unit === k ? 'selected' : ''}>${v}</option>`).join('')}
+            </select>
+          </div>
+          <div class="li-field">
+            <label>Unit Price</label>
+            <div class="li-price-wrap">
+              <span>$</span>
+              <input type="number" min="0" step="0.01" value="${item.unitPrice || 0}" 
+                onchange="App.updateLineItem(${idx}, 'unitPrice', parseFloat(this.value)); App.recalculate()">
+            </div>
+          </div>
+          <div class="li-subtotal">
+            <label>Subtotal</label>
+            <span>${this.formatCurrency(subtotal)}</span>
+          </div>
+        </div>
+        <div class="li-split-row">
+          <div class="li-toggle-wrap">
+            <label class="li-toggle-label">Labor</label>
+            <span class="li-pct">${Math.round((item.laborPct || 0.6) * 100)}%</span>
+          </div>
+          <div class="li-toggle-wrap">
+            <label class="li-toggle-label">Materials</label>
+            <span class="li-pct">${Math.round((1 - (item.laborPct || 0.6)) * 100)}%</span>
+          </div>
+          <div class="li-field">
+            <label>Labor %</label>
+            <input type="number" min="0" max="100" value="${Math.round((item.laborPct || 0.6) * 100)}"
+              onchange="App.updateLineItem(${idx}, 'laborPct', this.value/100); App.recalculate()">
+          </div>
+        </div>
+        ${item.notes ? `<div class="li-notes">${item.notes}</div>` : ''}
+      </div>
+    `;
+  },
+
+  buildTotalsHTML(est) {
+    const calcs = this.calculateTotals(est);
+    return `
+      <div class="totals-inner">
+        <div class="totals-row"><span>Labor Subtotal</span><span>${this.formatCurrency(calcs.laborSubtotal)}</span></div>
+        <div class="totals-row"><span>Materials Subtotal</span><span>${this.formatCurrency(calcs.materialsSubtotal)}</span></div>
+        <div class="totals-divider"></div>
+        <div class="totals-row"><span>Base Subtotal</span><span>${this.formatCurrency(calcs.baseSubtotal)}</span></div>
+        <div class="totals-row muted"><span>Overhead (${est.overhead ?? DEFAULT_OVERHEAD}%)</span><span>${this.formatCurrency(calcs.overheadAmount)}</span></div>
+        <div class="totals-row muted"><span>Profit Margin (${est.profit ?? DEFAULT_PROFIT}%)</span><span>${this.formatCurrency(calcs.profitAmount)}</span></div>
+        <div class="totals-row muted"><span>Materials Tax (${est.taxRate ?? DEFAULT_TAX_RATE}%)</span><span>${this.formatCurrency(calcs.taxAmount)}</span></div>
+        <div class="totals-divider"></div>
+        <div class="totals-row total"><span>TOTAL</span><span>${this.formatCurrency(calcs.total)}</span></div>
+        <div class="totals-row deposit"><span>Required Deposit (${est.depositPct ?? 30}%)</span><span>${this.formatCurrency(calcs.depositAmount)}</span></div>
+        <div class="totals-row"><span>Balance Due</span><span>${this.formatCurrency(calcs.balanceDue)}</span></div>
+        ${est.projectZip ? `<div class="totals-note">💡 Prices adjusted for ZIP ${est.projectZip} (${(getMultiplier(est.projectZip)*100).toFixed(0)}% regional rate)</div>` : ''}
+      </div>
+    `;
+  },
+
+  calculateTotals(est) {
+    const mult = getMultiplier(est.projectZip || '');
+    const items = est.lineItems || [];
+    let laborSubtotal = 0, materialsSubtotal = 0;
+    
+    items.forEach(item => {
+      const lineTotal = (item.qty || 0) * (item.unitPrice || 0);
+      const lp = item.laborPct ?? 0.6;
+      laborSubtotal += lineTotal * lp;
+      materialsSubtotal += lineTotal * (1 - lp);
+    });
+
+    // Apply regional multiplier
+    laborSubtotal *= mult;
+    materialsSubtotal *= mult;
+
+    const baseSubtotal = laborSubtotal + materialsSubtotal;
+    const overheadPct = (est.overhead ?? DEFAULT_OVERHEAD) / 100;
+    const profitPct = (est.profit ?? DEFAULT_PROFIT) / 100;
+    const taxPct = (est.taxRate ?? DEFAULT_TAX_RATE) / 100;
+
+    const overheadAmount = baseSubtotal * overheadPct;
+    const profitAmount = (baseSubtotal + overheadAmount) * profitPct;
+    const taxAmount = materialsSubtotal * taxPct;
+    const total = baseSubtotal + overheadAmount + profitAmount + taxAmount;
+    const depositPct = (est.depositPct ?? 30) / 100;
+    const depositAmount = total * depositPct;
+    const balanceDue = total - depositAmount;
+
+    return { laborSubtotal, materialsSubtotal, baseSubtotal, overheadAmount, profitAmount, taxAmount, total, depositAmount, balanceDue };
+  },
+
+  // =============================================
+  // ESTIMATES LIST VIEW
+  // =============================================
+  viewEstimates() {
+    const sorted = [...this.estimates].sort((a, b) => b.date - a.date);
+    return `
+      <div class="view-list">
+        <div class="list-filter-bar">
+          <input class="search-input" placeholder="🔍 Search estimates..." oninput="App.filterEstimates(this.value)" id="est-search">
+          <select class="filter-select" onchange="App.filterEstimatesByStatus(this.value)">
+            <option value="">All Status</option>
+            <option value="draft">Draft</option>
+            <option value="sent">Sent</option>
+            <option value="approved">Approved</option>
+            <option value="declined">Declined</option>
+          </select>
+        </div>
+        <div id="estimates-list-container">
+          ${sorted.length === 0 ? `<div class="empty-state"><div class="empty-icon">📋</div><h3>No estimates yet</h3><p>Create your first estimate to get started</p></div>` :
+            sorted.map(est => this.buildEstimateCard(est, true)).join('')
+          }
+        </div>
+      </div>
+    `;
+  },
+
+  buildEstimateCard(est, showActions = false) {
+    const statusColors = { draft: '#888', sent: '#2196F3', approved: '#4CAF50', declined: '#F44336' };
+    const calcs = this.calculateTotals(est);
+    return `
+      <div class="list-card" onclick="App.openEstimate('${est.id}')">
+        <div class="card-top">
+          <div class="card-info">
+            <h4 class="card-title">${this.escHtml(est.projectName || 'Untitled Project')}</h4>
+            <p class="card-sub">${this.escHtml(est.clientName || 'No client')} · ${est.projectZip ? est.projectCity + ', ' + est.projectZip : ''}</p>
+            <p class="card-meta">${this.formatDate(est.date)} · ${TRADES[est.tradeType]?.icon || '🔨'} ${TRADES[est.tradeType]?.label || 'General'}</p>
+          </div>
+          <div class="card-right">
+            <div class="card-amount">${this.formatCurrency(calcs.total)}</div>
+            <span class="status-badge" style="background:${statusColors[est.status] || '#888'}20; color:${statusColors[est.status] || '#888'}">
+              ${est.status || 'draft'}
+            </span>
+          </div>
+        </div>
+        ${showActions ? `
+          <div class="card-actions" onclick="event.stopPropagation()">
+            <button class="card-btn" onclick="App.editEstimate('${est.id}')">Edit</button>
+            <button class="card-btn" onclick="App.duplicateEstimate('${est.id}')">Duplicate</button>
+            <button class="card-btn" onclick="App.convertEstimateToInvoice('${est.id}')">→ Invoice</button>
+            <button class="card-btn danger" onclick="App.deleteEstimate('${est.id}')">Delete</button>
+          </div>
+        ` : ''}
+      </div>
+    `;
+  },
+
+  // =============================================
+  // INVOICES LIST VIEW
+  // =============================================
+  viewInvoices() {
+    const sorted = [...this.invoices].sort((a, b) => b.date - a.date);
+    return `
+      <div class="view-list">
+        <div class="list-filter-bar">
+          <input class="search-input" placeholder="🔍 Search invoices..." id="inv-search">
+          <select class="filter-select" onchange="App.filterInvoicesByStatus(this.value)">
+            <option value="">All Status</option>
+            <option value="unpaid">Unpaid</option>
+            <option value="partial">Partial</option>
+            <option value="paid">Paid</option>
+            <option value="overdue">Overdue</option>
+          </select>
+        </div>
+        <div id="invoices-list-container">
+          ${sorted.length === 0 ? `<div class="empty-state"><div class="empty-icon">📄</div><h3>No invoices yet</h3><p>Convert an estimate to create your first invoice</p></div>` :
+            sorted.map(inv => this.buildInvoiceCard(inv)).join('')
+          }
+        </div>
+      </div>
+    `;
+  },
+
+  buildInvoiceCard(inv) {
+    const statusColors = { unpaid: '#FF6B35', partial: '#FF9800', paid: '#4CAF50', overdue: '#F44336' };
+    const isPastDue = inv.dueDate && new Date(inv.dueDate) < new Date() && inv.status !== 'paid';
+    const displayStatus = isPastDue && inv.status !== 'paid' ? 'overdue' : (inv.status || 'unpaid');
+    return `
+      <div class="list-card" onclick="App.openInvoice('${inv.id}')">
+        <div class="card-top">
+          <div class="card-info">
+            <h4 class="card-title">Invoice #${inv.number || inv.id.slice(-6).toUpperCase()}</h4>
+            <p class="card-sub">${this.escHtml(inv.clientName || 'No client')} · ${this.escHtml(inv.projectName || '')}</p>
+            <p class="card-meta">Issued: ${this.formatDate(inv.date)}${inv.dueDate ? ' · Due: ' + inv.dueDate : ''}</p>
+          </div>
+          <div class="card-right">
+            <div class="card-amount">${this.formatCurrency(inv.total || 0)}</div>
+            <span class="status-badge" style="background:${statusColors[displayStatus] || '#888'}20; color:${statusColors[displayStatus] || '#888'}">
+              ${displayStatus}
+            </span>
+          </div>
+        </div>
+        <div class="card-actions" onclick="event.stopPropagation()">
+          <button class="card-btn" onclick="App.markInvoicePaid('${inv.id}')">Mark Paid</button>
+          <button class="card-btn" onclick="App.printInvoice('${inv.id}')">Print/PDF</button>
+          <button class="card-btn danger" onclick="App.deleteInvoice('${inv.id}')">Delete</button>
+        </div>
+      </div>
+    `;
+  },
+
+  // =============================================
+  // ESTIMATE DETAIL VIEW
+  // =============================================
+  viewEstimateDetail() {
+    const est = this.currentEstimate;
+    if (!est) return '<div class="empty-state">Estimate not found</div>';
+    const calcs = this.calculateTotals(est);
+    const trade = TRADES[est.tradeType];
+
+    return `
+      <div class="view-detail">
+        <div class="detail-header">
+          <div class="detail-number">ESTIMATE #${est.id.slice(-6).toUpperCase()}</div>
+          <div class="detail-date">${this.formatDate(est.date)}</div>
+        </div>
+
+        ${this.buildCompanyHeader()}
+        
+        <div class="detail-parties">
+          <div class="detail-party">
+            <div class="party-label">Bill To:</div>
+            <div class="party-name">${this.escHtml(est.clientName)}</div>
+            <div class="party-address">${this.escHtml(est.projectAddress || '')}</div>
+            <div class="party-address">${this.escHtml(est.projectCity || '')}${est.projectZip ? ', ' + est.projectZip : ''}</div>
+            ${est.clientEmail ? `<div class="party-contact">${this.escHtml(est.clientEmail)}</div>` : ''}
+            ${est.clientPhone ? `<div class="party-contact">${this.escHtml(est.clientPhone)}</div>` : ''}
+          </div>
+          <div class="detail-party">
+            <div class="party-label">Project:</div>
+            <div class="party-name">${this.escHtml(est.projectName)}</div>
+            ${trade ? `<div class="party-trade">${trade.icon} ${trade.label}</div>` : ''}
+            ${est.validUntil ? `<div class="party-contact">Valid Until: ${est.validUntil}</div>` : ''}
+            ${est.startDate ? `<div class="party-contact">Est. Start: ${est.startDate}</div>` : ''}
+          </div>
+        </div>
+
+        ${est.notes ? `<div class="detail-notes"><strong>Project Scope:</strong> ${this.escHtml(est.notes)}</div>` : ''}
+
+        <table class="items-table">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Qty</th>
+              <th>Unit</th>
+              <th>Unit Price</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${(est.lineItems || []).map(item => {
+              const mult = getMultiplier(est.projectZip || '');
+              const adjustedPrice = (item.unitPrice || 0) * mult;
+              const total = (item.qty || 0) * adjustedPrice;
+              return `
+                <tr>
+                  <td class="item-name-cell">${this.escHtml(item.name)}${item.tradeLabel ? `<span class="item-trade-tag">${item.tradeLabel}</span>` : ''}</td>
+                  <td class="right">${item.qty || 0}</td>
+                  <td>${UNIT_LABELS[item.unit] || item.unit || ''}</td>
+                  <td class="right">${this.formatCurrency(adjustedPrice)}</td>
+                  <td class="right">${this.formatCurrency(total)}</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+
+        <div class="detail-totals">
+          <div class="dt-row"><span>Labor</span><span>${this.formatCurrency(calcs.laborSubtotal)}</span></div>
+          <div class="dt-row"><span>Materials</span><span>${this.formatCurrency(calcs.materialsSubtotal)}</span></div>
+          <div class="dt-row"><span>Overhead (${est.overhead ?? DEFAULT_OVERHEAD}%)</span><span>${this.formatCurrency(calcs.overheadAmount)}</span></div>
+          <div class="dt-row"><span>Profit Margin (${est.profit ?? DEFAULT_PROFIT}%)</span><span>${this.formatCurrency(calcs.profitAmount)}</span></div>
+          <div class="dt-row"><span>Tax (materials)</span><span>${this.formatCurrency(calcs.taxAmount)}</span></div>
+          <div class="dt-row dt-total"><span>TOTAL</span><span>${this.formatCurrency(calcs.total)}</span></div>
+          <div class="dt-row dt-deposit"><span>Deposit Required (${est.depositPct ?? 30}%)</span><span>${this.formatCurrency(calcs.depositAmount)}</span></div>
+          <div class="dt-row"><span>Balance Due on Completion</span><span>${this.formatCurrency(calcs.balanceDue)}</span></div>
+        </div>
+
+        ${est.terms ? `<div class="detail-terms"><h4>Terms & Conditions</h4><p>${this.escHtml(est.terms)}</p></div>` : ''}
+
+        <div class="action-buttons">
+          <button class="btn-primary" onclick="App.editEstimate('${est.id}')">
+            ✏️ Edit Estimate
+          </button>
+          <button class="btn-secondary" onclick="App.printDoc('estimate')">
+            🖨️ Print / Save PDF
+          </button>
+          <button class="btn-secondary" onclick="App.convertEstimateToInvoice('${est.id}')">
+            📄 Convert to Invoice
+          </button>
+        </div>
+      </div>
+    `;
+  },
+
+  // =============================================
+  // INVOICE DETAIL VIEW
+  // =============================================
+  viewInvoiceDetail() {
+    const inv = this.currentInvoice;
+    if (!inv) return '<div class="empty-state">Invoice not found</div>';
+
+    return `
+      <div class="view-detail">
+        <div class="detail-header">
+          <div class="detail-number">INVOICE #${inv.number || inv.id.slice(-6).toUpperCase()}</div>
+          <div class="detail-date">Date: ${this.formatDate(inv.date)}</div>
+          ${inv.dueDate ? `<div class="detail-due">Due: ${inv.dueDate}</div>` : ''}
+        </div>
+
+        ${this.buildCompanyHeader()}
+
+        <div class="detail-parties">
+          <div class="detail-party">
+            <div class="party-label">Bill To:</div>
+            <div class="party-name">${this.escHtml(inv.clientName)}</div>
+            <div class="party-address">${this.escHtml(inv.projectAddress || '')}</div>
+            ${inv.clientEmail ? `<div class="party-contact">${this.escHtml(inv.clientEmail)}</div>` : ''}
+            ${inv.clientPhone ? `<div class="party-contact">${this.escHtml(inv.clientPhone)}</div>` : ''}
+          </div>
+          <div class="detail-party">
+            <div class="party-label">Project:</div>
+            <div class="party-name">${this.escHtml(inv.projectName)}</div>
+            ${inv.estimateId ? `<div class="party-contact">From Estimate #${inv.estimateId.slice(-6).toUpperCase()}</div>` : ''}
+          </div>
+        </div>
+
+        <table class="items-table">
+          <thead>
+            <tr><th>Description</th><th>Qty</th><th>Unit</th><th>Unit Price</th><th>Total</th></tr>
+          </thead>
+          <tbody>
+            ${(inv.lineItems || []).map(item => {
+              const mult = getMultiplier(inv.projectZip || '');
+              const adjustedPrice = (item.unitPrice || 0) * mult;
+              const total = (item.qty || 0) * adjustedPrice;
+              return `<tr>
+                <td>${this.escHtml(item.name)}</td>
+                <td class="right">${item.qty || 0}</td>
+                <td>${UNIT_LABELS[item.unit] || item.unit || ''}</td>
+                <td class="right">${this.formatCurrency(adjustedPrice)}</td>
+                <td class="right">${this.formatCurrency(total)}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+
+        <div class="detail-totals">
+          ${inv.laborSubtotal ? `<div class="dt-row"><span>Labor</span><span>${this.formatCurrency(inv.laborSubtotal)}</span></div>` : ''}
+          ${inv.materialsSubtotal ? `<div class="dt-row"><span>Materials</span><span>${this.formatCurrency(inv.materialsSubtotal)}</span></div>` : ''}
+          ${inv.overheadAmount ? `<div class="dt-row"><span>Overhead</span><span>${this.formatCurrency(inv.overheadAmount)}</span></div>` : ''}
+          ${inv.profitAmount ? `<div class="dt-row"><span>Profit</span><span>${this.formatCurrency(inv.profitAmount)}</span></div>` : ''}
+          ${inv.taxAmount ? `<div class="dt-row"><span>Tax</span><span>${this.formatCurrency(inv.taxAmount)}</span></div>` : ''}
+          <div class="dt-row dt-total"><span>TOTAL DUE</span><span>${this.formatCurrency(inv.total || 0)}</span></div>
+          ${inv.depositAmount ? `<div class="dt-row"><span>Deposit Paid</span><span>- ${this.formatCurrency(inv.depositAmount)}</span></div>` : ''}
+          ${inv.depositAmount ? `<div class="dt-row dt-deposit"><span>BALANCE DUE</span><span>${this.formatCurrency((inv.total||0) - (inv.depositAmount||0))}</span></div>` : ''}
+        </div>
+
+        ${inv.paymentInfo || this.companyInfo.paymentInfo ? `
+          <div class="detail-terms">
+            <h4>Payment Instructions</h4>
+            <p>${this.escHtml(inv.paymentInfo || this.companyInfo.paymentInfo || '')}</p>
+          </div>
+        ` : ''}
+
+        <div class="action-buttons">
+          <button class="btn-primary" onclick="App.markInvoicePaid('${inv.id}'); App.render()">
+            ✅ Mark as Paid
+          </button>
+          <button class="btn-secondary" onclick="App.printDoc('invoice')">
+            🖨️ Print / Save PDF
+          </button>
+        </div>
+      </div>
+    `;
+  },
+
+  buildCompanyHeader() {
+    const c = this.companyInfo;
+    if (!c.name) return `<div class="company-header-empty"><p>Add your company info in Settings</p></div>`;
+    return `
+      <div class="company-header">
+        ${c.logo ? `<img src="${c.logo}" class="company-logo" alt="Logo">` : `<div class="company-logo-placeholder">🏗️</div>`}
+        <div class="company-details">
+          <div class="company-name">${this.escHtml(c.name)}</div>
+          ${c.address ? `<div class="company-meta">${this.escHtml(c.address)}</div>` : ''}
+          ${c.phone ? `<div class="company-meta">${this.escHtml(c.phone)}</div>` : ''}
+          ${c.email ? `<div class="company-meta">${this.escHtml(c.email)}</div>` : ''}
+          ${c.license ? `<div class="company-meta">License #${this.escHtml(c.license)}</div>` : ''}
+          ${c.website ? `<div class="company-meta">${this.escHtml(c.website)}</div>` : ''}
+        </div>
+      </div>
+    `;
+  },
+
+  // =============================================
+  // SETTINGS VIEW
+  // =============================================
+  viewSettings() {
+    const c = this.companyInfo;
+    return `
+      <div class="view-settings">
+        <div class="form-section">
+          <h3 class="section-title">Company Profile</h3>
+          <div class="form-row">
+            <input class="form-input" placeholder="Company Name *" value="${c.name || ''}" 
+              onchange="App.updateCompany('name', this.value)">
+          </div>
+          <div class="form-row">
+            <input class="form-input" placeholder="Street Address" value="${c.address || ''}" 
+              onchange="App.updateCompany('address', this.value)">
+          </div>
+          <div class="form-row-split">
+            <input class="form-input" placeholder="City" value="${c.city || ''}" 
+              onchange="App.updateCompany('city', this.value)">
+            <input class="form-input" placeholder="State" value="${c.state || ''}" 
+              onchange="App.updateCompany('state', this.value)">
+            <input class="form-input" placeholder="ZIP" value="${c.zip || ''}" 
+              onchange="App.updateCompany('zip', this.value)">
+          </div>
+          <div class="form-row">
+            <input class="form-input" placeholder="Phone" type="tel" value="${c.phone || ''}" 
+              onchange="App.updateCompany('phone', this.value)">
+          </div>
+          <div class="form-row">
+            <input class="form-input" placeholder="Email" type="email" value="${c.email || ''}" 
+              onchange="App.updateCompany('email', this.value)">
+          </div>
+          <div class="form-row">
+            <input class="form-input" placeholder="Website" value="${c.website || ''}" 
+              onchange="App.updateCompany('website', this.value)">
+          </div>
+          <div class="form-row">
+            <input class="form-input" placeholder="Contractor License #" value="${c.license || ''}" 
+              onchange="App.updateCompany('license', this.value)">
+          </div>
+          <div class="form-row">
+            <input class="form-input" placeholder="Insurance / Bond #" value="${c.insurance || ''}" 
+              onchange="App.updateCompany('insurance', this.value)">
+          </div>
+          <div class="form-row">
+            <textarea class="form-input form-textarea" placeholder="Payment instructions (e.g. Check payable to..., Zelle: 555-xxx...)" 
+              onchange="App.updateCompany('paymentInfo', this.value)">${c.paymentInfo || ''}</textarea>
+          </div>
+          <button class="btn-primary" onclick="App.saveCompanyInfo()">Save Company Info</button>
+        </div>
+
+        <div class="form-section">
+          <h3 class="section-title">Subscription</h3>
+          ${this.isSubscribed() ? `
+            <div class="sub-active">
+              <div class="sub-check">✅ Active Subscription</div>
+              <p>Your subscription is active. Thank you!</p>
+              <button class="btn-secondary" onclick="App.navigate('subscribe')">Manage Subscription</button>
+            </div>
+          ` : `
+            <div class="sub-trial">
+              <p>${this.trialDaysLeft > 0 ? `You have <strong>${this.trialDaysLeft} days</strong> left in your free trial.` : 'Your free trial has ended.'}</p>
+              <p>Subscribe for <strong>$5.99/month</strong> for unlimited estimates and invoices.</p>
+              <button class="btn-primary" onclick="App.navigate('subscribe')">Subscribe Now</button>
+            </div>
+          `}
+        </div>
+
+        <div class="form-section">
+          <h3 class="section-title">Data Management</h3>
+          <button class="btn-secondary" onclick="App.exportData()">Export All Data (JSON)</button>
+          <button class="btn-secondary danger" onclick="App.confirmClearData()">Clear All Data</button>
+        </div>
+
+        <div class="form-section">
+          <h3 class="section-title">About</h3>
+          <div class="about-info">
+            <p><strong>Driftocity Estimate Pro</strong></p>
+            <p>Version 1.0.0</p>
+            <p>Professional contractor estimates & invoices with ZIP-code adjusted regional pricing for all major trade types.</p>
+            <p class="about-note">Pricing based on national averages adjusted by regional cost-of-living multipliers. Always verify local rates.</p>
+          </div>
+        </div>
+      </div>
+    `;
+  },
+
+  // =============================================
+  // SUBSCRIBE VIEW
+  // =============================================
+  viewSubscribe() {
+    return `
+      <div class="view-subscribe">
+        <div class="sub-hero">
+          <div class="sub-logo">🏗️</div>
+          <h2>Driftocity Estimate Pro</h2>
+          <p class="sub-tagline">Professional estimates & invoices<br>for every trade</p>
+        </div>
+
+        <div class="pricing-card">
+          <div class="price-amount">$5.99<span>/month</span></div>
+          <div class="price-label">Everything you need to win more jobs</div>
+        </div>
+
+        <div class="features-list">
+          <div class="feature-item">✅ Unlimited estimates & invoices</div>
+          <div class="feature-item">✅ 12 contractor trade types</div>
+          <div class="feature-item">✅ ZIP code regional pricing</div>
+          <div class="feature-item">✅ Convert estimates to invoices</div>
+          <div class="feature-item">✅ Print / Save to PDF</div>
+          <div class="feature-item">✅ Company branding</div>
+          <div class="feature-item">✅ Overhead & profit markup</div>
+          <div class="feature-item">✅ Works on iOS & Android</div>
+          <div class="feature-item">✅ No internet required (offline)</div>
+        </div>
+
+        <button class="btn-subscribe" onclick="App.handleSubscribe()">
+          Subscribe for $5.99/month
+        </button>
+        
+        ${this.trialDaysLeft > 0 ? `
+          <button class="btn-trial" onclick="App.navigate('dashboard')">
+            Continue Free Trial (${this.trialDaysLeft} days left)
+          </button>
+        ` : ''}
+
+        <p class="sub-disclaimer">Cancel anytime. Pricing integrates with Stripe. Configure your Stripe payment link in the GitHub deployment settings.</p>
+
+        <div class="demo-activate">
+          <p>Developer / Demo Mode:</p>
+          <button class="btn-link" onclick="App.activateDemoSub()">Activate Demo Subscription</button>
+        </div>
+      </div>
+    `;
+  },
+
+  // =============================================
+  // ITEM PICKER MODAL
+  // =============================================
+  showItemPicker() {
+    const modal = document.getElementById('item-picker-modal');
+    const content = document.getElementById('modal-sheet-content');
+    if (!modal || !content) return;
+    
+    content.innerHTML = `
+      <div class="modal-handle"></div>
+      <h3 class="modal-title">Add Line Item</h3>
+      <div class="modal-tabs">
+        <button class="modal-tab active" onclick="App.showAllTradesInModal()">Browse Trades</button>
+        <button class="modal-tab" onclick="App.showCustomInModal()">Custom Item</button>
+      </div>
+      <div id="modal-body">
+        ${this.buildTradePickerContent()}
+      </div>
+    `;
+    modal.classList.remove('hidden');
+  },
+
+  buildTradePickerContent() {
+    return `
+      <div class="trade-picker-grid">
+        ${Object.entries(TRADES).map(([key, trade]) => `
+          <button class="trade-picker-item" onclick="App.showTradeCategories('${key}')">
+            <span class="tpi-icon">${trade.icon}</span>
+            <span class="tpi-label">${trade.label}</span>
+          </button>
+        `).join('')}
+      </div>
+    `;
+  },
+
+  showTradeCategories(tradeKey) {
+    const trade = TRADES[tradeKey];
+    const modalBody = document.getElementById('modal-body');
+    if (!modalBody || !trade) return;
+
+    modalBody.innerHTML = `
+      <button class="modal-back" onclick="document.getElementById('modal-body').innerHTML = App.buildTradePickerContent()">
+        ← Back to Trades
+      </button>
+      <h4 class="modal-sub-title">${trade.icon} ${trade.label}</h4>
+      ${trade.categories.map((cat, ci) => `
+        <div class="picker-category">
+          <div class="picker-cat-name">${cat.name}</div>
+          ${cat.items.map(item => {
+            const est = this.currentEstimate;
+            const mult = getMultiplier(est?.projectZip || '');
+            const adjPrice = item.basePrice * mult;
+            return `
+              <div class="picker-item" onclick="App.addPickerItem('${tradeKey}', '${item.id}'); App.closeModal()">
+                <div class="pi-left">
+                  <div class="pi-name">${item.name}</div>
+                  <div class="pi-unit">${UNIT_LABELS[item.unit] || item.unit}</div>
+                </div>
+                <div class="pi-right">
+                  <div class="pi-price">${this.formatCurrency(adjPrice)}</div>
+                  <div class="pi-per">per ${UNIT_LABELS[item.unit] || item.unit}</div>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `).join('')}
+    `;
+  },
+
+  showCategoryItems(tradeKey, catIdx) {
+    this.showItemPicker();
+    setTimeout(() => this.showTradeCategories(tradeKey), 10);
+  },
+
+  showAllTradesInModal() {
+    const modalBody = document.getElementById('modal-body');
+    if (modalBody) modalBody.innerHTML = this.buildTradePickerContent();
+  },
+
+  showCustomInModal() {
+    const modalBody = document.getElementById('modal-body');
+    if (!modalBody) return;
+    modalBody.innerHTML = `
+      <div class="custom-item-form">
+        <input class="form-input" id="ci-name" placeholder="Item name *">
+        <div class="form-row-split">
+          <input class="form-input" id="ci-qty" type="number" placeholder="Qty" value="1" min="0" step="0.01">
+          <select class="form-input" id="ci-unit">
+            ${Object.entries(UNIT_LABELS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-row-split">
+          <div class="li-price-wrap">
+            <span>$</span>
+            <input class="form-input" id="ci-price" type="number" placeholder="Unit price" min="0" step="0.01">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Labor %</label>
+            <input class="form-input" id="ci-labor" type="number" value="60" min="0" max="100">
+          </div>
+        </div>
+        <textarea class="form-input form-textarea" id="ci-notes" placeholder="Notes (optional)"></textarea>
+        <button class="btn-primary" onclick="App.addCustomItemFromModal()">Add Item</button>
+      </div>
+    `;
+  },
+
+  addCustomItemFromModal() {
+    const name = document.getElementById('ci-name')?.value;
+    if (!name) { alert('Please enter an item name'); return; }
+    const item = {
+      id: 'custom_' + Date.now(),
+      name,
+      qty: parseFloat(document.getElementById('ci-qty')?.value || 1),
+      unit: document.getElementById('ci-unit')?.value || 'ls',
+      unitPrice: parseFloat(document.getElementById('ci-price')?.value || 0),
+      laborPct: parseFloat(document.getElementById('ci-labor')?.value || 60) / 100,
+      notes: document.getElementById('ci-notes')?.value || '',
+      tradeLabel: 'Custom',
+    };
+    if (!this.currentEstimate) this.currentEstimate = this.blankEstimate();
+    this.currentEstimate.lineItems = this.currentEstimate.lineItems || [];
+    this.currentEstimate.lineItems.push(item);
+    this.closeModal();
+    this.recalculate();
+    this.render();
+  },
+
+  addPickerItem(tradeKey, itemId) {
+    const trade = TRADES[tradeKey];
+    if (!trade) return;
+    let foundItem = null;
+    for (const cat of trade.categories) {
+      foundItem = cat.items.find(i => i.id === itemId);
+      if (foundItem) break;
+    }
+    if (!foundItem) return;
+
+    if (!this.currentEstimate) this.currentEstimate = this.blankEstimate();
+    this.currentEstimate.lineItems = this.currentEstimate.lineItems || [];
+    
+    this.currentEstimate.lineItems.push({
+      id: foundItem.id + '_' + Date.now(),
+      name: foundItem.name,
+      qty: 1,
+      unit: foundItem.unit,
+      unitPrice: foundItem.basePrice,
+      laborPct: foundItem.laborPct,
+      tradeLabel: trade.label,
+    });
+    this.recalculate();
+    this.render();
+  },
+
+  addCustomItem() {
+    if (!this.currentEstimate) this.currentEstimate = this.blankEstimate();
+    this.currentEstimate.lineItems = this.currentEstimate.lineItems || [];
+    this.currentEstimate.lineItems.push({
+      id: 'custom_' + Date.now(),
+      name: 'Custom Item',
+      qty: 1,
+      unit: 'ls',
+      unitPrice: 0,
+      laborPct: 0.6,
+      tradeLabel: 'Custom',
+    });
+    this.render();
+  },
+
+  closeModal() {
+    const modal = document.getElementById('item-picker-modal');
+    if (modal) modal.classList.add('hidden');
+  },
+
+  // =============================================
+  // DATA OPERATIONS
+  // =============================================
+  blankEstimate() {
+    return {
+      id: 'est_' + Date.now(),
+      date: Date.now(),
+      status: 'draft',
+      lineItems: [],
+      overhead: DEFAULT_OVERHEAD,
+      profit: DEFAULT_PROFIT,
+      taxRate: DEFAULT_TAX_RATE,
+      depositPct: 30,
+      terms: this.defaultTerms(),
+    };
+  },
+
+  defaultTerms() {
+    return `Payment Terms: ${this.currentEstimate?.depositPct ?? 30}% deposit required to begin work. Remaining balance due upon project completion. Checks payable to ${this.companyInfo.name || '[Company Name]'}. This estimate is valid for 30 days from the date issued. Prices subject to change based on material costs at time of order. Any changes to project scope must be agreed upon in writing. All work guaranteed for 1 year unless otherwise noted.`;
+  },
+
+  updateEstField(field, value) {
+    if (!this.currentEstimate) this.currentEstimate = this.blankEstimate();
+    this.currentEstimate[field] = value;
+  },
+
+  updateLineItem(idx, field, value) {
+    if (!this.currentEstimate?.lineItems) return;
+    this.currentEstimate.lineItems[idx][field] = value;
+  },
+
+  removeLineItem(idx) {
+    if (!this.currentEstimate?.lineItems) return;
+    this.currentEstimate.lineItems.splice(idx, 1);
+    this.render();
+  },
+
+  recalculate() {
+    const totalsSection = document.getElementById('totals-section');
+    if (totalsSection && this.currentEstimate) {
+      totalsSection.innerHTML = this.buildTotalsHTML(this.currentEstimate);
+    }
+    // Update line item subtotals
+    document.querySelectorAll('.line-item-row').forEach((row, idx) => {
+      const item = this.currentEstimate?.lineItems?.[idx];
+      if (item) {
+        const subtotalEl = row.querySelector('.li-subtotal span');
+        if (subtotalEl) subtotalEl.textContent = this.formatCurrency((item.qty || 0) * (item.unitPrice || 0));
+      }
+    });
+  },
+
+  onZipChange(zip) {
+    if (zip.length === 5) {
+      this.recalculate();
+      const zipInfo = document.querySelector('.zip-info');
+      if (zipInfo) {
+        zipInfo.innerHTML = `📍 Regional multiplier: <strong>${(getMultiplier(zip) * 100).toFixed(0)}%</strong> of national average`;
+      } else {
+        this.render();
+      }
+    }
+  },
+
+  saveEstimate() {
+    const est = this.currentEstimate;
+    if (!est) return;
+    if (!est.clientName || !est.projectName) {
+      alert('Please fill in Client Name and Project Name.');
+      return;
+    }
+    const calcs = this.calculateTotals(est);
+    est.total = calcs.total;
+    est.lastModified = Date.now();
+    
+    const existingIdx = this.estimates.findIndex(e => e.id === est.id);
+    if (existingIdx >= 0) {
+      this.estimates[existingIdx] = est;
+    } else {
+      this.estimates.push(est);
+    }
+    this.saveData();
+    alert('✅ Estimate saved!');
+    this.navigate('estimate_detail');
+  },
+
+  editEstimate(id) {
+    const est = this.estimates.find(e => e.id === id);
+    if (est) {
+      this.currentEstimate = JSON.parse(JSON.stringify(est));
+      this.navigate('new_estimate');
+    }
+  },
+
+  openEstimate(id) {
+    const est = this.estimates.find(e => e.id === id);
+    if (est) {
+      this.currentEstimate = est;
+      this.navigate('estimate_detail');
+    }
+  },
+
+  openInvoice(id) {
+    const inv = this.invoices.find(i => i.id === id);
+    if (inv) {
+      this.currentInvoice = inv;
+      this.navigate('invoice_detail');
+    }
+  },
+
+  duplicateEstimate(id) {
+    const est = this.estimates.find(e => e.id === id);
+    if (est) {
+      const dup = JSON.parse(JSON.stringify(est));
+      dup.id = 'est_' + Date.now();
+      dup.date = Date.now();
+      dup.status = 'draft';
+      dup.projectName = dup.projectName + ' (Copy)';
+      this.estimates.push(dup);
+      this.saveData();
+      this.render();
+    }
+  },
+
+  deleteEstimate(id) {
+    if (confirm('Delete this estimate? This cannot be undone.')) {
+      this.estimates = this.estimates.filter(e => e.id !== id);
+      this.saveData();
+      this.render();
+    }
+  },
+
+  deleteInvoice(id) {
+    if (confirm('Delete this invoice? This cannot be undone.')) {
+      this.invoices = this.invoices.filter(i => i.id !== id);
+      this.saveData();
+      this.render();
+    }
+  },
+
+  convertToInvoice() {
+    if (this.currentEstimate) {
+      this.convertEstimateToInvoice(this.currentEstimate.id || '');
+    }
+  },
+
+  convertEstimateToInvoice(id) {
+    const est = id ? this.estimates.find(e => e.id === id) : this.currentEstimate;
+    if (!est) { alert('Please save the estimate first.'); return; }
+
+    const calcs = this.calculateTotals(est);
+    const today = new Date();
+    const dueDate = new Date(today);
+    dueDate.setDate(dueDate.getDate() + 30);
+
+    const invoice = {
+      id: 'inv_' + Date.now(),
+      number: this.invoices.length + 1001,
+      date: Date.now(),
+      dueDate: dueDate.toISOString().split('T')[0],
+      estimateId: est.id,
+      clientName: est.clientName,
+      clientEmail: est.clientEmail,
+      clientPhone: est.clientPhone,
+      projectName: est.projectName,
+      projectAddress: est.projectAddress,
+      projectCity: est.projectCity,
+      projectZip: est.projectZip,
+      lineItems: est.lineItems,
+      ...calcs,
+      status: 'unpaid',
+      terms: est.terms,
+      paymentInfo: this.companyInfo.paymentInfo,
+    };
+
+    this.invoices.push(invoice);
+    this.saveData();
+
+    est.status = 'approved';
+    const estIdx = this.estimates.findIndex(e => e.id === est.id);
+    if (estIdx >= 0) this.estimates[estIdx] = est;
+    this.saveData();
+
+    alert('✅ Invoice created!');
+    this.currentInvoice = invoice;
+    this.navigate('invoice_detail');
+  },
+
+  markInvoicePaid(id) {
+    const inv = this.invoices.find(i => i.id === id);
+    if (inv) {
+      inv.status = 'paid';
+      inv.paidDate = new Date().toISOString().split('T')[0];
+      this.saveData();
+      if (this.currentView === 'invoices') this.render();
+      else alert('✅ Invoice marked as paid!');
+    }
+  },
+
+  previewEstimate() {
+    this.saveEstimate();
+    this.navigate('estimate_detail');
+  },
+
+  printDoc(type) {
+    window.print();
+  },
+
+  printInvoice(id) {
+    this.openInvoice(id);
+    setTimeout(() => window.print(), 300);
+  },
+
+  // =============================================
+  // SETTINGS & SUBSCRIPTION
+  // =============================================
+  updateCompany(field, value) {
+    this.companyInfo[field] = value;
+  },
+
+  saveCompanyInfo() {
+    this.saveData();
+    alert('✅ Company info saved!');
+  },
+
+  handleSubscribe() {
+    // In production: redirect to Stripe payment link
+    // Replace this URL with your actual Stripe payment link
+    const stripeUrl = 'https://buy.stripe.com/your_payment_link_here';
+    if (confirm('You will be redirected to our secure payment page ($5.99/month). Continue?')) {
+      window.open(stripeUrl, '_blank');
+      // After payment: Stripe webhook would activate subscription
+      // For now show demo activation
+      setTimeout(() => {
+        if (confirm('Payment complete? Activate subscription?')) {
+          this.activateDemoSub();
+        }
+      }, 2000);
+    }
+  },
+
+  activateDemoSub() {
+    this.subscription = {
+      active: true,
+      plan: 'monthly',
+      price: 5.99,
+      startDate: Date.now(),
+      renewDate: Date.now() + 30 * 86400000,
+    };
+    this.saveData();
+    alert('✅ Subscription activated!');
+    this.navigate('dashboard');
+  },
+
+  exportData() {
+    const data = {
+      estimates: this.estimates,
+      invoices: this.invoices,
+      company: this.companyInfo,
+      exported: new Date().toISOString(),
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'driftocity-estimate-pro-data.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  },
+
+  confirmClearData() {
+    if (confirm('Clear ALL data? This will delete all estimates and invoices and cannot be undone.')) {
+      localStorage.clear();
+      location.reload();
+    }
+  },
+
+  filterEstimates(query) {
+    const container = document.getElementById('estimates-list-container');
+    if (!container) return;
+    const filtered = this.estimates.filter(e =>
+      (e.projectName || '').toLowerCase().includes(query.toLowerCase()) ||
+      (e.clientName || '').toLowerCase().includes(query.toLowerCase())
+    ).sort((a, b) => b.date - a.date);
+    container.innerHTML = filtered.length === 0 ? '<div class="empty-state"><p>No estimates match your search</p></div>' :
+      filtered.map(est => this.buildEstimateCard(est, true)).join('');
+  },
+
+  filterEstimatesByStatus(status) {
+    const container = document.getElementById('estimates-list-container');
+    if (!container) return;
+    const filtered = (status ? this.estimates.filter(e => e.status === status) : this.estimates)
+      .sort((a, b) => b.date - a.date);
+    container.innerHTML = filtered.length === 0 ? '<div class="empty-state"><p>No estimates found</p></div>' :
+      filtered.map(est => this.buildEstimateCard(est, true)).join('');
+  },
+
+  filterInvoicesByStatus(status) {
+    const container = document.getElementById('invoices-list-container');
+    if (!container) return;
+    const filtered = (status ? this.invoices.filter(i => i.status === status) : this.invoices)
+      .sort((a, b) => b.date - a.date);
+    container.innerHTML = filtered.length === 0 ? '<div class="empty-state"><p>No invoices found</p></div>' :
+      filtered.map(inv => this.buildInvoiceCard(inv)).join('');
+  },
+
+  startEstimateWithTrade(tradeKey) {
+    this.currentEstimate = this.blankEstimate();
+    this.currentEstimate.tradeType = tradeKey;
+    this.navigate('new_estimate');
+  },
+
+  // =============================================
+  // NAVIGATION
+  // =============================================
+  navigate(view) {
+    this.prevView = this.currentView;
+    if (view === 'new_estimate' && this.currentView !== 'new_estimate') {
+      if (this.currentView !== 'new_estimate') {
+        this.currentEstimate = this.blankEstimate();
+      }
+    }
+    this.currentView = view;
+    this.render();
+    window.scrollTo(0, 0);
+  },
+
+  goBack() {
+    const backMap = {
+      new_estimate: 'dashboard',
+      estimates: 'dashboard',
+      invoices: 'dashboard',
+      settings: 'dashboard',
+      subscribe: 'dashboard',
+      estimate_detail: 'estimates',
+      invoice_detail: 'invoices',
+    };
+    this.navigate(backMap[this.currentView] || 'dashboard');
+  },
+
+  // =============================================
+  // UTILS
+  // =============================================
+  formatCurrency(n) {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(n || 0);
+  },
+
+  formatDate(ts) {
+    if (!ts) return '';
+    return new Date(ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  },
+
+  escHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  },
+
+
+  // =============================================
+  // AI SCOPE WRITER
+  // =============================================
+  async generateFromScope() {
+    const input = document.getElementById('ai-scope-input');
+    const resultArea = document.getElementById('ai-result-area');
+    const genBtn = document.getElementById('ai-gen-btn');
+    if (!input || !resultArea) return;
+
+    const scopeText = input.value.trim();
+    if (!scopeText) {
+      resultArea.innerHTML = '<div class="ai-error">Please describe the work first.</div>';
+      return;
+    }
+
+    // Show loading
+    genBtn.disabled = true;
+    resultArea.innerHTML = '<div class="ai-loading"><div class="ai-spinner"></div>Analyzing job scope...</div>';
+
+    // Build trade catalog summary for the prompt
+    const tradeSummary = Object.entries(TRADES).map(([key, trade]) => {
+      const items = trade.categories.flatMap(c => c.items).slice(0, 8);
+      return trade.label + ': ' + items.map(i => i.id + '=' + i.name + '($' + i.basePrice + '/' + i.unit + ')').join(', ');
+    }).join('\n');
+
+    const zip = this.currentEstimate?.projectZip || '';
+    const mult = getMultiplier(zip);
+    const regionNote = zip ? ' Regional multiplier for ZIP ' + zip + ': ' + mult.toFixed(2) + 'x.' : '';
+
+    const prompt = \`You are a professional contractor estimator. A contractor described this job:
+
+"${scopeText.replace(/"/g, '\"').replace(/`/g, '\`')}"
+
+Available line items from our catalog (id=name($basePrice/unit)):
+\${tradeSummary}
+
+\${regionNote}
+
+Return ONLY a JSON array of line items needed for this job. Each object must have:
+- id: matching catalog item id (or "custom_X" for unlisted items)
+- name: item name
+- qty: realistic quantity (number)
+- unit: unit type (sqft/lf/ea/ls/cy/sq/room/day/load/sqyd)
+- unitPrice: base price number (use catalog price if matched, or realistic custom price)
+- laborPct: labor percentage 0-1
+- tradeLabel: trade category name
+- notes: brief note on why this item is needed
+
+Return ONLY the JSON array, no markdown, no explanation.\`;
+
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 1000,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+
+      const data = await response.json();
+      if (data.error) throw new Error(data.error.message);
+
+      const text = data.content.map(b => b.text || '').join('');
+      const clean = text.replace(/\`\`\`json/g, '').replace(/\`\`\`/g, '').trim();
+      const items = JSON.parse(clean);
+
+      if (!Array.isArray(items) || items.length === 0) throw new Error('No items returned');
+
+      this.aiSuggestedItems = items;
+      this.renderAiResults(items, resultArea);
+
+    } catch(err) {
+      console.error('AI error:', err);
+      resultArea.innerHTML = '<div class="ai-error">⚠️ Could not generate items: ' + (err.message || 'Unknown error') + '. Check your connection and try again.</div>';
+    }
+
+    genBtn.disabled = false;
+  },
+
+  renderAiResults(items, resultArea) {
+    if (!resultArea) return;
+    const zip = this.currentEstimate?.projectZip || '';
+    const mult = getMultiplier(zip);
+
+    const itemsHtml = items.map((item, i) => {
+      const adjPrice = (item.unitPrice || 0) * mult;
+      const total = adjPrice * (item.qty || 1);
+      return \`<div class="ai-result-item">
+        <div>
+          <div class="ai-result-name">\${this.escHtml(item.name)}</div>
+          <div class="ai-result-detail">\${item.qty} \${item.unit} · \${this.escHtml(item.tradeLabel || '')} \${item.notes ? '· ' + this.escHtml(item.notes) : ''}</div>
+        </div>
+        <div class="ai-result-price">\${this.formatCurrency(total)}</div>
+      </div>\`;
+    }).join('');
+
+    const totalEstimate = items.reduce((s, item) => {
+      return s + (item.unitPrice || 0) * getMultiplier(zip) * (item.qty || 1);
+    }, 0);
+
+    resultArea.innerHTML = \`
+      <div class="ai-result-preview">
+        \${itemsHtml}
+      </div>
+      <div class="ai-add-bar">
+        <div class="ai-add-count">✨ \${items.length} items · Est. ~\${this.formatCurrency(totalEstimate)} base</div>
+        <button class="btn-ai-add-all" onclick="App.addAiItemsToEstimate()">Add All to Estimate</button>
+      </div>
+    \`;
+  },
+
+  addAiItemsToEstimate() {
+    const items = this.aiSuggestedItems;
+    if (!items || !items.length) return;
+    if (!this.currentEstimate) this.currentEstimate = this.blankEstimate();
+    this.currentEstimate.lineItems = this.currentEstimate.lineItems || [];
+
+    items.forEach(item => {
+      this.currentEstimate.lineItems.push({
+        id: (item.id || 'ai') + '_' + Date.now() + '_' + Math.random().toString(36).slice(2,5),
+        name: item.name || 'Item',
+        qty: parseFloat(item.qty) || 1,
+        unit: item.unit || 'ls',
+        unitPrice: parseFloat(item.unitPrice) || 0,
+        laborPct: parseFloat(item.laborPct) || 0.6,
+        tradeLabel: item.tradeLabel || 'AI Generated',
+        notes: item.notes || '',
+      });
+    });
+
+    this.aiSuggestedItems = null;
+    showToast('✅ ' + items.length + ' items added!', 'success');
+    this.render();
+  },
+
+  clearAiScope() {
+    const input = document.getElementById('ai-scope-input');
+    const resultArea = document.getElementById('ai-result-area');
+    if (input) input.value = '';
+    if (resultArea) resultArea.innerHTML = '';
+    this.aiSuggestedItems = null;
+  },
+
+  attachEventListeners() {
+    // Prevent modal close when clicking inside sheet
+    const sheet = document.getElementById('modal-sheet-content');
+    if (sheet) {
+      sheet.addEventListener('click', e => e.stopPropagation());
+    }
+  }
+};
+
+// Boot
+document.addEventListener('DOMContentLoaded', () => App.init());
+
+// Toast helper
+window.showToast = function(msg, type) {
+  type = type || 'success';
+  var t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.className = 'toast toast-' + type;
+  t.classList.remove('hidden');
+  setTimeout(function(){ t.classList.add('hidden'); }, 3000);
+};
+
+// Override alert for nicer UX
+window._nativeAlert = window.alert;
+window.alert = function(msg) {
+  if (msg && (msg.indexOf('✅') === 0)) {
+    showToast(msg, 'success');
+  } else if (msg && (msg.indexOf('❌') === 0 || msg.indexOf('⚠️') === 0)) {
+    showToast(msg, 'error');
+  } else {
+    window._nativeAlert(msg);
+  }
+};
+
+// Splash removal — called by App.render()
+window.removeSplash = function() {
+  var splash = document.getElementById('splash');
+  if (!splash) return;
+  splash.style.transition = 'opacity 0.3s ease';
+  splash.style.opacity = '0';
+  setTimeout(function(){ if (splash.parentNode) splash.parentNode.removeChild(splash); }, 350);
+};
+
+// PWA install prompt
+var deferredPrompt;
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredPrompt = e;
+  var banner = document.getElementById('install-banner');
+  if (banner && !localStorage.getItem('install_dismissed')) {
+    banner.classList.remove('hidden');
+  }
+});
+document.getElementById('install-btn') && document.getElementById('install-btn').addEventListener('click', function() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(function(){ deferredPrompt = null; });
+  document.getElementById('install-banner').classList.add('hidden');
+});
+document.getElementById('install-dismiss') && document.getElementById('install-dismiss').addEventListener('click', function() {
+  document.getElementById('install-banner').classList.add('hidden');
+  localStorage.setItem('install_dismissed', '1');
+});
+
+// Register service worker if sw.js exists alongside this file
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(function(){});
+}
+
+</script>
+</body>
+</html>
