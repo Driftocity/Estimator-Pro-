@@ -2,12 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <meta name="theme-color" content="#1A1F2E">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Estimate Pro">
 <title>Driftocity Estimate Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
 <style>
 /* =============================================
    CONTRACTORPRO — DESIGN TOKENS
@@ -977,141 +980,28 @@ select.form-input {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 
-/* =============================================
-   AI SCOPE WRITER
-   ============================================= */
-.ai-scope-section {
-  margin: 0 var(--space-md) var(--space-md);
-  background: linear-gradient(135deg, #1e2538, #242938);
-  border: 1px solid #3a4060;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-}
-.ai-scope-header {
-  display: flex; align-items: center; gap: 10px;
-  padding: 14px var(--space-md) 10px;
-  border-bottom: 1px solid #2e3447;
-}
-.ai-scope-badge {
-  display: flex; align-items: center; gap: 6px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  border-radius: 99px; padding: 4px 10px;
-  font-size: 11px; font-weight: 700; color: white;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  box-shadow: 0 2px 8px #6366f140;
-}
-.ai-scope-badge svg { flex-shrink: 0; }
-.ai-scope-title {
-  font-size: 14px; font-weight: 600; color: var(--white);
-  flex: 1;
-}
-.ai-scope-body { padding: var(--space-md); }
-.ai-scope-textarea {
-  width: 100%; padding: 12px 14px;
-  background: #1a1f2e; border: 1px solid #3a4060;
-  border-radius: var(--radius-sm); color: var(--white);
-  font-size: 14px; line-height: 1.6; resize: vertical;
-  min-height: 90px; font-family: var(--font-body);
-  transition: border-color 0.15s;
-}
-.ai-scope-textarea:focus { outline: none; border-color: #6366f1; }
-.ai-scope-textarea::placeholder { color: #4a5270; }
-.ai-scope-actions { display: flex; gap: var(--space-sm); margin-top: 10px; }
-.btn-ai-generate {
-  flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 12px var(--space-md);
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: white; border-radius: var(--radius-md);
-  font-size: 14px; font-weight: 600; letter-spacing: 0.02em;
-  box-shadow: 0 4px 16px #6366f140;
-  transition: transform 0.12s, opacity 0.12s;
-}
-.btn-ai-generate:active { transform: scale(0.97); opacity: 0.9; }
-.btn-ai-generate:disabled { opacity: 0.5; pointer-events: none; }
-.btn-ai-clear {
-  padding: 12px 16px; border-radius: var(--radius-md);
-  background: var(--navy-light); color: var(--steel);
-  font-size: 13px; border: 1px solid var(--navy-light);
-  transition: color 0.12s;
-}
-.btn-ai-clear:active { color: var(--red); }
-.ai-scope-hint {
-  font-size: 11px; color: #4a5270; margin-top: 8px; line-height: 1.5;
-}
-.ai-loading {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  padding: var(--space-md); color: #8b8fff; font-size: 13px;
-}
-.ai-spinner {
-  width: 18px; height: 18px; border: 2px solid #3a3f6a;
-  border-top-color: #6366f1; border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.ai-result-preview {
-  background: #1a1f2e; border: 1px solid #2e3447;
-  border-radius: var(--radius-sm); padding: var(--space-sm);
-  margin-top: 10px;
-}
-.ai-result-item {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 8px 10px; border-bottom: 1px solid #2e3447;
-  font-size: 13px;
-}
-.ai-result-item:last-child { border-bottom: none; }
-.ai-result-name { color: var(--white); font-weight: 500; flex: 1; }
-.ai-result-detail { color: var(--steel); font-size: 12px; text-align: right; }
-.ai-result-price { color: var(--orange); font-weight: 600; font-size: 13px; }
-.ai-add-bar {
-  display: flex; gap: var(--space-sm); margin-top: 10px; align-items: center;
-}
-.ai-add-count { font-size: 12px; color: var(--steel); flex: 1; }
-.btn-ai-add-all {
-  padding: 10px 16px; background: var(--orange); color: white;
-  border-radius: var(--radius-sm); font-size: 13px; font-weight: 600;
-  transition: transform 0.12s;
-}
-.btn-ai-add-all:active { transform: scale(0.97); }
-.ai-error {
-  padding: 10px 14px; background: #2a1a1a; border: 1px solid var(--red);
-  border-radius: var(--radius-sm); color: var(--red); font-size: 13px;
-  margin-top: 10px; line-height: 1.5;
-}
-
 </style>
 </head>
 <body>
 <div id="app">
   <div class="splash-screen" id="splash">
     <div class="splash-inner">
-      <div class="splash-icon">
-        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-          <rect width="64" height="64" rx="16" fill="#FF6B35"/>
-          <path d="M14 46V26L32 12L50 26V46H37V34H27V46H14Z" fill="white"/>
-          <rect x="25" y="36" width="14" height="12" rx="2" fill="#FF6B35"/>
-        </svg>
-      </div>
+      <div class="splash-icon"><svg width="64" height="64" viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="16" fill="#FF6B35"/><path d="M14 46V26L32 12L50 26V46H37V34H27V46H14Z" fill="white"/><rect x="25" y="36" width="14" height="12" rx="2" fill="#FF6B35"/></svg></div>
       <div class="splash-name">Driftocity Estimate Pro</div>
       <div class="splash-sub">Estimates &amp; Invoices</div>
       <div class="splash-loader"><div class="splash-bar"></div></div>
     </div>
   </div>
 </div>
-
 <div id="install-banner" class="install-banner hidden">
   <div class="install-banner-content">
     <div class="install-icon">🏗️</div>
-    <div class="install-text">
-      <strong>Install Driftocity Estimate Pro</strong>
-      <span>Add to home screen for offline access</span>
-    </div>
+    <div class="install-text"><strong>Install Driftocity Estimate Pro</strong><span>Add to home screen for offline access</span></div>
     <button class="install-btn" id="install-btn">Install</button>
     <button class="install-dismiss" id="install-dismiss">✕</button>
   </div>
 </div>
-
 <div id="toast" class="toast hidden"></div>
-
 <script>
 // Regional pricing multipliers by ZIP code prefix (first 3 digits)
 // Base rates are national averages; multipliers adjust for local COL
@@ -1713,1739 +1603,681 @@ const TRADES = {
   }
 };
 
-// Unit labels for display
-const UNIT_LABELS = {
-  sqft: "sq ft", lf: "lin ft", ea: "each", ls: "lump sum",
-  cy: "cu yd", sq: "square (100 sqft)", room: "room",
-  day: "day", load: "load", sqyd: "sq yd"
-};
+// UNIT_LABELS declared in app section below
 
 // Overhead & profit defaults
 const DEFAULT_OVERHEAD = 15; // %
 const DEFAULT_PROFIT = 10;   // %
 const DEFAULT_TAX_RATE = 8.5; // % (materials only)
 
+// Expose to global scope for browser use
 
+// ═══════════════════════════════════════════════
+//  DRIFTOCITY ESTIMATE PRO — MAIN APP
+// ═══════════════════════════════════════════════
 
-// =============================================
-// APP STATE
-// =============================================
+const UNIT_LABELS = {
+  sqft:'sq ft', lf:'lin ft', ea:'each', ls:'lump sum',
+  cy:'cu yd', sq:'square (100sqft)', room:'room',
+  day:'day', load:'load', sqyd:'sq yd'
+};
+const DEF_OVERHEAD = 15;
+const DEF_PROFIT   = 10;
+const DEF_TAX      = 8.5;
+const DEF_DEPOSIT  = 30;
+
 const App = {
-  currentView: 'dashboard',
-  currentEstimate: null,
+  view: 'dashboard',
+  est: null,
+  inv: null,
   estimates: [],
-  invoices: [],
-  subscription: null,
-  companyInfo: {},
-  lineItems: [],
+  invoices:  [],
+  company:   {},
+  sub:       null,
+  trialLeft: 14,
+  aiItems:   null,
 
   init() {
-    this.loadData();
-    this.checkSubscription();
+    try { this.estimates = JSON.parse(localStorage.getItem('dep_e')||'[]'); } catch(e){ this.estimates=[]; }
+    try { this.invoices  = JSON.parse(localStorage.getItem('dep_i')||'[]'); } catch(e){ this.invoices=[];  }
+    try { this.company   = JSON.parse(localStorage.getItem('dep_c')||'{}'); } catch(e){ this.company={};   }
+    try { this.sub       = JSON.parse(localStorage.getItem('dep_s')||'null'); } catch(e){ this.sub=null;   }
+    if (!this.sub) {
+      if (!localStorage.getItem('dep_d')) localStorage.setItem('dep_d', Date.now());
+      const days = Math.floor((Date.now()-parseInt(localStorage.getItem('dep_d')))/86400000);
+      this.trialLeft = Math.max(0,14-days);
+    }
     this.render();
   },
 
-  loadData() {
-    try {
-      this.estimates = JSON.parse(localStorage.getItem('ce_estimates') || '[]');
-      this.invoices = JSON.parse(localStorage.getItem('ce_invoices') || '[]');
-      this.companyInfo = JSON.parse(localStorage.getItem('ce_company') || '{}');
-      this.subscription = JSON.parse(localStorage.getItem('ce_subscription') || 'null');
-    } catch(e) { console.warn('Load error', e); }
+  save() {
+    localStorage.setItem('dep_e', JSON.stringify(this.estimates));
+    localStorage.setItem('dep_i', JSON.stringify(this.invoices));
+    localStorage.setItem('dep_c', JSON.stringify(this.company));
+    localStorage.setItem('dep_s', JSON.stringify(this.sub));
   },
 
-  saveData() {
-    localStorage.setItem('ce_estimates', JSON.stringify(this.estimates));
-    localStorage.setItem('ce_invoices', JSON.stringify(this.invoices));
-    localStorage.setItem('ce_company', JSON.stringify(this.companyInfo));
-    localStorage.setItem('ce_subscription', JSON.stringify(this.subscription));
+  hasSub()    { return this.sub && this.sub.active; },
+  canUse()    { return this.hasSub() || this.trialLeft>0; },
+
+  go(v) {
+    if (v==='new_estimate' && this.view!=='new_estimate') this.est = this.blank();
+    this.view = v;
+    this.render();
+    window.scrollTo(0,0);
   },
 
-  checkSubscription() {
-    if (!this.subscription) {
-      // Check for trial/demo mode
-      const installed = localStorage.getItem('ce_install_date');
-      if (!installed) {
-        localStorage.setItem('ce_install_date', Date.now());
-      }
-      const days = Math.floor((Date.now() - parseInt(localStorage.getItem('ce_install_date'))) / 86400000);
-      this.trialDaysLeft = Math.max(0, 14 - days);
-    }
-  },
-
-  isSubscribed() {
-    return this.subscription && this.subscription.active;
-  },
-
-  canUseApp() {
-    return this.isSubscribed() || (this.trialDaysLeft > 0);
+  back() {
+    const m = {new_estimate:'dashboard',estimates:'dashboard',invoices:'dashboard',settings:'dashboard',subscribe:'dashboard',estimate_detail:'estimates',invoice_detail:'invoices'};
+    this.go(m[this.view]||'dashboard');
   },
 
   render() {
     const root = document.getElementById('app');
     if (!root) return;
-    if (!this.canUseApp() && this.currentView !== 'subscribe' && this.currentView !== 'settings') {
-      this.currentView = 'subscribe';
-    }
-    root.innerHTML = this.buildLayout();
-    this.attachEventListeners();
-    // Remove splash screen now that app has rendered
-    if (typeof window.removeSplash === 'function') window.removeSplash();
+    if (!this.canUse() && this.view!=='subscribe' && this.view!=='settings') this.view='subscribe';
+    root.innerHTML = this.shell();
+    document.querySelectorAll('.modal-sheet').forEach(el => el.addEventListener('click',e=>e.stopPropagation()));
+    // dismiss splash
+    const sp = document.getElementById('splash');
+    if (sp) { sp.style.opacity='0'; setTimeout(()=>{ if(sp.parentNode) sp.parentNode.removeChild(sp); },400); }
   },
 
-  buildLayout() {
-    return `
-      <div class="app-shell">
-        ${this.buildTopBar()}
-        <main class="main-content">
-          ${this.buildView()}
-        </main>
-        ${this.buildBottomNav()}
-      </div>
-    `;
+  shell() {
+    return `<div class="app-shell">${this.topBar()}
+<main class="main-content">${this.page()}</main>
+${this.nav()}</div>`;
   },
 
-  buildTopBar() {
-    const titles = {
-      dashboard: 'Dashboard',
-      new_estimate: this.currentEstimate ? `Edit Estimate` : 'New Estimate',
-      estimates: 'My Estimates',
-      invoices: 'My Invoices',
-      settings: 'Settings',
-      subscribe: 'Subscription',
-      estimate_detail: 'Estimate Detail',
-      invoice_detail: 'Invoice Detail',
-    };
-    return `
-      <header class="top-bar">
-        <div class="top-bar-left">
-          ${this.currentView !== 'dashboard' ? `<button class="btn-icon back-btn" onclick="App.goBack()">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M5 12l7-7M5 12l7 7"/></svg>
-          </button>` : `<div class="app-logo">
-            <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#FF6B35"/><path d="M8 22V14l8-6 8 6v8H19v-5h-6v5H8z" fill="white"/><rect x="13" y="19" width="6" height="5" rx="1" fill="#FF6B35"/></svg>
-          </div>`}
-        </div>
-        <h1 class="top-bar-title">${titles[this.currentView] || 'Driftocity Estimate Pro'}</h1>
-        <div class="top-bar-right">
-          ${!this.isSubscribed() && this.currentView !== 'subscribe' ? `<span class="trial-badge">${this.trialDaysLeft}d trial</span>` : ''}
-          ${this.currentView === 'estimate_detail' && this.currentEstimate ? 
-            `<button class="btn-icon" onclick="App.convertToInvoice()">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-            </button>` : ''}
-        </div>
-      </header>
-    `;
+  topBar() {
+    const titles = {dashboard:'Dashboard',new_estimate:'New Estimate',estimates:'My Estimates',invoices:'My Invoices',settings:'Settings',subscribe:'Subscription',estimate_detail:'Estimate',invoice_detail:'Invoice'};
+    const back = this.view!=='dashboard'
+      ? `<button class="btn-icon" onclick="App.back()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M5 12l7-7M5 12l7 7"/></svg></button>`
+      : `<div class="app-logo"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#FF6B35"/><path d="M8 22V14l8-6 8 6v8H19v-5h-6v5H8z" fill="white"/></svg></div>`;
+    const badge = !this.hasSub()&&this.view!=='subscribe' ? `<span class="trial-badge">${this.trialLeft}d trial</span>` : '';
+    return `<header class="top-bar"><div class="top-bar-left">${back}</div><h1 class="top-bar-title">${titles[this.view]||'Driftocity'}</h1><div class="top-bar-right">${badge}</div></header>`;
   },
 
-  buildBottomNav() {
-    const navItems = [
-      { view: 'dashboard', icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`, label: 'Home' },
-      { view: 'estimates', icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`, label: 'Estimates' },
-      { view: 'new_estimate', icon: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>`, label: 'New', fab: true },
-      { view: 'invoices', icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`, label: 'Invoices' },
-      { view: 'settings', icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`, label: 'Settings' },
+  nav() {
+    const items = [
+      {v:'dashboard',l:'Home',i:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`},
+      {v:'estimates',l:'Estimates',i:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`},
+      {v:'new_estimate',l:'New',fab:true,i:`<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>`},
+      {v:'invoices',l:'Invoices',i:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`},
+      {v:'settings',l:'Settings',i:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`},
     ];
-
-    return `
-      <nav class="bottom-nav">
-        ${navItems.map(item => `
-          <button class="nav-item ${item.fab ? 'nav-fab' : ''} ${this.currentView === item.view ? 'active' : ''}"
-            onclick="App.navigate('${item.view}')">
-            <span class="nav-icon">${item.icon}</span>
-            <span class="nav-label">${item.label}</span>
-          </button>
-        `).join('')}
-      </nav>
-    `;
+    return `<nav class="bottom-nav">${items.map(it=>`<button class="nav-item${it.fab?' nav-fab':''}${this.view===it.v?' active':''}" onclick="App.go('${it.v}')"><span class="nav-icon">${it.i}</span><span class="nav-label">${it.l}</span></button>`).join('')}</nav>`;
   },
 
-  buildView() {
-    switch(this.currentView) {
-      case 'dashboard': return this.viewDashboard();
-      case 'new_estimate': return this.viewNewEstimate();
-      case 'estimates': return this.viewEstimates();
-      case 'invoices': return this.viewInvoices();
-      case 'settings': return this.viewSettings();
-      case 'subscribe': return this.viewSubscribe();
-      case 'estimate_detail': return this.viewEstimateDetail();
-      case 'invoice_detail': return this.viewInvoiceDetail();
-      default: return this.viewDashboard();
+  page() {
+    switch(this.view) {
+      case 'dashboard':        return this.pgDash();
+      case 'new_estimate':     return this.pgBuilder();
+      case 'estimates':        return this.pgEstimates();
+      case 'invoices':         return this.pgInvoices();
+      case 'settings':         return this.pgSettings();
+      case 'subscribe':        return this.pgSubscribe();
+      case 'estimate_detail':  return this.pgEstDetail();
+      case 'invoice_detail':   return this.pgInvDetail();
+      default: return this.pgDash();
     }
   },
 
-  // =============================================
-  // DASHBOARD VIEW
-  // =============================================
-  viewDashboard() {
-    const totalEstimated = this.estimates.reduce((s, e) => s + (e.total || 0), 0);
-    const totalInvoiced = this.invoices.reduce((s, i) => s + (i.total || 0), 0);
-    const totalPaid = this.invoices.filter(i => i.status === 'paid').reduce((s, i) => s + (i.total || 0), 0);
-    const recentEstimates = [...this.estimates].sort((a, b) => b.date - a.date).slice(0, 3);
-    const company = this.companyInfo.name || 'Your Company';
-
-    return `
-      <div class="view-dashboard">
-        <div class="dashboard-hero">
-          <div class="hero-greeting">
-            <p class="hero-sub">Welcome back</p>
-            <h2 class="hero-name">${company}</h2>
-          </div>
-          <button class="btn-new-estimate" onclick="App.navigate('new_estimate')">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            New Estimate
-          </button>
-        </div>
-
-        <div class="stats-grid">
-          <div class="stat-card accent-orange">
-            <div class="stat-label">Estimated</div>
-            <div class="stat-value">${this.formatCurrency(totalEstimated)}</div>
-            <div class="stat-sub">${this.estimates.length} estimates</div>
-          </div>
-          <div class="stat-card accent-blue">
-            <div class="stat-label">Invoiced</div>
-            <div class="stat-value">${this.formatCurrency(totalInvoiced)}</div>
-            <div class="stat-sub">${this.invoices.length} invoices</div>
-          </div>
-          <div class="stat-card accent-green">
-            <div class="stat-label">Collected</div>
-            <div class="stat-value">${this.formatCurrency(totalPaid)}</div>
-            <div class="stat-sub">${this.invoices.filter(i => i.status === 'paid').length} paid</div>
-          </div>
-          <div class="stat-card accent-purple">
-            <div class="stat-label">Outstanding</div>
-            <div class="stat-value">${this.formatCurrency(totalInvoiced - totalPaid)}</div>
-            <div class="stat-sub">${this.invoices.filter(i => i.status !== 'paid').length} pending</div>
-          </div>
-        </div>
-
-        ${recentEstimates.length ? `
-          <div class="section-block">
-            <div class="section-header">
-              <h3>Recent Estimates</h3>
-              <button class="btn-link" onclick="App.navigate('estimates')">See all</button>
-            </div>
-            ${recentEstimates.map(est => this.buildEstimateCard(est)).join('')}
-          </div>
-        ` : `
-          <div class="empty-state">
-            <div class="empty-icon">📋</div>
-            <h3>No estimates yet</h3>
-            <p>Tap "New Estimate" to create your first quote</p>
-          </div>
-        `}
-
-        <div class="section-block">
-          <h3>Contractor Trades</h3>
-          <div class="trade-pills">
-            ${Object.entries(TRADES).map(([key, trade]) => `
-              <button class="trade-pill" onclick="App.startEstimateWithTrade('${key}')">
-                <span>${trade.icon}</span>
-                <span>${trade.label}</span>
-              </button>
-            `).join('')}
-          </div>
-        </div>
-      </div>
-    `;
+  // ─── DASHBOARD ────────────────────────────────────────────────
+  pgDash() {
+    const tE  = this.estimates.reduce((s,e)=>s+(e.total||0),0);
+    const tI  = this.invoices.reduce((s,i)=>s+(i.total||0),0);
+    const tP  = this.invoices.filter(i=>i.status==='paid').reduce((s,i)=>s+(i.total||0),0);
+    const rec = [...this.estimates].sort((a,b)=>b.date-a.date).slice(0,3);
+    const co  = this.esc(this.company.name||'Your Company');
+    return `<div class="view-dashboard">
+<div class="dashboard-hero">
+  <div class="hero-greeting"><p class="hero-sub">Welcome back</p><h2 class="hero-name">${co}</h2></div>
+  <button class="btn-new-estimate" onclick="App.go('new_estimate')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>New Estimate</button>
+</div>
+<div class="stats-grid">
+  <div class="stat-card accent-orange"><div class="stat-label">Estimated</div><div class="stat-value">${this.fmt(tE)}</div><div class="stat-sub">${this.estimates.length} estimates</div></div>
+  <div class="stat-card accent-blue"><div class="stat-label">Invoiced</div><div class="stat-value">${this.fmt(tI)}</div><div class="stat-sub">${this.invoices.length} invoices</div></div>
+  <div class="stat-card accent-green"><div class="stat-label">Collected</div><div class="stat-value">${this.fmt(tP)}</div><div class="stat-sub">${this.invoices.filter(i=>i.status==='paid').length} paid</div></div>
+  <div class="stat-card accent-purple"><div class="stat-label">Outstanding</div><div class="stat-value">${this.fmt(tI-tP)}</div><div class="stat-sub">${this.invoices.filter(i=>i.status!=='paid').length} pending</div></div>
+</div>
+${rec.length
+  ? `<div class="section-block"><div class="section-header"><h3>Recent Estimates</h3><button class="btn-link" onclick="App.go('estimates')">See all</button></div>${rec.map(e=>this.estCard(e,false)).join('')}</div>`
+  : `<div class="empty-state"><div class="empty-icon">📋</div><h3>No estimates yet</h3><p>Tap New Estimate to get started</p></div>`}
+<div class="section-block"><h3>Quick Start by Trade</h3><div class="trade-pills">
+${Object.entries(TRADES).map(([k,t])=>`<button class="trade-pill" onclick="App.startTrade('${k}')">${t.icon} ${t.label}</button>`).join('')}
+</div></div></div>`;
   },
 
-  // =============================================
-  // NEW ESTIMATE VIEW
-  // =============================================
-  viewNewEstimate() {
-    const est = this.currentEstimate || this.blankEstimate();
-    
-    return `
-      <div class="view-estimate-builder">
-        <!-- CLIENT INFO -->
-        <div class="form-section">
-          <h3 class="section-title">Client Information</h3>
-          <div class="form-row">
-            <input class="form-input" id="client_name" placeholder="Client Name *" value="${est.clientName || ''}" onchange="App.updateEstField('clientName', this.value)">
-          </div>
-          <div class="form-row">
-            <input class="form-input" id="client_email" placeholder="Email" type="email" value="${est.clientEmail || ''}" onchange="App.updateEstField('clientEmail', this.value)">
-          </div>
-          <div class="form-row">
-            <input class="form-input" id="client_phone" placeholder="Phone" type="tel" value="${est.clientPhone || ''}" onchange="App.updateEstField('clientPhone', this.value)">
-          </div>
-          <div class="form-row">
-            <input class="form-input" id="project_address" placeholder="Project Address" value="${est.projectAddress || ''}" onchange="App.updateEstField('projectAddress', this.value)">
-          </div>
-          <div class="form-row-split">
-            <input class="form-input" id="project_city" placeholder="City" value="${est.projectCity || ''}" onchange="App.updateEstField('projectCity', this.value)">
-            <input class="form-input zip-input" id="project_zip" placeholder="ZIP Code" maxlength="5" value="${est.projectZip || ''}" 
-              onchange="App.updateEstField('projectZip', this.value); App.onZipChange(this.value)">
-          </div>
-          ${est.projectZip ? `<div class="zip-info">📍 Regional multiplier: <strong>${(getMultiplier(est.projectZip) * 100).toFixed(0)}%</strong> of national average</div>` : ''}
-        </div>
-
-        <!-- PROJECT INFO -->
-        <div class="form-section">
-          <h3 class="section-title">Project Details</h3>
-          <div class="form-row">
-            <input class="form-input" id="project_name" placeholder="Project Name / Description *" value="${est.projectName || ''}" onchange="App.updateEstField('projectName', this.value)">
-          </div>
-          <div class="form-row-split">
-            <select class="form-input" id="trade_type" onchange="App.updateEstField('tradeType', this.value); App.render()">
-              <option value="">Select Trade Type</option>
-              ${Object.entries(TRADES).map(([key, t]) => `
-                <option value="${key}" ${est.tradeType === key ? 'selected' : ''}>${t.icon} ${t.label}</option>
-              `).join('')}
-            </select>
-            <select class="form-input" id="est_status" onchange="App.updateEstField('status', this.value)">
-              <option value="draft" ${est.status === 'draft' ? 'selected' : ''}>Draft</option>
-              <option value="sent" ${est.status === 'sent' ? 'selected' : ''}>Sent</option>
-              <option value="approved" ${est.status === 'approved' ? 'selected' : ''}>Approved</option>
-              <option value="declined" ${est.status === 'declined' ? 'selected' : ''}>Declined</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <textarea class="form-input form-textarea" id="project_notes" placeholder="Project notes / scope description..." 
-              onchange="App.updateEstField('notes', this.value)">${est.notes || ''}</textarea>
-          </div>
-          <div class="form-row-split">
-            <div class="form-group">
-              <label class="form-label">Valid Until</label>
-              <input class="form-input" type="date" id="valid_until" value="${est.validUntil || ''}" onchange="App.updateEstField('validUntil', this.value)">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Est. Start Date</label>
-              <input class="form-input" type="date" id="start_date" value="${est.startDate || ''}" onchange="App.updateEstField('startDate', this.value)">
-            </div>
-          </div>
-        </div>
-
-
-        <!-- AI SCOPE WRITER -->
-        <div class="ai-scope-section">
-          <div class="ai-scope-header">
-            <div class="ai-scope-badge">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-              AI
-            </div>
-            <div class="ai-scope-title">Describe the Job</div>
-          </div>
-          <div class="ai-scope-body">
-            <textarea class="ai-scope-textarea" id="ai-scope-input"
-              placeholder="e.g. Replace master bath — demo tile, new shower pan, retile walls 60 sqft, replace toilet and vanity, paint ceiling..."></textarea>
-            <div class="ai-scope-actions">
-              <button class="btn-ai-generate" id="ai-gen-btn" onclick="App.generateFromScope()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                Generate Line Items
-              </button>
-              <button class="btn-ai-clear" onclick="App.clearAiScope()">Clear</button>
-            </div>
-            <div class="ai-scope-hint">Describe the work in plain English — AI will identify the right line items, quantities, and trade pricing.</div>
-            <div id="ai-result-area"></div>
-          </div>
-        </div>
-
-        <!-- LINE ITEMS -->
-        <div class="form-section">
-          <div class="section-header">
-            <h3 class="section-title">Line Items</h3>
-            <button class="btn-add" onclick="App.showItemPicker()">+ Add Item</button>
-          </div>
-
-          ${est.tradeType && TRADES[est.tradeType] ? `
-            <div class="quick-add-bar">
-              <p class="quick-add-label">Quick add from ${TRADES[est.tradeType].label}:</p>
-              <div class="quick-add-categories">
-                ${TRADES[est.tradeType].categories.map((cat, ci) => `
-                  <button class="quick-cat-btn" onclick="App.showCategoryItems('${est.tradeType}', ${ci})">
-                    ${cat.name}
-                  </button>
-                `).join('')}
-              </div>
-            </div>
-          ` : ''}
-
-          <div id="line-items-list">
-            ${(est.lineItems || []).length === 0 ? `
-              <div class="empty-items">
-                <p>No line items yet. Add items above or pick a trade type for quick-add options.</p>
-              </div>
-            ` : `
-              ${est.lineItems.map((item, idx) => this.buildLineItemRow(item, idx)).join('')}
-            `}
-          </div>
-
-          <button class="btn-add-custom" onclick="App.addCustomItem()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Add Custom Line Item
-          </button>
-        </div>
-
-        <!-- PRICING SETTINGS -->
-        <div class="form-section">
-          <h3 class="section-title">Pricing Settings</h3>
-          <div class="form-row-split">
-            <div class="form-group">
-              <label class="form-label">Overhead %</label>
-              <input class="form-input" type="number" min="0" max="50" value="${est.overhead ?? DEFAULT_OVERHEAD}" 
-                onchange="App.updateEstField('overhead', parseFloat(this.value)); App.recalculate()">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Profit Margin %</label>
-              <input class="form-input" type="number" min="0" max="50" value="${est.profit ?? DEFAULT_PROFIT}" 
-                onchange="App.updateEstField('profit', parseFloat(this.value)); App.recalculate()">
-            </div>
-          </div>
-          <div class="form-row-split">
-            <div class="form-group">
-              <label class="form-label">Sales Tax % (materials)</label>
-              <input class="form-input" type="number" min="0" max="15" step="0.1" value="${est.taxRate ?? DEFAULT_TAX_RATE}" 
-                onchange="App.updateEstField('taxRate', parseFloat(this.value)); App.recalculate()">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Deposit Required %</label>
-              <input class="form-input" type="number" min="0" max="100" value="${est.depositPct ?? 30}" 
-                onchange="App.updateEstField('depositPct', parseFloat(this.value)); App.recalculate()">
-            </div>
-          </div>
-        </div>
-
-        <!-- TOTALS -->
-        <div class="totals-card" id="totals-section">
-          ${this.buildTotalsHTML(est)}
-        </div>
-
-        <!-- TERMS -->
-        <div class="form-section">
-          <h3 class="section-title">Terms & Conditions</h3>
-          <textarea class="form-input form-textarea" id="terms" 
-            onchange="App.updateEstField('terms', this.value)"
-            placeholder="Payment terms, warranty info, scope exclusions...">${est.terms || this.defaultTerms()}</textarea>
-        </div>
-
-        <!-- ACTIONS -->
-        <div class="action-buttons">
-          <button class="btn-primary" onclick="App.saveEstimate()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-            Save Estimate
-          </button>
-          <button class="btn-secondary" onclick="App.previewEstimate()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            Preview PDF
-          </button>
-          <button class="btn-secondary" onclick="App.convertToInvoice()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Convert to Invoice
-          </button>
-        </div>
-
-        <!-- ITEM PICKER MODAL -->
-        <div id="item-picker-modal" class="modal hidden">
-          <div class="modal-backdrop" onclick="App.closeModal()"></div>
-          <div class="modal-sheet" id="modal-sheet-content">
-            <!-- Dynamic content -->
-          </div>
-        </div>
-      </div>
-    `;
-  },
-
-  buildLineItemRow(item, idx) {
-    const subtotal = (item.qty || 0) * (item.unitPrice || 0);
-    return `
-      <div class="line-item-row" data-idx="${idx}">
-        <div class="line-item-top">
-          <div class="line-item-name-wrap">
-            <input class="li-name" value="${this.escHtml(item.name)}" placeholder="Item name"
-              onchange="App.updateLineItem(${idx}, 'name', this.value)">
-            <span class="li-trade-badge">${item.tradeLabel || ''}</span>
-          </div>
-          <button class="li-delete" onclick="App.removeLineItem(${idx})">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
-          </button>
-        </div>
-        <div class="line-item-bottom">
-          <div class="li-field">
-            <label>Qty</label>
-            <input type="number" min="0" step="0.01" value="${item.qty || 1}" 
-              onchange="App.updateLineItem(${idx}, 'qty', parseFloat(this.value)); App.recalculate()">
-          </div>
-          <div class="li-field">
-            <label>Unit</label>
-            <select onchange="App.updateLineItem(${idx}, 'unit', this.value)">
-              ${Object.entries(UNIT_LABELS).map(([k, v]) => `<option value="${k}" ${item.unit === k ? 'selected' : ''}>${v}</option>`).join('')}
-            </select>
-          </div>
-          <div class="li-field">
-            <label>Unit Price</label>
-            <div class="li-price-wrap">
-              <span>$</span>
-              <input type="number" min="0" step="0.01" value="${item.unitPrice || 0}" 
-                onchange="App.updateLineItem(${idx}, 'unitPrice', parseFloat(this.value)); App.recalculate()">
-            </div>
-          </div>
-          <div class="li-subtotal">
-            <label>Subtotal</label>
-            <span>${this.formatCurrency(subtotal)}</span>
-          </div>
-        </div>
-        <div class="li-split-row">
-          <div class="li-toggle-wrap">
-            <label class="li-toggle-label">Labor</label>
-            <span class="li-pct">${Math.round((item.laborPct || 0.6) * 100)}%</span>
-          </div>
-          <div class="li-toggle-wrap">
-            <label class="li-toggle-label">Materials</label>
-            <span class="li-pct">${Math.round((1 - (item.laborPct || 0.6)) * 100)}%</span>
-          </div>
-          <div class="li-field">
-            <label>Labor %</label>
-            <input type="number" min="0" max="100" value="${Math.round((item.laborPct || 0.6) * 100)}"
-              onchange="App.updateLineItem(${idx}, 'laborPct', this.value/100); App.recalculate()">
-          </div>
-        </div>
-        ${item.notes ? `<div class="li-notes">${item.notes}</div>` : ''}
-      </div>
-    `;
-  },
-
-  buildTotalsHTML(est) {
-    const calcs = this.calculateTotals(est);
-    return `
-      <div class="totals-inner">
-        <div class="totals-row"><span>Labor Subtotal</span><span>${this.formatCurrency(calcs.laborSubtotal)}</span></div>
-        <div class="totals-row"><span>Materials Subtotal</span><span>${this.formatCurrency(calcs.materialsSubtotal)}</span></div>
-        <div class="totals-divider"></div>
-        <div class="totals-row"><span>Base Subtotal</span><span>${this.formatCurrency(calcs.baseSubtotal)}</span></div>
-        <div class="totals-row muted"><span>Overhead (${est.overhead ?? DEFAULT_OVERHEAD}%)</span><span>${this.formatCurrency(calcs.overheadAmount)}</span></div>
-        <div class="totals-row muted"><span>Profit Margin (${est.profit ?? DEFAULT_PROFIT}%)</span><span>${this.formatCurrency(calcs.profitAmount)}</span></div>
-        <div class="totals-row muted"><span>Materials Tax (${est.taxRate ?? DEFAULT_TAX_RATE}%)</span><span>${this.formatCurrency(calcs.taxAmount)}</span></div>
-        <div class="totals-divider"></div>
-        <div class="totals-row total"><span>TOTAL</span><span>${this.formatCurrency(calcs.total)}</span></div>
-        <div class="totals-row deposit"><span>Required Deposit (${est.depositPct ?? 30}%)</span><span>${this.formatCurrency(calcs.depositAmount)}</span></div>
-        <div class="totals-row"><span>Balance Due</span><span>${this.formatCurrency(calcs.balanceDue)}</span></div>
-        ${est.projectZip ? `<div class="totals-note">💡 Prices adjusted for ZIP ${est.projectZip} (${(getMultiplier(est.projectZip)*100).toFixed(0)}% regional rate)</div>` : ''}
-      </div>
-    `;
-  },
-
-  calculateTotals(est) {
-    const mult = getMultiplier(est.projectZip || '');
-    const items = est.lineItems || [];
-    let laborSubtotal = 0, materialsSubtotal = 0;
-    
-    items.forEach(item => {
-      const lineTotal = (item.qty || 0) * (item.unitPrice || 0);
-      const lp = item.laborPct ?? 0.6;
-      laborSubtotal += lineTotal * lp;
-      materialsSubtotal += lineTotal * (1 - lp);
-    });
-
-    // Apply regional multiplier
-    laborSubtotal *= mult;
-    materialsSubtotal *= mult;
-
-    const baseSubtotal = laborSubtotal + materialsSubtotal;
-    const overheadPct = (est.overhead ?? DEFAULT_OVERHEAD) / 100;
-    const profitPct = (est.profit ?? DEFAULT_PROFIT) / 100;
-    const taxPct = (est.taxRate ?? DEFAULT_TAX_RATE) / 100;
-
-    const overheadAmount = baseSubtotal * overheadPct;
-    const profitAmount = (baseSubtotal + overheadAmount) * profitPct;
-    const taxAmount = materialsSubtotal * taxPct;
-    const total = baseSubtotal + overheadAmount + profitAmount + taxAmount;
-    const depositPct = (est.depositPct ?? 30) / 100;
-    const depositAmount = total * depositPct;
-    const balanceDue = total - depositAmount;
-
-    return { laborSubtotal, materialsSubtotal, baseSubtotal, overheadAmount, profitAmount, taxAmount, total, depositAmount, balanceDue };
-  },
-
-  // =============================================
-  // ESTIMATES LIST VIEW
-  // =============================================
-  viewEstimates() {
-    const sorted = [...this.estimates].sort((a, b) => b.date - a.date);
-    return `
-      <div class="view-list">
-        <div class="list-filter-bar">
-          <input class="search-input" placeholder="🔍 Search estimates..." oninput="App.filterEstimates(this.value)" id="est-search">
-          <select class="filter-select" onchange="App.filterEstimatesByStatus(this.value)">
-            <option value="">All Status</option>
-            <option value="draft">Draft</option>
-            <option value="sent">Sent</option>
-            <option value="approved">Approved</option>
-            <option value="declined">Declined</option>
-          </select>
-        </div>
-        <div id="estimates-list-container">
-          ${sorted.length === 0 ? `<div class="empty-state"><div class="empty-icon">📋</div><h3>No estimates yet</h3><p>Create your first estimate to get started</p></div>` :
-            sorted.map(est => this.buildEstimateCard(est, true)).join('')
-          }
-        </div>
-      </div>
-    `;
-  },
-
-  buildEstimateCard(est, showActions = false) {
-    const statusColors = { draft: '#888', sent: '#2196F3', approved: '#4CAF50', declined: '#F44336' };
-    const calcs = this.calculateTotals(est);
-    return `
-      <div class="list-card" onclick="App.openEstimate('${est.id}')">
-        <div class="card-top">
-          <div class="card-info">
-            <h4 class="card-title">${this.escHtml(est.projectName || 'Untitled Project')}</h4>
-            <p class="card-sub">${this.escHtml(est.clientName || 'No client')} · ${est.projectZip ? est.projectCity + ', ' + est.projectZip : ''}</p>
-            <p class="card-meta">${this.formatDate(est.date)} · ${TRADES[est.tradeType]?.icon || '🔨'} ${TRADES[est.tradeType]?.label || 'General'}</p>
-          </div>
-          <div class="card-right">
-            <div class="card-amount">${this.formatCurrency(calcs.total)}</div>
-            <span class="status-badge" style="background:${statusColors[est.status] || '#888'}20; color:${statusColors[est.status] || '#888'}">
-              ${est.status || 'draft'}
-            </span>
-          </div>
-        </div>
-        ${showActions ? `
-          <div class="card-actions" onclick="event.stopPropagation()">
-            <button class="card-btn" onclick="App.editEstimate('${est.id}')">Edit</button>
-            <button class="card-btn" onclick="App.duplicateEstimate('${est.id}')">Duplicate</button>
-            <button class="card-btn" onclick="App.convertEstimateToInvoice('${est.id}')">→ Invoice</button>
-            <button class="card-btn danger" onclick="App.deleteEstimate('${est.id}')">Delete</button>
-          </div>
-        ` : ''}
-      </div>
-    `;
-  },
-
-  // =============================================
-  // INVOICES LIST VIEW
-  // =============================================
-  viewInvoices() {
-    const sorted = [...this.invoices].sort((a, b) => b.date - a.date);
-    return `
-      <div class="view-list">
-        <div class="list-filter-bar">
-          <input class="search-input" placeholder="🔍 Search invoices..." id="inv-search">
-          <select class="filter-select" onchange="App.filterInvoicesByStatus(this.value)">
-            <option value="">All Status</option>
-            <option value="unpaid">Unpaid</option>
-            <option value="partial">Partial</option>
-            <option value="paid">Paid</option>
-            <option value="overdue">Overdue</option>
-          </select>
-        </div>
-        <div id="invoices-list-container">
-          ${sorted.length === 0 ? `<div class="empty-state"><div class="empty-icon">📄</div><h3>No invoices yet</h3><p>Convert an estimate to create your first invoice</p></div>` :
-            sorted.map(inv => this.buildInvoiceCard(inv)).join('')
-          }
-        </div>
-      </div>
-    `;
-  },
-
-  buildInvoiceCard(inv) {
-    const statusColors = { unpaid: '#FF6B35', partial: '#FF9800', paid: '#4CAF50', overdue: '#F44336' };
-    const isPastDue = inv.dueDate && new Date(inv.dueDate) < new Date() && inv.status !== 'paid';
-    const displayStatus = isPastDue && inv.status !== 'paid' ? 'overdue' : (inv.status || 'unpaid');
-    return `
-      <div class="list-card" onclick="App.openInvoice('${inv.id}')">
-        <div class="card-top">
-          <div class="card-info">
-            <h4 class="card-title">Invoice #${inv.number || inv.id.slice(-6).toUpperCase()}</h4>
-            <p class="card-sub">${this.escHtml(inv.clientName || 'No client')} · ${this.escHtml(inv.projectName || '')}</p>
-            <p class="card-meta">Issued: ${this.formatDate(inv.date)}${inv.dueDate ? ' · Due: ' + inv.dueDate : ''}</p>
-          </div>
-          <div class="card-right">
-            <div class="card-amount">${this.formatCurrency(inv.total || 0)}</div>
-            <span class="status-badge" style="background:${statusColors[displayStatus] || '#888'}20; color:${statusColors[displayStatus] || '#888'}">
-              ${displayStatus}
-            </span>
-          </div>
-        </div>
-        <div class="card-actions" onclick="event.stopPropagation()">
-          <button class="card-btn" onclick="App.markInvoicePaid('${inv.id}')">Mark Paid</button>
-          <button class="card-btn" onclick="App.printInvoice('${inv.id}')">Print/PDF</button>
-          <button class="card-btn danger" onclick="App.deleteInvoice('${inv.id}')">Delete</button>
-        </div>
-      </div>
-    `;
-  },
-
-  // =============================================
-  // ESTIMATE DETAIL VIEW
-  // =============================================
-  viewEstimateDetail() {
-    const est = this.currentEstimate;
-    if (!est) return '<div class="empty-state">Estimate not found</div>';
-    const calcs = this.calculateTotals(est);
-    const trade = TRADES[est.tradeType];
-
-    return `
-      <div class="view-detail">
-        <div class="detail-header">
-          <div class="detail-number">ESTIMATE #${est.id.slice(-6).toUpperCase()}</div>
-          <div class="detail-date">${this.formatDate(est.date)}</div>
-        </div>
-
-        ${this.buildCompanyHeader()}
-        
-        <div class="detail-parties">
-          <div class="detail-party">
-            <div class="party-label">Bill To:</div>
-            <div class="party-name">${this.escHtml(est.clientName)}</div>
-            <div class="party-address">${this.escHtml(est.projectAddress || '')}</div>
-            <div class="party-address">${this.escHtml(est.projectCity || '')}${est.projectZip ? ', ' + est.projectZip : ''}</div>
-            ${est.clientEmail ? `<div class="party-contact">${this.escHtml(est.clientEmail)}</div>` : ''}
-            ${est.clientPhone ? `<div class="party-contact">${this.escHtml(est.clientPhone)}</div>` : ''}
-          </div>
-          <div class="detail-party">
-            <div class="party-label">Project:</div>
-            <div class="party-name">${this.escHtml(est.projectName)}</div>
-            ${trade ? `<div class="party-trade">${trade.icon} ${trade.label}</div>` : ''}
-            ${est.validUntil ? `<div class="party-contact">Valid Until: ${est.validUntil}</div>` : ''}
-            ${est.startDate ? `<div class="party-contact">Est. Start: ${est.startDate}</div>` : ''}
-          </div>
-        </div>
-
-        ${est.notes ? `<div class="detail-notes"><strong>Project Scope:</strong> ${this.escHtml(est.notes)}</div>` : ''}
-
-        <table class="items-table">
-          <thead>
-            <tr>
-              <th>Description</th>
-              <th>Qty</th>
-              <th>Unit</th>
-              <th>Unit Price</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${(est.lineItems || []).map(item => {
-              const mult = getMultiplier(est.projectZip || '');
-              const adjustedPrice = (item.unitPrice || 0) * mult;
-              const total = (item.qty || 0) * adjustedPrice;
-              return `
-                <tr>
-                  <td class="item-name-cell">${this.escHtml(item.name)}${item.tradeLabel ? `<span class="item-trade-tag">${item.tradeLabel}</span>` : ''}</td>
-                  <td class="right">${item.qty || 0}</td>
-                  <td>${UNIT_LABELS[item.unit] || item.unit || ''}</td>
-                  <td class="right">${this.formatCurrency(adjustedPrice)}</td>
-                  <td class="right">${this.formatCurrency(total)}</td>
-                </tr>
-              `;
-            }).join('')}
-          </tbody>
-        </table>
-
-        <div class="detail-totals">
-          <div class="dt-row"><span>Labor</span><span>${this.formatCurrency(calcs.laborSubtotal)}</span></div>
-          <div class="dt-row"><span>Materials</span><span>${this.formatCurrency(calcs.materialsSubtotal)}</span></div>
-          <div class="dt-row"><span>Overhead (${est.overhead ?? DEFAULT_OVERHEAD}%)</span><span>${this.formatCurrency(calcs.overheadAmount)}</span></div>
-          <div class="dt-row"><span>Profit Margin (${est.profit ?? DEFAULT_PROFIT}%)</span><span>${this.formatCurrency(calcs.profitAmount)}</span></div>
-          <div class="dt-row"><span>Tax (materials)</span><span>${this.formatCurrency(calcs.taxAmount)}</span></div>
-          <div class="dt-row dt-total"><span>TOTAL</span><span>${this.formatCurrency(calcs.total)}</span></div>
-          <div class="dt-row dt-deposit"><span>Deposit Required (${est.depositPct ?? 30}%)</span><span>${this.formatCurrency(calcs.depositAmount)}</span></div>
-          <div class="dt-row"><span>Balance Due on Completion</span><span>${this.formatCurrency(calcs.balanceDue)}</span></div>
-        </div>
-
-        ${est.terms ? `<div class="detail-terms"><h4>Terms & Conditions</h4><p>${this.escHtml(est.terms)}</p></div>` : ''}
-
-        <div class="action-buttons">
-          <button class="btn-primary" onclick="App.editEstimate('${est.id}')">
-            ✏️ Edit Estimate
-          </button>
-          <button class="btn-secondary" onclick="App.printDoc('estimate')">
-            🖨️ Print / Save PDF
-          </button>
-          <button class="btn-secondary" onclick="App.convertEstimateToInvoice('${est.id}')">
-            📄 Convert to Invoice
-          </button>
-        </div>
-      </div>
-    `;
-  },
-
-  // =============================================
-  // INVOICE DETAIL VIEW
-  // =============================================
-  viewInvoiceDetail() {
-    const inv = this.currentInvoice;
-    if (!inv) return '<div class="empty-state">Invoice not found</div>';
-
-    return `
-      <div class="view-detail">
-        <div class="detail-header">
-          <div class="detail-number">INVOICE #${inv.number || inv.id.slice(-6).toUpperCase()}</div>
-          <div class="detail-date">Date: ${this.formatDate(inv.date)}</div>
-          ${inv.dueDate ? `<div class="detail-due">Due: ${inv.dueDate}</div>` : ''}
-        </div>
-
-        ${this.buildCompanyHeader()}
-
-        <div class="detail-parties">
-          <div class="detail-party">
-            <div class="party-label">Bill To:</div>
-            <div class="party-name">${this.escHtml(inv.clientName)}</div>
-            <div class="party-address">${this.escHtml(inv.projectAddress || '')}</div>
-            ${inv.clientEmail ? `<div class="party-contact">${this.escHtml(inv.clientEmail)}</div>` : ''}
-            ${inv.clientPhone ? `<div class="party-contact">${this.escHtml(inv.clientPhone)}</div>` : ''}
-          </div>
-          <div class="detail-party">
-            <div class="party-label">Project:</div>
-            <div class="party-name">${this.escHtml(inv.projectName)}</div>
-            ${inv.estimateId ? `<div class="party-contact">From Estimate #${inv.estimateId.slice(-6).toUpperCase()}</div>` : ''}
-          </div>
-        </div>
-
-        <table class="items-table">
-          <thead>
-            <tr><th>Description</th><th>Qty</th><th>Unit</th><th>Unit Price</th><th>Total</th></tr>
-          </thead>
-          <tbody>
-            ${(inv.lineItems || []).map(item => {
-              const mult = getMultiplier(inv.projectZip || '');
-              const adjustedPrice = (item.unitPrice || 0) * mult;
-              const total = (item.qty || 0) * adjustedPrice;
-              return `<tr>
-                <td>${this.escHtml(item.name)}</td>
-                <td class="right">${item.qty || 0}</td>
-                <td>${UNIT_LABELS[item.unit] || item.unit || ''}</td>
-                <td class="right">${this.formatCurrency(adjustedPrice)}</td>
-                <td class="right">${this.formatCurrency(total)}</td>
-              </tr>`;
-            }).join('')}
-          </tbody>
-        </table>
-
-        <div class="detail-totals">
-          ${inv.laborSubtotal ? `<div class="dt-row"><span>Labor</span><span>${this.formatCurrency(inv.laborSubtotal)}</span></div>` : ''}
-          ${inv.materialsSubtotal ? `<div class="dt-row"><span>Materials</span><span>${this.formatCurrency(inv.materialsSubtotal)}</span></div>` : ''}
-          ${inv.overheadAmount ? `<div class="dt-row"><span>Overhead</span><span>${this.formatCurrency(inv.overheadAmount)}</span></div>` : ''}
-          ${inv.profitAmount ? `<div class="dt-row"><span>Profit</span><span>${this.formatCurrency(inv.profitAmount)}</span></div>` : ''}
-          ${inv.taxAmount ? `<div class="dt-row"><span>Tax</span><span>${this.formatCurrency(inv.taxAmount)}</span></div>` : ''}
-          <div class="dt-row dt-total"><span>TOTAL DUE</span><span>${this.formatCurrency(inv.total || 0)}</span></div>
-          ${inv.depositAmount ? `<div class="dt-row"><span>Deposit Paid</span><span>- ${this.formatCurrency(inv.depositAmount)}</span></div>` : ''}
-          ${inv.depositAmount ? `<div class="dt-row dt-deposit"><span>BALANCE DUE</span><span>${this.formatCurrency((inv.total||0) - (inv.depositAmount||0))}</span></div>` : ''}
-        </div>
-
-        ${inv.paymentInfo || this.companyInfo.paymentInfo ? `
-          <div class="detail-terms">
-            <h4>Payment Instructions</h4>
-            <p>${this.escHtml(inv.paymentInfo || this.companyInfo.paymentInfo || '')}</p>
-          </div>
-        ` : ''}
-
-        <div class="action-buttons">
-          <button class="btn-primary" onclick="App.markInvoicePaid('${inv.id}'); App.render()">
-            ✅ Mark as Paid
-          </button>
-          <button class="btn-secondary" onclick="App.printDoc('invoice')">
-            🖨️ Print / Save PDF
-          </button>
-        </div>
-      </div>
-    `;
-  },
-
-  buildCompanyHeader() {
-    const c = this.companyInfo;
-    if (!c.name) return `<div class="company-header-empty"><p>Add your company info in Settings</p></div>`;
-    return `
-      <div class="company-header">
-        ${c.logo ? `<img src="${c.logo}" class="company-logo" alt="Logo">` : `<div class="company-logo-placeholder">🏗️</div>`}
-        <div class="company-details">
-          <div class="company-name">${this.escHtml(c.name)}</div>
-          ${c.address ? `<div class="company-meta">${this.escHtml(c.address)}</div>` : ''}
-          ${c.phone ? `<div class="company-meta">${this.escHtml(c.phone)}</div>` : ''}
-          ${c.email ? `<div class="company-meta">${this.escHtml(c.email)}</div>` : ''}
-          ${c.license ? `<div class="company-meta">License #${this.escHtml(c.license)}</div>` : ''}
-          ${c.website ? `<div class="company-meta">${this.escHtml(c.website)}</div>` : ''}
-        </div>
-      </div>
-    `;
-  },
-
-  // =============================================
-  // SETTINGS VIEW
-  // =============================================
-  viewSettings() {
-    const c = this.companyInfo;
-    return `
-      <div class="view-settings">
-        <div class="form-section">
-          <h3 class="section-title">Company Profile</h3>
-          <div class="form-row">
-            <input class="form-input" placeholder="Company Name *" value="${c.name || ''}" 
-              onchange="App.updateCompany('name', this.value)">
-          </div>
-          <div class="form-row">
-            <input class="form-input" placeholder="Street Address" value="${c.address || ''}" 
-              onchange="App.updateCompany('address', this.value)">
-          </div>
-          <div class="form-row-split">
-            <input class="form-input" placeholder="City" value="${c.city || ''}" 
-              onchange="App.updateCompany('city', this.value)">
-            <input class="form-input" placeholder="State" value="${c.state || ''}" 
-              onchange="App.updateCompany('state', this.value)">
-            <input class="form-input" placeholder="ZIP" value="${c.zip || ''}" 
-              onchange="App.updateCompany('zip', this.value)">
-          </div>
-          <div class="form-row">
-            <input class="form-input" placeholder="Phone" type="tel" value="${c.phone || ''}" 
-              onchange="App.updateCompany('phone', this.value)">
-          </div>
-          <div class="form-row">
-            <input class="form-input" placeholder="Email" type="email" value="${c.email || ''}" 
-              onchange="App.updateCompany('email', this.value)">
-          </div>
-          <div class="form-row">
-            <input class="form-input" placeholder="Website" value="${c.website || ''}" 
-              onchange="App.updateCompany('website', this.value)">
-          </div>
-          <div class="form-row">
-            <input class="form-input" placeholder="Contractor License #" value="${c.license || ''}" 
-              onchange="App.updateCompany('license', this.value)">
-          </div>
-          <div class="form-row">
-            <input class="form-input" placeholder="Insurance / Bond #" value="${c.insurance || ''}" 
-              onchange="App.updateCompany('insurance', this.value)">
-          </div>
-          <div class="form-row">
-            <textarea class="form-input form-textarea" placeholder="Payment instructions (e.g. Check payable to..., Zelle: 555-xxx...)" 
-              onchange="App.updateCompany('paymentInfo', this.value)">${c.paymentInfo || ''}</textarea>
-          </div>
-          <button class="btn-primary" onclick="App.saveCompanyInfo()">Save Company Info</button>
-        </div>
-
-        <div class="form-section">
-          <h3 class="section-title">Subscription</h3>
-          ${this.isSubscribed() ? `
-            <div class="sub-active">
-              <div class="sub-check">✅ Active Subscription</div>
-              <p>Your subscription is active. Thank you!</p>
-              <button class="btn-secondary" onclick="App.navigate('subscribe')">Manage Subscription</button>
-            </div>
-          ` : `
-            <div class="sub-trial">
-              <p>${this.trialDaysLeft > 0 ? `You have <strong>${this.trialDaysLeft} days</strong> left in your free trial.` : 'Your free trial has ended.'}</p>
-              <p>Subscribe for <strong>$5.99/month</strong> for unlimited estimates and invoices.</p>
-              <button class="btn-primary" onclick="App.navigate('subscribe')">Subscribe Now</button>
-            </div>
-          `}
-        </div>
-
-        <div class="form-section">
-          <h3 class="section-title">Data Management</h3>
-          <button class="btn-secondary" onclick="App.exportData()">Export All Data (JSON)</button>
-          <button class="btn-secondary danger" onclick="App.confirmClearData()">Clear All Data</button>
-        </div>
-
-        <div class="form-section">
-          <h3 class="section-title">About</h3>
-          <div class="about-info">
-            <p><strong>Driftocity Estimate Pro</strong></p>
-            <p>Version 1.0.0</p>
-            <p>Professional contractor estimates & invoices with ZIP-code adjusted regional pricing for all major trade types.</p>
-            <p class="about-note">Pricing based on national averages adjusted by regional cost-of-living multipliers. Always verify local rates.</p>
-          </div>
-        </div>
-      </div>
-    `;
-  },
-
-  // =============================================
-  // SUBSCRIBE VIEW
-  // =============================================
-  viewSubscribe() {
-    return `
-      <div class="view-subscribe">
-        <div class="sub-hero">
-          <div class="sub-logo">🏗️</div>
-          <h2>Driftocity Estimate Pro</h2>
-          <p class="sub-tagline">Professional estimates & invoices<br>for every trade</p>
-        </div>
-
-        <div class="pricing-card">
-          <div class="price-amount">$5.99<span>/month</span></div>
-          <div class="price-label">Everything you need to win more jobs</div>
-        </div>
-
-        <div class="features-list">
-          <div class="feature-item">✅ Unlimited estimates & invoices</div>
-          <div class="feature-item">✅ 12 contractor trade types</div>
-          <div class="feature-item">✅ ZIP code regional pricing</div>
-          <div class="feature-item">✅ Convert estimates to invoices</div>
-          <div class="feature-item">✅ Print / Save to PDF</div>
-          <div class="feature-item">✅ Company branding</div>
-          <div class="feature-item">✅ Overhead & profit markup</div>
-          <div class="feature-item">✅ Works on iOS & Android</div>
-          <div class="feature-item">✅ No internet required (offline)</div>
-        </div>
-
-        <button class="btn-subscribe" onclick="App.handleSubscribe()">
-          Subscribe for $5.99/month
+  // ─── ESTIMATE BUILDER ─────────────────────────────────────────
+  pgBuilder() {
+    const e   = this.est || this.blank();
+    this.est  = e;
+    const mult = getMultiplier(e.projectZip||'');
+    return `<div class="view-estimate-builder">
+<!-- AI SCOPE WRITER REMOVED -->
+<div class="form-section">
+  <div class="ai-scope-section">
+    <div class="ai-scope-header">
+      <div class="ai-scope-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>AI</div>
+      <div class="ai-scope-title">Describe the Job — AI Builds Your Line Items</div>
+    </div>
+    <div class="ai-scope-body">
+      <textarea class="ai-scope-textarea" id="ai-input" placeholder="e.g. Replace master bath — demo existing tile, new shower pan, retile walls 60 sqft, replace toilet and vanity, paint ceiling..."></textarea>
+      <div class="ai-scope-actions">
+        <button class="btn-ai-generate" id="ai-btn" onclick="App.genScope()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Generate Line Items
         </button>
-        
-        ${this.trialDaysLeft > 0 ? `
-          <button class="btn-trial" onclick="App.navigate('dashboard')">
-            Continue Free Trial (${this.trialDaysLeft} days left)
-          </button>
-        ` : ''}
-
-        <p class="sub-disclaimer">Cancel anytime. Pricing integrates with Stripe. Configure your Stripe payment link in the GitHub deployment settings.</p>
-
-        <div class="demo-activate">
-          <p>Developer / Demo Mode:</p>
-          <button class="btn-link" onclick="App.activateDemoSub()">Activate Demo Subscription</button>
-        </div>
+        <button class="btn-ai-clear" onclick="App.clearScope()">Clear</button>
       </div>
-    `;
+      <div class="ai-scope-hint">Plain English — AI picks the right items, quantities, and trade pricing automatically.</div>
+      <div id="ai-result"></div>
+    </div>
+  </div>
+</div>
+<!-- CLIENT INFO -->
+<div class="form-section"><h3 class="section-title">Client Information</h3>
+  <div class="form-row"><input class="form-input" placeholder="Client Name *" value="${this.esc(e.clientName||'')}" oninput="App.setE('clientName',this.value)"></div>
+  <div class="form-row"><input class="form-input" type="email" placeholder="Email" value="${this.esc(e.clientEmail||'')}" oninput="App.setE('clientEmail',this.value)"></div>
+  <div class="form-row"><input class="form-input" type="tel" placeholder="Phone" value="${this.esc(e.clientPhone||'')}" oninput="App.setE('clientPhone',this.value)"></div>
+  <div class="form-row"><input class="form-input" placeholder="Project Address" value="${this.esc(e.projectAddress||'')}" oninput="App.setE('projectAddress',this.value)"></div>
+  <div class="form-row-split">
+    <input class="form-input" placeholder="City" value="${this.esc(e.projectCity||'')}" oninput="App.setE('projectCity',this.value)">
+    <input class="form-input zip-input" placeholder="ZIP" maxlength="5" value="${this.esc(e.projectZip||'')}" oninput="App.setE('projectZip',this.value);App.rerender()">
+  </div>
+  ${e.projectZip ? `<div class="zip-info">📍 Regional multiplier: <strong>${(mult*100).toFixed(0)}%</strong> of national average</div>` : ''}
+</div>
+<!-- PROJECT DETAILS -->
+<div class="form-section"><h3 class="section-title">Project Details</h3>
+  <div class="form-row"><input class="form-input" placeholder="Project Name *" value="${this.esc(e.projectName||'')}" oninput="App.setE('projectName',this.value)"></div>
+  <div class="form-row-split">
+    <select class="form-input" onchange="App.setE('tradeType',this.value);App.rerender()">
+      <option value="">Select Trade</option>
+      ${Object.entries(TRADES).map(([k,t])=>`<option value="${k}"${e.tradeType===k?' selected':''}>${t.icon} ${t.label}</option>`).join('')}
+    </select>
+    <select class="form-input" onchange="App.setE('status',this.value)">
+      ${['draft','sent','approved','declined'].map(s=>`<option value="${s}"${e.status===s?' selected':''}>${s.charAt(0).toUpperCase()+s.slice(1)}</option>`).join('')}
+    </select>
+  </div>
+  <div class="form-row"><textarea class="form-input form-textarea" placeholder="Project notes / scope..." oninput="App.setE('notes',this.value)">${this.esc(e.notes||'')}</textarea></div>
+  <div class="form-row-split">
+    <div class="form-group"><label class="form-label">Valid Until</label><input class="form-input" type="date" value="${e.validUntil||''}" oninput="App.setE('validUntil',this.value)"></div>
+    <div class="form-group"><label class="form-label">Start Date</label><input class="form-input" type="date" value="${e.startDate||''}" oninput="App.setE('startDate',this.value)"></div>
+  </div>
+</div>
+<!-- LINE ITEMS -->
+<div class="form-section">
+  <div class="section-header"><h3 class="section-title">Line Items</h3><button class="btn-add" onclick="App.showPicker()">+ Add Item</button></div>
+  ${e.tradeType&&TRADES[e.tradeType] ? `<div class="quick-add-bar"><p class="quick-add-label">Quick add from ${TRADES[e.tradeType].label}:</p><div class="quick-add-categories">${TRADES[e.tradeType].categories.map((c,ci)=>`<button class="quick-cat-btn" onclick="App.showPickerTrade('${e.tradeType}')">${c.name}</button>`).join('')}</div></div>` : ''}
+  <div id="li-list">
+  ${!e.lineItems||!e.lineItems.length
+    ? `<div class="empty-items"><p>No items yet. Describe the job above and tap Generate, or add manually.</p></div>`
+    : e.lineItems.map((item,i)=>this.liRow(item,i)).join('')}
+  </div>
+  <button class="btn-add-custom" onclick="App.addBlank()">+ Add Custom Item</button>
+</div>
+<!-- PRICING SETTINGS -->
+<div class="form-section"><h3 class="section-title">Pricing Settings</h3>
+  <div class="form-row-split">
+    <div class="form-group"><label class="form-label">Overhead %</label><input class="form-input" type="number" min="0" max="50" value="${e.overhead!=null?e.overhead:DEF_OVERHEAD}" oninput="App.setE('overhead',parseFloat(this.value));App.refreshTotals()"></div>
+    <div class="form-group"><label class="form-label">Profit %</label><input class="form-input" type="number" min="0" max="50" value="${e.profit!=null?e.profit:DEF_PROFIT}" oninput="App.setE('profit',parseFloat(this.value));App.refreshTotals()"></div>
+  </div>
+  <div class="form-row-split">
+    <div class="form-group"><label class="form-label">Tax % (materials)</label><input class="form-input" type="number" min="0" max="15" step="0.1" value="${e.taxRate!=null?e.taxRate:DEF_TAX}" oninput="App.setE('taxRate',parseFloat(this.value));App.refreshTotals()"></div>
+    <div class="form-group"><label class="form-label">Deposit %</label><input class="form-input" type="number" min="0" max="100" value="${e.depositPct!=null?e.depositPct:DEF_DEPOSIT}" oninput="App.setE('depositPct',parseFloat(this.value));App.refreshTotals()"></div>
+  </div>
+</div>
+<!-- TOTALS -->
+<div class="totals-card"><div id="totals-inner">${this.totalsHTML(e)}</div></div>
+<!-- TERMS -->
+<div class="form-section"><h3 class="section-title">Terms &amp; Conditions</h3>
+  <textarea class="form-input form-textarea" oninput="App.setE('terms',this.value)">${this.esc(e.terms||this.defTerms())}</textarea>
+</div>
+<!-- ACTIONS -->
+<div class="action-buttons">
+  <button class="btn-primary" onclick="App.saveEst()">💾 Save Estimate</button>
+  <button class="btn-secondary" onclick="App.previewEst()">🔍 Preview</button>
+  <button class="btn-secondary" onclick="App.convertToInvoice(null)">📄 Convert to Invoice</button>
+</div>
+<!-- PICKER MODAL -->
+<div id="picker" class="modal hidden">
+  <div class="modal-backdrop" onclick="App.closePicker()"></div>
+  <div class="modal-sheet" id="picker-body"></div>
+</div>
+</div>`;
   },
 
-  // =============================================
-  // ITEM PICKER MODAL
-  // =============================================
-  showItemPicker() {
-    const modal = document.getElementById('item-picker-modal');
-    const content = document.getElementById('modal-sheet-content');
-    if (!modal || !content) return;
-    
-    content.innerHTML = `
-      <div class="modal-handle"></div>
-      <h3 class="modal-title">Add Line Item</h3>
-      <div class="modal-tabs">
-        <button class="modal-tab active" onclick="App.showAllTradesInModal()">Browse Trades</button>
-        <button class="modal-tab" onclick="App.showCustomInModal()">Custom Item</button>
-      </div>
-      <div id="modal-body">
-        ${this.buildTradePickerContent()}
-      </div>
-    `;
+  liRow(item, idx) {
+    const sub = (item.qty||0)*(item.unitPrice||0);
+    return `<div class="line-item-row">
+  <div class="line-item-top">
+    <div class="line-item-name-wrap">
+      <input class="li-name" value="${this.esc(item.name||'')}" placeholder="Item name" oninput="App.setLI(${idx},'name',this.value)">
+      <span class="li-trade-badge">${this.esc(item.tradeLabel||'')}</span>
+    </div>
+    <button class="li-delete" onclick="App.delLI(${idx})"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg></button>
+  </div>
+  <div class="line-item-bottom">
+    <div class="li-field"><label>Qty</label><input type="number" min="0" step="0.01" value="${item.qty||1}" oninput="App.setLI(${idx},'qty',parseFloat(this.value));App.refreshTotals()"></div>
+    <div class="li-field"><label>Unit</label><select oninput="App.setLI(${idx},'unit',this.value)">${Object.entries(UNIT_LABELS).map(([k,v])=>`<option value="${k}"${item.unit===k?' selected':''}>${v}</option>`).join('')}</select></div>
+    <div class="li-field"><label>Unit $</label><div class="li-price-wrap"><span>$</span><input type="number" min="0" step="0.01" value="${item.unitPrice||0}" oninput="App.setLI(${idx},'unitPrice',parseFloat(this.value));App.refreshTotals()"></div></div>
+    <div class="li-subtotal"><label>Subtotal</label><span id="ls${idx}">${this.fmt(sub)}</span></div>
+  </div>
+  <div class="li-split-row">
+    <div class="li-toggle-wrap"><span class="li-toggle-label">Labor %</span><span class="li-pct">${Math.round((item.laborPct||0.6)*100)}%</span></div>
+    <div class="li-field"><label>Adjust</label><input type="number" min="0" max="100" value="${Math.round((item.laborPct||0.6)*100)}" oninput="App.setLI(${idx},'laborPct',this.value/100);App.refreshTotals()"></div>
+  </div>
+</div>`;
+  },
+
+  totalsHTML(e) {
+    const c = this.calc(e);
+    const oh  = e.overhead  != null ? e.overhead  : DEF_OVERHEAD;
+    const pr  = e.profit    != null ? e.profit    : DEF_PROFIT;
+    const tx  = e.taxRate   != null ? e.taxRate   : DEF_TAX;
+    const dep = e.depositPct!= null ? e.depositPct: DEF_DEPOSIT;
+    return `<div class="totals-inner">
+  <div class="totals-row"><span>Labor</span><span>${this.fmt(c.labor)}</span></div>
+  <div class="totals-row"><span>Materials</span><span>${this.fmt(c.mat)}</span></div>
+  <div class="totals-divider"></div>
+  <div class="totals-row muted"><span>Overhead (${oh}%)</span><span>${this.fmt(c.oh)}</span></div>
+  <div class="totals-row muted"><span>Profit (${pr}%)</span><span>${this.fmt(c.pr)}</span></div>
+  <div class="totals-row muted"><span>Tax (${tx}%)</span><span>${this.fmt(c.tx)}</span></div>
+  <div class="totals-divider"></div>
+  <div class="totals-row total"><span>TOTAL</span><span>${this.fmt(c.total)}</span></div>
+  <div class="totals-row deposit"><span>Deposit (${dep}%)</span><span>${this.fmt(c.dep)}</span></div>
+  <div class="totals-row"><span>Balance Due</span><span>${this.fmt(c.bal)}</span></div>
+  ${e.projectZip?`<div class="totals-note">📍 Adjusted for ZIP ${e.projectZip} (${(getMultiplier(e.projectZip)*100).toFixed(0)}% regional rate)</div>`:''}
+</div>`;
+  },
+
+  calc(e) {
+    const mult = getMultiplier(e.projectZip||'');
+    let labor=0, mat=0;
+    (e.lineItems||[]).forEach(it=>{
+      const t=(it.qty||0)*(it.unitPrice||0);
+      const lp=it.laborPct!=null?it.laborPct:0.6;
+      labor+=t*lp; mat+=t*(1-lp);
+    });
+    labor*=mult; mat*=mult;
+    const base=labor+mat;
+    const oh=base*((e.overhead!=null?e.overhead:DEF_OVERHEAD)/100);
+    const pr=(base+oh)*((e.profit!=null?e.profit:DEF_PROFIT)/100);
+    const tx=mat*((e.taxRate!=null?e.taxRate:DEF_TAX)/100);
+    const total=base+oh+pr+tx;
+    const dep=total*((e.depositPct!=null?e.depositPct:DEF_DEPOSIT)/100);
+    return {labor,mat,oh,pr,tx,total,dep,bal:total-dep};
+  },
+
+  refreshTotals() {
+    const el = document.getElementById('totals-inner');
+    if (el&&this.est) el.innerHTML = this.totalsHTML(this.est);
+  },
+
+  rerender() { this.render(); },
+
+  // AI removed
+
+  // ─── ITEM PICKER ──────────────────────────────────────────────
+  showPicker(tradeKey) {
+    const modal = document.getElementById('picker');
+    const body  = document.getElementById('picker-body');
+    if (!modal||!body) return;
+    body.innerHTML = tradeKey ? this.pickerTrade(tradeKey) : this.pickerHome();
     modal.classList.remove('hidden');
   },
+  showPickerTrade(k) { this.showPicker(k); },
 
-  buildTradePickerContent() {
-    return `
-      <div class="trade-picker-grid">
-        ${Object.entries(TRADES).map(([key, trade]) => `
-          <button class="trade-picker-item" onclick="App.showTradeCategories('${key}')">
-            <span class="tpi-icon">${trade.icon}</span>
-            <span class="tpi-label">${trade.label}</span>
-          </button>
-        `).join('')}
-      </div>
-    `;
+  pickerHome() {
+    return `<div class="modal-handle"></div><h3 class="modal-title">Add Line Item</h3>
+<div class="trade-picker-grid">
+${Object.entries(TRADES).map(([k,t])=>`<button class="trade-picker-item" onclick="document.getElementById('picker-body').innerHTML=App.pickerTrade('${k}')">
+  <span class="tpi-icon">${t.icon}</span><span class="tpi-label">${t.label}</span>
+</button>`).join('')}
+</div>`;
   },
 
-  showTradeCategories(tradeKey) {
-    const trade = TRADES[tradeKey];
-    const modalBody = document.getElementById('modal-body');
-    if (!modalBody || !trade) return;
-
-    modalBody.innerHTML = `
-      <button class="modal-back" onclick="document.getElementById('modal-body').innerHTML = App.buildTradePickerContent()">
-        ← Back to Trades
-      </button>
-      <h4 class="modal-sub-title">${trade.icon} ${trade.label}</h4>
-      ${trade.categories.map((cat, ci) => `
-        <div class="picker-category">
-          <div class="picker-cat-name">${cat.name}</div>
-          ${cat.items.map(item => {
-            const est = this.currentEstimate;
-            const mult = getMultiplier(est?.projectZip || '');
-            const adjPrice = item.basePrice * mult;
-            return `
-              <div class="picker-item" onclick="App.addPickerItem('${tradeKey}', '${item.id}'); App.closeModal()">
-                <div class="pi-left">
-                  <div class="pi-name">${item.name}</div>
-                  <div class="pi-unit">${UNIT_LABELS[item.unit] || item.unit}</div>
-                </div>
-                <div class="pi-right">
-                  <div class="pi-price">${this.formatCurrency(adjPrice)}</div>
-                  <div class="pi-per">per ${UNIT_LABELS[item.unit] || item.unit}</div>
-                </div>
-              </div>
-            `;
-          }).join('')}
-        </div>
-      `).join('')}
-    `;
+  pickerTrade(k) {
+    const t = TRADES[k]; if(!t) return '';
+    const mult = getMultiplier(this.est?.projectZip||'');
+    return `<div class="modal-handle"></div>
+<button class="modal-back" onclick="document.getElementById('picker-body').innerHTML=App.pickerHome()">← All Trades</button>
+<h3 class="modal-sub-title">${t.icon} ${t.label}</h3>
+${t.categories.map(cat=>`<div class="picker-category">
+  <div class="picker-cat-name">${cat.name}</div>
+  ${cat.items.map(item=>`<div class="picker-item" onclick="App.addCatalogItem('${k}','${item.id}');App.closePicker()">
+    <div class="pi-left"><div class="pi-name">${item.name}</div><div class="pi-unit">${UNIT_LABELS[item.unit]||item.unit}</div></div>
+    <div class="pi-right"><div class="pi-price">${this.fmt(item.basePrice*mult)}</div><div class="pi-per">per ${UNIT_LABELS[item.unit]||item.unit}</div></div>
+  </div>`).join('')}
+</div>`).join('')}`;
   },
 
-  showCategoryItems(tradeKey, catIdx) {
-    this.showItemPicker();
-    setTimeout(() => this.showTradeCategories(tradeKey), 10);
-  },
-
-  showAllTradesInModal() {
-    const modalBody = document.getElementById('modal-body');
-    if (modalBody) modalBody.innerHTML = this.buildTradePickerContent();
-  },
-
-  showCustomInModal() {
-    const modalBody = document.getElementById('modal-body');
-    if (!modalBody) return;
-    modalBody.innerHTML = `
-      <div class="custom-item-form">
-        <input class="form-input" id="ci-name" placeholder="Item name *">
-        <div class="form-row-split">
-          <input class="form-input" id="ci-qty" type="number" placeholder="Qty" value="1" min="0" step="0.01">
-          <select class="form-input" id="ci-unit">
-            ${Object.entries(UNIT_LABELS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}
-          </select>
-        </div>
-        <div class="form-row-split">
-          <div class="li-price-wrap">
-            <span>$</span>
-            <input class="form-input" id="ci-price" type="number" placeholder="Unit price" min="0" step="0.01">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Labor %</label>
-            <input class="form-input" id="ci-labor" type="number" value="60" min="0" max="100">
-          </div>
-        </div>
-        <textarea class="form-input form-textarea" id="ci-notes" placeholder="Notes (optional)"></textarea>
-        <button class="btn-primary" onclick="App.addCustomItemFromModal()">Add Item</button>
-      </div>
-    `;
-  },
-
-  addCustomItemFromModal() {
-    const name = document.getElementById('ci-name')?.value;
-    if (!name) { alert('Please enter an item name'); return; }
-    const item = {
-      id: 'custom_' + Date.now(),
-      name,
-      qty: parseFloat(document.getElementById('ci-qty')?.value || 1),
-      unit: document.getElementById('ci-unit')?.value || 'ls',
-      unitPrice: parseFloat(document.getElementById('ci-price')?.value || 0),
-      laborPct: parseFloat(document.getElementById('ci-labor')?.value || 60) / 100,
-      notes: document.getElementById('ci-notes')?.value || '',
-      tradeLabel: 'Custom',
-    };
-    if (!this.currentEstimate) this.currentEstimate = this.blankEstimate();
-    this.currentEstimate.lineItems = this.currentEstimate.lineItems || [];
-    this.currentEstimate.lineItems.push(item);
-    this.closeModal();
-    this.recalculate();
+  addCatalogItem(tradeKey, itemId) {
+    const t=TRADES[tradeKey]; if(!t) return;
+    let found;
+    for(const cat of t.categories){ found=cat.items.find(i=>i.id===itemId); if(found) break; }
+    if(!found) return;
+    if(!this.est) this.est=this.blank();
+    this.est.lineItems=this.est.lineItems||[];
+    this.est.lineItems.push({id:found.id+'_'+Date.now(),name:found.name,qty:1,unit:found.unit,unitPrice:found.basePrice,laborPct:found.laborPct,tradeLabel:t.label,notes:''});
+    toast('✅ Item added');
     this.render();
   },
 
-  addPickerItem(tradeKey, itemId) {
-    const trade = TRADES[tradeKey];
-    if (!trade) return;
-    let foundItem = null;
-    for (const cat of trade.categories) {
-      foundItem = cat.items.find(i => i.id === itemId);
-      if (foundItem) break;
-    }
-    if (!foundItem) return;
-
-    if (!this.currentEstimate) this.currentEstimate = this.blankEstimate();
-    this.currentEstimate.lineItems = this.currentEstimate.lineItems || [];
-    
-    this.currentEstimate.lineItems.push({
-      id: foundItem.id + '_' + Date.now(),
-      name: foundItem.name,
-      qty: 1,
-      unit: foundItem.unit,
-      unitPrice: foundItem.basePrice,
-      laborPct: foundItem.laborPct,
-      tradeLabel: trade.label,
-    });
-    this.recalculate();
+  addBlank() {
+    if(!this.est) this.est=this.blank();
+    this.est.lineItems=this.est.lineItems||[];
+    this.est.lineItems.push({id:'custom_'+Date.now(),name:'Custom Item',qty:1,unit:'ls',unitPrice:0,laborPct:0.6,tradeLabel:'Custom',notes:''});
     this.render();
   },
 
-  addCustomItem() {
-    if (!this.currentEstimate) this.currentEstimate = this.blankEstimate();
-    this.currentEstimate.lineItems = this.currentEstimate.lineItems || [];
-    this.currentEstimate.lineItems.push({
-      id: 'custom_' + Date.now(),
-      name: 'Custom Item',
-      qty: 1,
-      unit: 'ls',
-      unitPrice: 0,
-      laborPct: 0.6,
-      tradeLabel: 'Custom',
-    });
-    this.render();
+  closePicker() { const m=document.getElementById('picker'); if(m) m.classList.add('hidden'); },
+
+  // ─── LINE ITEM HELPERS ────────────────────────────────────────
+  setE(f,v) { if(!this.est) this.est=this.blank(); this.est[f]=v; },
+  setLI(i,f,v) { if(this.est&&this.est.lineItems&&this.est.lineItems[i]) this.est.lineItems[i][f]=v; },
+  delLI(i) { if(this.est&&this.est.lineItems){ this.est.lineItems.splice(i,1); this.render(); } },
+
+  // ─── SAVE / LOAD ──────────────────────────────────────────────
+  blank() {
+    return {id:'est_'+Date.now(),date:Date.now(),status:'draft',lineItems:[],overhead:DEF_OVERHEAD,profit:DEF_PROFIT,taxRate:DEF_TAX,depositPct:DEF_DEPOSIT,terms:this.defTerms()};
   },
 
-  closeModal() {
-    const modal = document.getElementById('item-picker-modal');
-    if (modal) modal.classList.add('hidden');
+  defTerms() {
+    return `Payment Terms: ${DEF_DEPOSIT}% deposit required before work begins. Balance due upon completion. This estimate is valid for 30 days. Any changes to project scope must be agreed upon in writing. All work guaranteed for 1 year unless otherwise noted.`;
   },
 
-  // =============================================
-  // DATA OPERATIONS
-  // =============================================
-  blankEstimate() {
-    return {
-      id: 'est_' + Date.now(),
-      date: Date.now(),
-      status: 'draft',
-      lineItems: [],
-      overhead: DEFAULT_OVERHEAD,
-      profit: DEFAULT_PROFIT,
-      taxRate: DEFAULT_TAX_RATE,
-      depositPct: 30,
-      terms: this.defaultTerms(),
-    };
+  saveEst(andPreview) {
+    const e=this.est;
+    if(!e) return;
+    if(!e.clientName||!e.projectName){ alert('Please fill in Client Name and Project Name.'); return; }
+    const c=this.calc(e); e.total=c.total; e.lastMod=Date.now();
+    const idx=this.estimates.findIndex(x=>x.id===e.id);
+    if(idx>=0) this.estimates[idx]=e; else this.estimates.push(e);
+    this.save();
+    if(andPreview){ this.go('estimate_detail'); } else { toast('✅ Estimate saved!'); }
   },
 
-  defaultTerms() {
-    return `Payment Terms: ${this.currentEstimate?.depositPct ?? 30}% deposit required to begin work. Remaining balance due upon project completion. Checks payable to ${this.companyInfo.name || '[Company Name]'}. This estimate is valid for 30 days from the date issued. Prices subject to change based on material costs at time of order. Any changes to project scope must be agreed upon in writing. All work guaranteed for 1 year unless otherwise noted.`;
+  previewEst() { this.saveEst(true); },
+
+  openEst(id) {
+    const e=this.estimates.find(x=>x.id===id);
+    if(e){ this.est=e; this.go('estimate_detail'); }
   },
 
-  updateEstField(field, value) {
-    if (!this.currentEstimate) this.currentEstimate = this.blankEstimate();
-    this.currentEstimate[field] = value;
+  editEst(id) {
+    const e=this.estimates.find(x=>x.id===id);
+    if(e){ this.est=JSON.parse(JSON.stringify(e)); this.go('new_estimate'); }
   },
 
-  updateLineItem(idx, field, value) {
-    if (!this.currentEstimate?.lineItems) return;
-    this.currentEstimate.lineItems[idx][field] = value;
+  dupEst(id) {
+    const e=this.estimates.find(x=>x.id===id);
+    if(e){ const d=JSON.parse(JSON.stringify(e)); d.id='est_'+Date.now(); d.date=Date.now(); d.status='draft'; d.projectName+=' (Copy)'; this.estimates.push(d); this.save(); this.render(); }
   },
 
-  removeLineItem(idx) {
-    if (!this.currentEstimate?.lineItems) return;
-    this.currentEstimate.lineItems.splice(idx, 1);
-    this.render();
+  delEst(id) {
+    if(!confirm('Delete this estimate?')) return;
+    this.estimates=this.estimates.filter(x=>x.id!==id); this.save(); this.render();
   },
 
-  recalculate() {
-    const totalsSection = document.getElementById('totals-section');
-    if (totalsSection && this.currentEstimate) {
-      totalsSection.innerHTML = this.buildTotalsHTML(this.currentEstimate);
-    }
-    // Update line item subtotals
-    document.querySelectorAll('.line-item-row').forEach((row, idx) => {
-      const item = this.currentEstimate?.lineItems?.[idx];
-      if (item) {
-        const subtotalEl = row.querySelector('.li-subtotal span');
-        if (subtotalEl) subtotalEl.textContent = this.formatCurrency((item.qty || 0) * (item.unitPrice || 0));
-      }
-    });
+  startTrade(k) { this.est=this.blank(); this.est.tradeType=k; this.go('new_estimate'); },
+
+  convertToInvoice(id) {
+    const e=id ? this.estimates.find(x=>x.id===id) : this.est;
+    if(!e){ alert('Save the estimate first.'); return; }
+    const c=this.calc(e);
+    const due=new Date(); due.setDate(due.getDate()+30);
+    const inv={...e,...c,id:'inv_'+Date.now(),number:this.invoices.length+1001,date:Date.now(),dueDate:due.toISOString().split('T')[0],estimateId:e.id,status:'unpaid',payInfo:this.company.payInfo||''};
+    this.invoices.push(inv);
+    if(id){ const ei=this.estimates.findIndex(x=>x.id===id); if(ei>=0){this.estimates[ei].status='approved';} }
+    this.save();
+    this.inv=inv; toast('✅ Invoice created!'); this.go('invoice_detail');
   },
 
-  onZipChange(zip) {
-    if (zip.length === 5) {
-      this.recalculate();
-      const zipInfo = document.querySelector('.zip-info');
-      if (zipInfo) {
-        zipInfo.innerHTML = `📍 Regional multiplier: <strong>${(getMultiplier(zip) * 100).toFixed(0)}%</strong> of national average`;
-      } else {
-        this.render();
-      }
-    }
+  // ─── ESTIMATES LIST ───────────────────────────────────────────
+  pgEstimates() {
+    const sorted=[...this.estimates].sort((a,b)=>b.date-a.date);
+    return `<div class="view-list">
+<div class="list-filter-bar">
+  <input class="search-input" placeholder="🔍 Search estimates..." oninput="App.filterEsts(this.value)">
+  <select class="filter-select" onchange="App.filterEstsStatus(this.value)">
+    <option value="">All</option><option value="draft">Draft</option><option value="sent">Sent</option><option value="approved">Approved</option><option value="declined">Declined</option>
+  </select>
+</div>
+<div id="ests-list">
+${sorted.length ? sorted.map(e=>this.estCard(e,true)).join('') : '<div class="empty-state"><div class="empty-icon">📋</div><h3>No estimates yet</h3></div>'}
+</div></div>`;
   },
 
-  saveEstimate() {
-    const est = this.currentEstimate;
-    if (!est) return;
-    if (!est.clientName || !est.projectName) {
-      alert('Please fill in Client Name and Project Name.');
-      return;
-    }
-    const calcs = this.calculateTotals(est);
-    est.total = calcs.total;
-    est.lastModified = Date.now();
-    
-    const existingIdx = this.estimates.findIndex(e => e.id === est.id);
-    if (existingIdx >= 0) {
-      this.estimates[existingIdx] = est;
-    } else {
-      this.estimates.push(est);
-    }
-    this.saveData();
-    alert('✅ Estimate saved!');
-    this.navigate('estimate_detail');
+  estCard(e,actions) {
+    const sc={draft:'#888',sent:'#2196F3',approved:'#4CAF50',declined:'#F44336'};
+    const c=this.calc(e); const tr=TRADES[e.tradeType];
+    return `<div class="list-card" onclick="App.openEst('${e.id}')">
+<div class="card-top"><div class="card-info">
+  <h4 class="card-title">${this.esc(e.projectName||'Untitled')}</h4>
+  <p class="card-sub">${this.esc(e.clientName||'No client')}${e.projectZip?' · '+e.projectZip:''}</p>
+  <p class="card-meta">${this.fmtDate(e.date)}${tr?' · '+tr.icon+' '+tr.label:''}</p>
+</div><div class="card-right">
+  <div class="card-amount">${this.fmt(c.total)}</div>
+  <span class="status-badge" style="background:${sc[e.status]||'#888'}20;color:${sc[e.status]||'#888'}">${e.status||'draft'}</span>
+</div></div>
+${actions?`<div class="card-actions" onclick="event.stopPropagation()">
+  <button class="card-btn" onclick="App.editEst('${e.id}')">Edit</button>
+  <button class="card-btn" onclick="App.dupEst('${e.id}')">Duplicate</button>
+  <button class="card-btn" onclick="App.convertToInvoice('${e.id}')">→ Invoice</button>
+  <button class="card-btn danger" onclick="App.delEst('${e.id}')">Delete</button>
+</div>`:''}
+</div>`;
   },
 
-  editEstimate(id) {
-    const est = this.estimates.find(e => e.id === id);
-    if (est) {
-      this.currentEstimate = JSON.parse(JSON.stringify(est));
-      this.navigate('new_estimate');
-    }
+  filterEsts(q) {
+    const c=document.getElementById('ests-list'); if(!c) return;
+    const f=this.estimates.filter(e=>(e.projectName||'').toLowerCase().includes(q.toLowerCase())||(e.clientName||'').toLowerCase().includes(q.toLowerCase())).sort((a,b)=>b.date-a.date);
+    c.innerHTML=f.length?f.map(e=>this.estCard(e,true)).join(''):'<div class="empty-state"><p>No results</p></div>';
+  },
+  filterEstsStatus(s) {
+    const c=document.getElementById('ests-list'); if(!c) return;
+    const f=(s?this.estimates.filter(e=>e.status===s):this.estimates).sort((a,b)=>b.date-a.date);
+    c.innerHTML=f.length?f.map(e=>this.estCard(e,true)).join(''):'<div class="empty-state"><p>No results</p></div>';
   },
 
-  openEstimate(id) {
-    const est = this.estimates.find(e => e.id === id);
-    if (est) {
-      this.currentEstimate = est;
-      this.navigate('estimate_detail');
-    }
+  // ─── INVOICES LIST ────────────────────────────────────────────
+  pgInvoices() {
+    const sorted=[...this.invoices].sort((a,b)=>b.date-a.date);
+    return `<div class="view-list">
+<div class="list-filter-bar">
+  <input class="search-input" placeholder="🔍 Search invoices...">
+  <select class="filter-select" onchange="App.filterInvsStatus(this.value)">
+    <option value="">All</option><option value="unpaid">Unpaid</option><option value="partial">Partial</option><option value="paid">Paid</option>
+  </select>
+</div>
+<div id="invs-list">
+${sorted.length?sorted.map(i=>this.invCard(i)).join(''):'<div class="empty-state"><div class="empty-icon">📄</div><h3>No invoices yet</h3><p>Convert an estimate to create one</p></div>'}
+</div></div>`;
   },
 
-  openInvoice(id) {
-    const inv = this.invoices.find(i => i.id === id);
-    if (inv) {
-      this.currentInvoice = inv;
-      this.navigate('invoice_detail');
-    }
+  invCard(inv) {
+    const sc={unpaid:'#FF6B35',partial:'#FF9800',paid:'#4CAF50',overdue:'#F44336'};
+    const past=inv.dueDate&&new Date(inv.dueDate)<new Date()&&inv.status!=='paid';
+    const st=past?'overdue':(inv.status||'unpaid');
+    return `<div class="list-card" onclick="App.openInv('${inv.id}')">
+<div class="card-top"><div class="card-info">
+  <h4 class="card-title">Invoice #${inv.number||inv.id.slice(-6).toUpperCase()}</h4>
+  <p class="card-sub">${this.esc(inv.clientName||'No client')} · ${this.esc(inv.projectName||'')}</p>
+  <p class="card-meta">Issued: ${this.fmtDate(inv.date)}${inv.dueDate?' · Due: '+inv.dueDate:''}</p>
+</div><div class="card-right">
+  <div class="card-amount">${this.fmt(inv.total||0)}</div>
+  <span class="status-badge" style="background:${sc[st]||'#888'}20;color:${sc[st]||'#888'}">${st}</span>
+</div></div>
+<div class="card-actions" onclick="event.stopPropagation()">
+  <button class="card-btn" onclick="App.markPaid('${inv.id}')">Mark Paid</button>
+  <button class="card-btn" onclick="App.openInv('${inv.id}');setTimeout(()=>window.print(),300)">Print/PDF</button>
+  <button class="card-btn danger" onclick="App.delInv('${inv.id}')">Delete</button>
+</div></div>`;
   },
 
-  duplicateEstimate(id) {
-    const est = this.estimates.find(e => e.id === id);
-    if (est) {
-      const dup = JSON.parse(JSON.stringify(est));
-      dup.id = 'est_' + Date.now();
-      dup.date = Date.now();
-      dup.status = 'draft';
-      dup.projectName = dup.projectName + ' (Copy)';
-      this.estimates.push(dup);
-      this.saveData();
-      this.render();
-    }
+  openInv(id) { const i=this.invoices.find(x=>x.id===id); if(i){this.inv=i;this.go('invoice_detail');} },
+  markPaid(id) { const i=this.invoices.find(x=>x.id===id); if(i){i.status='paid';i.paidDate=new Date().toISOString().split('T')[0];this.save();toast('✅ Marked as paid!');this.render();} },
+  delInv(id) { if(!confirm('Delete this invoice?')) return; this.invoices=this.invoices.filter(x=>x.id!==id);this.save();this.render(); },
+  filterInvsStatus(s) { const c=document.getElementById('invs-list');if(!c)return;const f=(s?this.invoices.filter(i=>i.status===s):this.invoices).sort((a,b)=>b.date-a.date);c.innerHTML=f.length?f.map(i=>this.invCard(i)).join(''):'<div class="empty-state"><p>No results</p></div>'; },
+
+  // ─── ESTIMATE DETAIL ──────────────────────────────────────────
+  pgEstDetail() {
+    const e=this.est; if(!e) return '<div class="empty-state"><p>Not found</p></div>';
+    const c=this.calc(e); const tr=TRADES[e.tradeType]; const mult=getMultiplier(e.projectZip||'');
+    return `<div class="view-detail">
+<div class="detail-header"><div class="detail-number">ESTIMATE #${e.id.slice(-6).toUpperCase()}</div><div class="detail-date">${this.fmtDate(e.date)}</div></div>
+${this.coHeader()}
+<div class="detail-parties">
+  <div class="detail-party"><div class="party-label">Bill To</div><div class="party-name">${this.esc(e.clientName||'')}</div><div class="party-address">${this.esc(e.projectAddress||'')}</div><div class="party-address">${this.esc(e.projectCity||'')}${e.projectZip?', '+e.projectZip:''}</div>${e.clientEmail?`<div class="party-contact">${this.esc(e.clientEmail)}</div>`:''}</div>
+  <div class="detail-party"><div class="party-label">Project</div><div class="party-name">${this.esc(e.projectName||'')}</div>${tr?`<div class="party-trade">${tr.icon} ${tr.label}</div>`:''} ${e.validUntil?`<div class="party-contact">Valid: ${e.validUntil}</div>`:''}</div>
+</div>
+${e.notes?`<div class="detail-notes"><strong>Scope: </strong>${this.esc(e.notes)}</div>`:''}
+<table class="items-table"><thead><tr><th>Description</th><th>Qty</th><th>Unit</th><th>Price</th><th>Total</th></tr></thead><tbody>
+${(e.lineItems||[]).map(it=>{const ap=(it.unitPrice||0)*mult;const tot=(it.qty||0)*ap;return `<tr><td class="item-name-cell">${this.esc(it.name)}<span class="item-trade-tag">${this.esc(it.tradeLabel||'')}</span></td><td class="right">${it.qty||0}</td><td>${UNIT_LABELS[it.unit]||it.unit||''}</td><td class="right">${this.fmt(ap)}</td><td class="right">${this.fmt(tot)}</td></tr>`;}).join('')}
+</tbody></table>
+<div class="detail-totals">
+  <div class="dt-row"><span>Labor</span><span>${this.fmt(c.labor)}</span></div>
+  <div class="dt-row"><span>Materials</span><span>${this.fmt(c.mat)}</span></div>
+  <div class="dt-row"><span>Overhead</span><span>${this.fmt(c.oh)}</span></div>
+  <div class="dt-row"><span>Profit</span><span>${this.fmt(c.pr)}</span></div>
+  <div class="dt-row"><span>Tax</span><span>${this.fmt(c.tx)}</span></div>
+  <div class="dt-row dt-total"><span>TOTAL</span><span>${this.fmt(c.total)}</span></div>
+  <div class="dt-row dt-deposit"><span>Deposit Required</span><span>${this.fmt(c.dep)}</span></div>
+  <div class="dt-row"><span>Balance Due</span><span>${this.fmt(c.bal)}</span></div>
+</div>
+${e.terms?`<div class="detail-terms"><h4>Terms &amp; Conditions</h4><p>${this.esc(e.terms)}</p></div>`:''}
+<div class="action-buttons">
+  <button class="btn-primary" onclick="App.editEst('${e.id}')">✏️ Edit Estimate</button>
+  <button class="btn-secondary" onclick="window.print()">🖨️ Print / PDF</button>
+  <button class="btn-secondary" onclick="App.convertToInvoice('${e.id}')">📄 Convert to Invoice</button>
+</div></div>`;
   },
 
-  deleteEstimate(id) {
-    if (confirm('Delete this estimate? This cannot be undone.')) {
-      this.estimates = this.estimates.filter(e => e.id !== id);
-      this.saveData();
-      this.render();
-    }
+  // ─── INVOICE DETAIL ───────────────────────────────────────────
+  pgInvDetail() {
+    const inv=this.inv; if(!inv) return '<div class="empty-state"><p>Not found</p></div>';
+    return `<div class="view-detail">
+<div class="detail-header"><div class="detail-number">INVOICE #${inv.number||inv.id.slice(-6).toUpperCase()}</div><div class="detail-date">${this.fmtDate(inv.date)}</div>${inv.dueDate?`<div class="detail-due">Due: ${inv.dueDate}</div>`:''}</div>
+${this.coHeader()}
+<div class="detail-parties">
+  <div class="detail-party"><div class="party-label">Bill To</div><div class="party-name">${this.esc(inv.clientName||'')}</div><div class="party-address">${this.esc(inv.projectAddress||'')}</div>${inv.clientEmail?`<div class="party-contact">${this.esc(inv.clientEmail)}</div>`:''}</div>
+  <div class="detail-party"><div class="party-label">Project</div><div class="party-name">${this.esc(inv.projectName||'')}</div>${inv.estimateId?`<div class="party-contact">From Est #${inv.estimateId.slice(-6).toUpperCase()}</div>`:''}</div>
+</div>
+<table class="items-table"><thead><tr><th>Description</th><th>Qty</th><th>Unit</th><th>Price</th><th>Total</th></tr></thead><tbody>
+${(inv.lineItems||[]).map(it=>{const ap=(it.unitPrice||0)*getMultiplier(inv.projectZip||'');const tot=(it.qty||0)*ap;return `<tr><td class="item-name-cell">${this.esc(it.name)}</td><td class="right">${it.qty||0}</td><td>${UNIT_LABELS[it.unit]||it.unit||''}</td><td class="right">${this.fmt(ap)}</td><td class="right">${this.fmt(tot)}</td></tr>`;}).join('')}
+</tbody></table>
+<div class="detail-totals">
+  <div class="dt-row dt-total"><span>TOTAL DUE</span><span>${this.fmt(inv.total||0)}</span></div>
+  ${inv.dep?`<div class="dt-row"><span>Deposit Paid</span><span>- ${this.fmt(inv.dep)}</span></div><div class="dt-row dt-deposit"><span>BALANCE DUE</span><span>${this.fmt((inv.total||0)-(inv.dep||0))}</span></div>`:''}
+</div>
+${inv.payInfo||this.company.payInfo?`<div class="detail-terms"><h4>Payment Instructions</h4><p>${this.esc(inv.payInfo||this.company.payInfo||'')}</p></div>`:''}
+<div class="action-buttons">
+  <button class="btn-primary" onclick="App.markPaid('${inv.id}');App.render()">✅ Mark as Paid</button>
+  <button class="btn-secondary" onclick="window.print()">🖨️ Print / PDF</button>
+</div></div>`;
   },
 
-  deleteInvoice(id) {
-    if (confirm('Delete this invoice? This cannot be undone.')) {
-      this.invoices = this.invoices.filter(i => i.id !== id);
-      this.saveData();
-      this.render();
-    }
+  coHeader() {
+    const c=this.company;
+    if(!c.name) return `<div class="company-header-empty"><p>Add your company info in Settings</p></div>`;
+    return `<div class="company-header"><div class="company-logo-placeholder">🏗️</div><div class="company-details"><div class="company-name">${this.esc(c.name)}</div>${c.address?`<div class="company-meta">${this.esc(c.address)}</div>`:''}${c.phone?`<div class="company-meta">${this.esc(c.phone)}</div>`:''}${c.email?`<div class="company-meta">${this.esc(c.email)}</div>`:''}${c.license?`<div class="company-meta">Lic #${this.esc(c.license)}</div>`:''}</div></div>`;
   },
 
-  convertToInvoice() {
-    if (this.currentEstimate) {
-      this.convertEstimateToInvoice(this.currentEstimate.id || '');
-    }
+  // ─── SETTINGS ─────────────────────────────────────────────────
+  pgSettings() {
+    const c=this.company;
+    return `<div class="view-settings">
+<div class="form-section"><h3 class="section-title">Company Profile</h3>
+  <div class="form-row"><input class="form-input" placeholder="Company Name *" value="${this.esc(c.name||'')}" oninput="App.setCo('name',this.value)"></div>
+  <div class="form-row"><input class="form-input" placeholder="Street Address" value="${this.esc(c.address||'')}" oninput="App.setCo('address',this.value)"></div>
+  <div class="form-row-split">
+    <input class="form-input" placeholder="City" value="${this.esc(c.city||'')}" oninput="App.setCo('city',this.value)">
+    <input class="form-input" placeholder="State" value="${this.esc(c.state||'')}" oninput="App.setCo('state',this.value)">
+    <input class="form-input zip-input" placeholder="ZIP" value="${this.esc(c.zip||'')}" oninput="App.setCo('zip',this.value)">
+  </div>
+  <div class="form-row"><input class="form-input" type="tel" placeholder="Phone" value="${this.esc(c.phone||'')}" oninput="App.setCo('phone',this.value)"></div>
+  <div class="form-row"><input class="form-input" type="email" placeholder="Email" value="${this.esc(c.email||'')}" oninput="App.setCo('email',this.value)"></div>
+  <div class="form-row"><input class="form-input" placeholder="Contractor License #" value="${this.esc(c.license||'')}" oninput="App.setCo('license',this.value)"></div>
+  <div class="form-row"><input class="form-input" placeholder="Website" value="${this.esc(c.website||'')}" oninput="App.setCo('website',this.value)"></div>
+  <div class="form-row"><textarea class="form-input form-textarea" placeholder="Payment instructions..." oninput="App.setCo('payInfo',this.value)">${this.esc(c.payInfo||'')}</textarea></div>
+  <button class="btn-primary" onclick="App.saveCo()">Save Company Info</button>
+</div>
+<div class="form-section"><h3 class="section-title">Subscription</h3>
+${this.hasSub()
+  ? `<div class="sub-active"><div class="sub-check">✅ Active Subscription</div><p>You have full access. Thank you!</p></div>`
+  : `<div class="sub-trial"><p>${this.trialLeft>0?`<strong>${this.trialLeft} days</strong> left in your free trial.`:'Your trial has ended.'}</p><p>Subscribe for <strong>$5.99/month</strong> for unlimited access.</p><button class="btn-primary" onclick="App.go('subscribe')">Subscribe Now</button></div>`}
+</div>
+<div class="form-section"><h3 class="section-title">Data</h3>
+  <button class="btn-secondary" onclick="App.exportData()">Export Data (JSON)</button>
+  <button class="btn-secondary danger" style="margin-top:8px" onclick="App.clearAll()">Clear All Data</button>
+</div>
+<div class="form-section"><h3 class="section-title">About</h3>
+  <div class="about-info"><p><strong>Driftocity Estimate Pro</strong></p><p>Version 1.0.0</p><p>Professional contractor estimates &amp; invoices with ZIP-code regional pricing for 14 trade types.</p><p class="about-note">Pricing based on national averages adjusted by regional cost-of-living multipliers. Always verify local rates.</p></div>
+</div></div>`;
   },
 
-  convertEstimateToInvoice(id) {
-    const est = id ? this.estimates.find(e => e.id === id) : this.currentEstimate;
-    if (!est) { alert('Please save the estimate first.'); return; }
+  setCo(f,v){ this.company[f]=v; },
+  saveCo(){ this.save(); toast('✅ Company info saved!'); },
 
-    const calcs = this.calculateTotals(est);
-    const today = new Date();
-    const dueDate = new Date(today);
-    dueDate.setDate(dueDate.getDate() + 30);
-
-    const invoice = {
-      id: 'inv_' + Date.now(),
-      number: this.invoices.length + 1001,
-      date: Date.now(),
-      dueDate: dueDate.toISOString().split('T')[0],
-      estimateId: est.id,
-      clientName: est.clientName,
-      clientEmail: est.clientEmail,
-      clientPhone: est.clientPhone,
-      projectName: est.projectName,
-      projectAddress: est.projectAddress,
-      projectCity: est.projectCity,
-      projectZip: est.projectZip,
-      lineItems: est.lineItems,
-      ...calcs,
-      status: 'unpaid',
-      terms: est.terms,
-      paymentInfo: this.companyInfo.paymentInfo,
-    };
-
-    this.invoices.push(invoice);
-    this.saveData();
-
-    est.status = 'approved';
-    const estIdx = this.estimates.findIndex(e => e.id === est.id);
-    if (estIdx >= 0) this.estimates[estIdx] = est;
-    this.saveData();
-
-    alert('✅ Invoice created!');
-    this.currentInvoice = invoice;
-    this.navigate('invoice_detail');
+  // ─── SUBSCRIBE ────────────────────────────────────────────────
+  pgSubscribe() {
+    return `<div class="view-subscribe">
+<div class="sub-hero"><div class="sub-logo">🏗️</div><h2>Driftocity Estimate Pro</h2><p class="sub-tagline">Professional estimates &amp; invoices<br>for every trade</p></div>
+<div class="pricing-card"><div class="price-amount">$5.99<span>/month</span></div><div class="price-label">Everything you need to win more jobs</div></div>
+<div class="features-list">
+  <div class="feature-item">✅ Unlimited estimates &amp; invoices</div>
+  <div class="feature-item">✅ 14 contractor trade types</div>
+  <div class="feature-item">✅ ZIP code regional pricing</div>
+  <div class="feature-item">✅ AI job scope builder</div>
+  <div class="feature-item">✅ Convert estimates to invoices</div>
+  <div class="feature-item">✅ Print / Save to PDF</div>
+  <div class="feature-item">✅ Works offline on iOS &amp; Android</div>
+</div>
+<button class="btn-subscribe" onclick="App.doSubscribe()">Subscribe for $5.99/month</button>
+${this.trialLeft>0?`<button class="btn-trial" onclick="App.go('dashboard')">Continue Free Trial (${this.trialLeft} days left)</button>`:''}
+<p class="sub-disclaimer">Powered by Stripe secure payments. Cancel anytime.</p>
+<div class="demo-activate"><p>Demo / Developer mode:</p><button class="btn-link" onclick="App.activateSub()">Activate Demo Subscription</button></div>
+</div>`;
   },
 
-  markInvoicePaid(id) {
-    const inv = this.invoices.find(i => i.id === id);
-    if (inv) {
-      inv.status = 'paid';
-      inv.paidDate = new Date().toISOString().split('T')[0];
-      this.saveData();
-      if (this.currentView === 'invoices') this.render();
-      else alert('✅ Invoice marked as paid!');
-    }
+  doSubscribe() {
+    const url='https://buy.stripe.com/your_payment_link_here';
+    if(confirm('You will be redirected to our secure Stripe payment page ($5.99/month). Continue?')){ window.open(url,'_blank'); }
   },
+  activateSub() { this.sub={active:true,plan:'monthly',price:5.99,start:Date.now()}; this.save(); toast('✅ Subscription activated!'); this.go('dashboard'); },
 
-  previewEstimate() {
-    this.saveEstimate();
-    this.navigate('estimate_detail');
-  },
-
-  printDoc(type) {
-    window.print();
-  },
-
-  printInvoice(id) {
-    this.openInvoice(id);
-    setTimeout(() => window.print(), 300);
-  },
-
-  // =============================================
-  // SETTINGS & SUBSCRIPTION
-  // =============================================
-  updateCompany(field, value) {
-    this.companyInfo[field] = value;
-  },
-
-  saveCompanyInfo() {
-    this.saveData();
-    alert('✅ Company info saved!');
-  },
-
-  handleSubscribe() {
-    // In production: redirect to Stripe payment link
-    // Replace this URL with your actual Stripe payment link
-    const stripeUrl = 'https://buy.stripe.com/your_payment_link_here';
-    if (confirm('You will be redirected to our secure payment page ($5.99/month). Continue?')) {
-      window.open(stripeUrl, '_blank');
-      // After payment: Stripe webhook would activate subscription
-      // For now show demo activation
-      setTimeout(() => {
-        if (confirm('Payment complete? Activate subscription?')) {
-          this.activateDemoSub();
-        }
-      }, 2000);
-    }
-  },
-
-  activateDemoSub() {
-    this.subscription = {
-      active: true,
-      plan: 'monthly',
-      price: 5.99,
-      startDate: Date.now(),
-      renewDate: Date.now() + 30 * 86400000,
-    };
-    this.saveData();
-    alert('✅ Subscription activated!');
-    this.navigate('dashboard');
-  },
-
+  // ─── UTILS ────────────────────────────────────────────────────
   exportData() {
-    const data = {
-      estimates: this.estimates,
-      invoices: this.invoices,
-      company: this.companyInfo,
-      exported: new Date().toISOString(),
-    };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'driftocity-estimate-pro-data.json';
-    a.click();
-    URL.revokeObjectURL(url);
+    const d={estimates:this.estimates,invoices:this.invoices,company:this.company,exported:new Date().toISOString()};
+    const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+    const u=URL.createObjectURL(b); const a=document.createElement('a'); a.href=u; a.download='driftocity-data.json'; a.click(); URL.revokeObjectURL(u);
   },
-
-  confirmClearData() {
-    if (confirm('Clear ALL data? This will delete all estimates and invoices and cannot be undone.')) {
-      localStorage.clear();
-      location.reload();
-    }
-  },
-
-  filterEstimates(query) {
-    const container = document.getElementById('estimates-list-container');
-    if (!container) return;
-    const filtered = this.estimates.filter(e =>
-      (e.projectName || '').toLowerCase().includes(query.toLowerCase()) ||
-      (e.clientName || '').toLowerCase().includes(query.toLowerCase())
-    ).sort((a, b) => b.date - a.date);
-    container.innerHTML = filtered.length === 0 ? '<div class="empty-state"><p>No estimates match your search</p></div>' :
-      filtered.map(est => this.buildEstimateCard(est, true)).join('');
-  },
-
-  filterEstimatesByStatus(status) {
-    const container = document.getElementById('estimates-list-container');
-    if (!container) return;
-    const filtered = (status ? this.estimates.filter(e => e.status === status) : this.estimates)
-      .sort((a, b) => b.date - a.date);
-    container.innerHTML = filtered.length === 0 ? '<div class="empty-state"><p>No estimates found</p></div>' :
-      filtered.map(est => this.buildEstimateCard(est, true)).join('');
-  },
-
-  filterInvoicesByStatus(status) {
-    const container = document.getElementById('invoices-list-container');
-    if (!container) return;
-    const filtered = (status ? this.invoices.filter(i => i.status === status) : this.invoices)
-      .sort((a, b) => b.date - a.date);
-    container.innerHTML = filtered.length === 0 ? '<div class="empty-state"><p>No invoices found</p></div>' :
-      filtered.map(inv => this.buildInvoiceCard(inv)).join('');
-  },
-
-  startEstimateWithTrade(tradeKey) {
-    this.currentEstimate = this.blankEstimate();
-    this.currentEstimate.tradeType = tradeKey;
-    this.navigate('new_estimate');
-  },
-
-  // =============================================
-  // NAVIGATION
-  // =============================================
-  navigate(view) {
-    this.prevView = this.currentView;
-    if (view === 'new_estimate' && this.currentView !== 'new_estimate') {
-      if (this.currentView !== 'new_estimate') {
-        this.currentEstimate = this.blankEstimate();
-      }
-    }
-    this.currentView = view;
-    this.render();
-    window.scrollTo(0, 0);
-  },
-
-  goBack() {
-    const backMap = {
-      new_estimate: 'dashboard',
-      estimates: 'dashboard',
-      invoices: 'dashboard',
-      settings: 'dashboard',
-      subscribe: 'dashboard',
-      estimate_detail: 'estimates',
-      invoice_detail: 'invoices',
-    };
-    this.navigate(backMap[this.currentView] || 'dashboard');
-  },
-
-  // =============================================
-  // UTILS
-  // =============================================
-  formatCurrency(n) {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(n || 0);
-  },
-
-  formatDate(ts) {
-    if (!ts) return '';
-    return new Date(ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  },
-
-  escHtml(str) {
-    if (!str) return '';
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  },
-
-
-  // =============================================
-  // AI SCOPE WRITER
-  // =============================================
-  async generateFromScope() {
-    const input = document.getElementById('ai-scope-input');
-    const resultArea = document.getElementById('ai-result-area');
-    const genBtn = document.getElementById('ai-gen-btn');
-    if (!input || !resultArea) return;
-
-    const scopeText = input.value.trim();
-    if (!scopeText) {
-      resultArea.innerHTML = '<div class="ai-error">Please describe the work first.</div>';
-      return;
-    }
-
-    // Show loading
-    genBtn.disabled = true;
-    resultArea.innerHTML = '<div class="ai-loading"><div class="ai-spinner"></div>Analyzing job scope...</div>';
-
-    // Build trade catalog summary for the prompt
-    const tradeSummary = Object.entries(TRADES).map(([key, trade]) => {
-      const items = trade.categories.flatMap(c => c.items).slice(0, 8);
-      return trade.label + ': ' + items.map(i => i.id + '=' + i.name + '($' + i.basePrice + '/' + i.unit + ')').join(', ');
-    }).join('\n');
-
-    const zip = this.currentEstimate?.projectZip || '';
-    const mult = getMultiplier(zip);
-    const regionNote = zip ? ' Regional multiplier for ZIP ' + zip + ': ' + mult.toFixed(2) + 'x.' : '';
-
-    const prompt = \`You are a professional contractor estimator. A contractor described this job:
-
-"${scopeText.replace(/"/g, '\"').replace(/`/g, '\`')}"
-
-Available line items from our catalog (id=name($basePrice/unit)):
-\${tradeSummary}
-
-\${regionNote}
-
-Return ONLY a JSON array of line items needed for this job. Each object must have:
-- id: matching catalog item id (or "custom_X" for unlisted items)
-- name: item name
-- qty: realistic quantity (number)
-- unit: unit type (sqft/lf/ea/ls/cy/sq/room/day/load/sqyd)
-- unitPrice: base price number (use catalog price if matched, or realistic custom price)
-- laborPct: labor percentage 0-1
-- tradeLabel: trade category name
-- notes: brief note on why this item is needed
-
-Return ONLY the JSON array, no markdown, no explanation.\`;
-
-    try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-6',
-          max_tokens: 1000,
-          messages: [{ role: 'user', content: prompt }]
-        })
-      });
-
-      const data = await response.json();
-      if (data.error) throw new Error(data.error.message);
-
-      const text = data.content.map(b => b.text || '').join('');
-      const clean = text.replace(/\`\`\`json/g, '').replace(/\`\`\`/g, '').trim();
-      const items = JSON.parse(clean);
-
-      if (!Array.isArray(items) || items.length === 0) throw new Error('No items returned');
-
-      this.aiSuggestedItems = items;
-      this.renderAiResults(items, resultArea);
-
-    } catch(err) {
-      console.error('AI error:', err);
-      resultArea.innerHTML = '<div class="ai-error">⚠️ Could not generate items: ' + (err.message || 'Unknown error') + '. Check your connection and try again.</div>';
-    }
-
-    genBtn.disabled = false;
-  },
-
-  renderAiResults(items, resultArea) {
-    if (!resultArea) return;
-    const zip = this.currentEstimate?.projectZip || '';
-    const mult = getMultiplier(zip);
-
-    const itemsHtml = items.map((item, i) => {
-      const adjPrice = (item.unitPrice || 0) * mult;
-      const total = adjPrice * (item.qty || 1);
-      return \`<div class="ai-result-item">
-        <div>
-          <div class="ai-result-name">\${this.escHtml(item.name)}</div>
-          <div class="ai-result-detail">\${item.qty} \${item.unit} · \${this.escHtml(item.tradeLabel || '')} \${item.notes ? '· ' + this.escHtml(item.notes) : ''}</div>
-        </div>
-        <div class="ai-result-price">\${this.formatCurrency(total)}</div>
-      </div>\`;
-    }).join('');
-
-    const totalEstimate = items.reduce((s, item) => {
-      return s + (item.unitPrice || 0) * getMultiplier(zip) * (item.qty || 1);
-    }, 0);
-
-    resultArea.innerHTML = \`
-      <div class="ai-result-preview">
-        \${itemsHtml}
-      </div>
-      <div class="ai-add-bar">
-        <div class="ai-add-count">✨ \${items.length} items · Est. ~\${this.formatCurrency(totalEstimate)} base</div>
-        <button class="btn-ai-add-all" onclick="App.addAiItemsToEstimate()">Add All to Estimate</button>
-      </div>
-    \`;
-  },
-
-  addAiItemsToEstimate() {
-    const items = this.aiSuggestedItems;
-    if (!items || !items.length) return;
-    if (!this.currentEstimate) this.currentEstimate = this.blankEstimate();
-    this.currentEstimate.lineItems = this.currentEstimate.lineItems || [];
-
-    items.forEach(item => {
-      this.currentEstimate.lineItems.push({
-        id: (item.id || 'ai') + '_' + Date.now() + '_' + Math.random().toString(36).slice(2,5),
-        name: item.name || 'Item',
-        qty: parseFloat(item.qty) || 1,
-        unit: item.unit || 'ls',
-        unitPrice: parseFloat(item.unitPrice) || 0,
-        laborPct: parseFloat(item.laborPct) || 0.6,
-        tradeLabel: item.tradeLabel || 'AI Generated',
-        notes: item.notes || '',
-      });
-    });
-
-    this.aiSuggestedItems = null;
-    showToast('✅ ' + items.length + ' items added!', 'success');
-    this.render();
-  },
-
-  clearAiScope() {
-    const input = document.getElementById('ai-scope-input');
-    const resultArea = document.getElementById('ai-result-area');
-    if (input) input.value = '';
-    if (resultArea) resultArea.innerHTML = '';
-    this.aiSuggestedItems = null;
-  },
-
-  attachEventListeners() {
-    // Prevent modal close when clicking inside sheet
-    const sheet = document.getElementById('modal-sheet-content');
-    if (sheet) {
-      sheet.addEventListener('click', e => e.stopPropagation());
-    }
-  }
+  clearAll() { if(!confirm('Delete ALL data? Cannot be undone.')) return; localStorage.clear(); location.reload(); },
+  fmt(n)  { return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n||0); },
+  fmtDate(ts) { if(!ts) return ''; return new Date(ts).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); },
+  esc(s)  { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); },
 };
 
-// Boot
-document.addEventListener('DOMContentLoaded', () => App.init());
-
-// Toast helper
-window.showToast = function(msg, type) {
-  type = type || 'success';
-  var t = document.getElementById('toast');
-  if (!t) return;
-  t.textContent = msg;
-  t.className = 'toast toast-' + type;
-  t.classList.remove('hidden');
-  setTimeout(function(){ t.classList.add('hidden'); }, 3000);
-};
-
-// Override alert for nicer UX
-window._nativeAlert = window.alert;
-window.alert = function(msg) {
-  if (msg && (msg.indexOf('✅') === 0)) {
-    showToast(msg, 'success');
-  } else if (msg && (msg.indexOf('❌') === 0 || msg.indexOf('⚠️') === 0)) {
-    showToast(msg, 'error');
-  } else {
-    window._nativeAlert(msg);
-  }
-};
-
-// Splash removal — called by App.render()
-window.removeSplash = function() {
-  var splash = document.getElementById('splash');
-  if (!splash) return;
-  splash.style.transition = 'opacity 0.3s ease';
-  splash.style.opacity = '0';
-  setTimeout(function(){ if (splash.parentNode) splash.parentNode.removeChild(splash); }, 350);
-};
-
-// PWA install prompt
-var deferredPrompt;
-window.addEventListener('beforeinstallprompt', function(e) {
-  e.preventDefault();
-  deferredPrompt = e;
-  var banner = document.getElementById('install-banner');
-  if (banner && !localStorage.getItem('install_dismissed')) {
-    banner.classList.remove('hidden');
-  }
-});
-document.getElementById('install-btn') && document.getElementById('install-btn').addEventListener('click', function() {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  deferredPrompt.userChoice.then(function(){ deferredPrompt = null; });
-  document.getElementById('install-banner').classList.add('hidden');
-});
-document.getElementById('install-dismiss') && document.getElementById('install-dismiss').addEventListener('click', function() {
-  document.getElementById('install-banner').classList.add('hidden');
-  localStorage.setItem('install_dismissed', '1');
-});
-
-// Register service worker if sw.js exists alongside this file
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(function(){});
+function toast(msg,type) {
+  type=type||'success';
+  const t=document.getElementById('toast'); if(!t) return;
+  t.textContent=msg; t.className='toast toast-'+type; t.classList.remove('hidden');
+  setTimeout(()=>t.classList.add('hidden'),3000);
 }
+
+window.addEventListener('beforeinstallprompt',function(e){
+  e.preventDefault(); let dp=e;
+  const banner=document.getElementById('install-banner');
+  if(banner&&!localStorage.getItem('install_dismissed')) banner.classList.remove('hidden');
+  document.getElementById('install-btn')&&document.getElementById('install-btn').addEventListener('click',function(){ dp.prompt(); banner.classList.add('hidden'); });
+  document.getElementById('install-dismiss')&&document.getElementById('install-dismiss').addEventListener('click',function(){ banner.classList.add('hidden'); localStorage.setItem('install_dismissed','1'); });
+});
+
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+
+document.addEventListener('DOMContentLoaded',()=>App.init());
 
 </script>
 </body>
