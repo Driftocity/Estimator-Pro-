@@ -980,6 +980,37 @@ select.form-input {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 
+
+/* AI SCOPE WRITER */
+.ai-scope-section{margin-bottom:var(--space-md);background:linear-gradient(135deg,#1e2538,#242938);border:1px solid #3a4060;border-radius:var(--radius-lg);overflow:hidden}
+.ai-scope-header{display:flex;align-items:center;gap:10px;padding:14px var(--space-md) 10px;border-bottom:1px solid #2e3447}
+.ai-scope-badge{display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:99px;padding:4px 10px;font-size:11px;font-weight:700;color:white;letter-spacing:0.06em;text-transform:uppercase;box-shadow:0 2px 8px #6366f140}
+.ai-scope-title{font-size:14px;font-weight:600;color:var(--white);flex:1}
+.ai-scope-body{padding:var(--space-md)}
+.ai-scope-textarea{width:100%;padding:12px 14px;background:#1a1f2e;border:1px solid #3a4060;border-radius:var(--radius-sm);color:var(--white);font-size:14px;line-height:1.6;resize:vertical;min-height:90px;font-family:var(--font-body);transition:border-color 0.15s}
+.ai-scope-textarea:focus{outline:none;border-color:#6366f1}
+.ai-scope-textarea::placeholder{color:#4a5270}
+.ai-scope-actions{display:flex;gap:var(--space-sm);margin-top:10px}
+.btn-ai-generate{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px var(--space-md);background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;border-radius:var(--radius-md);font-size:14px;font-weight:600;letter-spacing:0.02em;box-shadow:0 4px 16px #6366f140;transition:transform 0.12s,opacity 0.12s}
+.btn-ai-generate:active{transform:scale(0.97)}
+.btn-ai-generate:disabled{opacity:0.5;pointer-events:none}
+.btn-ai-clear{padding:12px 16px;border-radius:var(--radius-md);background:var(--navy-light);color:var(--steel);font-size:13px;border:1px solid var(--navy-light)}
+.ai-scope-hint{font-size:11px;color:#4a5270;margin-top:8px;line-height:1.5}
+.ai-loading{display:flex;align-items:center;justify-content:center;gap:10px;padding:var(--space-md);color:#8b8fff;font-size:13px}
+.ai-spinner{width:18px;height:18px;border:2px solid #3a3f6a;border-top-color:#6366f1;border-radius:50%;animation:spin 0.7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ai-result-preview{background:#1a1f2e;border:1px solid #2e3447;border-radius:var(--radius-sm);padding:var(--space-sm);margin-top:10px}
+.ai-result-item{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 10px;border-bottom:1px solid #2e3447;font-size:13px;gap:8px}
+.ai-result-item:last-child{border-bottom:none}
+.ai-result-name{color:var(--white);font-weight:500}
+.ai-result-detail{color:var(--steel);font-size:12px;margin-top:2px}
+.ai-result-price{color:var(--orange);font-weight:600;font-size:13px;white-space:nowrap}
+.ai-add-bar{display:flex;gap:var(--space-sm);margin-top:10px;align-items:center}
+.ai-add-count{font-size:12px;color:var(--steel);flex:1}
+.btn-ai-add-all{padding:10px 16px;background:var(--orange);color:white;border-radius:var(--radius-sm);font-size:13px;font-weight:600;transition:transform 0.12s}
+.btn-ai-add-all:active{transform:scale(0.97)}
+.ai-error{padding:10px 14px;background:#2a1a1a;border:1px solid var(--red);border-radius:var(--radius-sm);color:var(--red);font-size:13px;margin-top:10px;line-height:1.5}
+
 </style>
 </head>
 <body>
@@ -1755,7 +1786,7 @@ ${Object.entries(TRADES).map(([k,t])=>`<button class="trade-pill" onclick="App.s
     this.est  = e;
     const mult = getMultiplier(e.projectZip||'');
     return `<div class="view-estimate-builder">
-<!-- AI SCOPE WRITER REMOVED -->
+<!-- AI SCOPE WRITER -->
 <div class="form-section">
   <div class="ai-scope-section">
     <div class="ai-scope-header">
@@ -1917,7 +1948,123 @@ ${Object.entries(TRADES).map(([k,t])=>`<button class="trade-pill" onclick="App.s
 
   rerender() { this.render(); },
 
-  // AI removed
+  // ─── AI SCOPE WRITER ──────────────────────────────────────────
+  async genScope() {
+    var inp = document.getElementById('ai-input');
+    var res = document.getElementById('ai-result');
+    var btn = document.getElementById('ai-btn');
+    if (!inp || !res) return;
+    var text = inp.value.trim();
+    if (!text) { res.innerHTML = '<div class="ai-error">Please describe the job first.</div>'; return; }
+    btn.disabled = true;
+    res.innerHTML = '<div class="ai-loading"><div class="ai-spinner"></div>Analyzing job scope...</div>';
+
+    var self = this;
+    var zip  = (this.est && this.est.projectZip) || '';
+    var mult = getMultiplier(zip);
+
+    // Build compact catalog
+    var catalogLines = [];
+    Object.entries(TRADES).forEach(function(kv) {
+      var key = kv[0]; var trade = kv[1];
+      var items = trade.categories.reduce(function(a,c){return a.concat(c.items);}, []).slice(0,5);
+      items.forEach(function(i){ catalogLines.push(i.id+','+i.name+','+i.basePrice+','+i.unit+','+trade.label); });
+    });
+    var catalog = catalogLines.join('\n');
+
+    var safeText = text.replace(/"/g, "'");
+    var prompt = 'Contractor estimator. Job: "' + safeText + '"\n\n'
+      + 'Catalog (id,name,basePrice,unit,trade):\n' + catalog + '\n\n'
+      + 'Return a JSON array of up to 12 line items. Use catalog items where they match, make custom ones otherwise.\n'
+      + 'Each object must be: {"id":"string","name":"string","qty":1,"unit":"sqft","unitPrice":100,"laborPct":0.6,"tradeLabel":"string","notes":"string"}\n'
+      + 'IMPORTANT: Return ONLY the raw JSON array starting with [ and ending with ]. No markdown, no backticks, no explanation.';
+
+    fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 2048,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    })
+    .then(function(resp) {
+      if (!resp.ok) throw new Error('API error ' + resp.status);
+      return resp.json();
+    })
+    .then(function(data) {
+      if (data.error) throw new Error(data.error.message);
+      var raw = data.content.map(function(b){ return b.text || ''; }).join('');
+
+      // Extract JSON array
+      var s = raw.indexOf('[');
+      var e = raw.lastIndexOf(']');
+      if (s === -1 || e === -1 || e <= s) throw new Error('No JSON array in response. Try again.');
+      var jsonStr = raw.slice(s, e + 1);
+
+      var items;
+      try {
+        items = JSON.parse(jsonStr);
+      } catch(parseErr) {
+        // Try to salvage truncated response
+        var lastClose = jsonStr.lastIndexOf('},');
+        if (lastClose > 0) {
+          try { items = JSON.parse(jsonStr.slice(0, lastClose + 1) + ']'); }
+          catch(e2) { throw new Error('Response cut off. Please try again.'); }
+        } else {
+          throw new Error('Could not parse response. Please try again.');
+        }
+      }
+
+      if (!Array.isArray(items) || !items.length) throw new Error('No items returned. Add more detail to your description.');
+
+      // Validate and clamp each item
+      items = items.map(function(it) {
+        return {
+          id: String(it.id || 'custom_' + Date.now()),
+          name: String(it.name || 'Item'),
+          qty: Math.max(0.01, parseFloat(it.qty) || 1),
+          unit: String(it.unit || 'ls'),
+          unitPrice: Math.max(0, parseFloat(it.unitPrice) || 0),
+          laborPct: Math.min(1, Math.max(0, parseFloat(it.laborPct) || 0.6)),
+          tradeLabel: String(it.tradeLabel || 'General'),
+          notes: String(it.notes || '')
+        };
+      });
+
+      self.aiItems = items;
+      var m = getMultiplier(zip);
+      var total = items.reduce(function(s, it){ return s + it.unitPrice * m * it.qty; }, 0);
+
+      var html = '<div class="ai-result-preview">';
+      items.forEach(function(it) {
+        html += '<div class="ai-result-item">'
+          + '<div><div class="ai-result-name">' + self.esc(it.name) + '</div>'
+          + '<div class="ai-result-detail">' + it.qty + ' ' + it.unit
+          + (it.tradeLabel ? ' &middot; ' + self.esc(it.tradeLabel) : '')
+          + (it.notes ? ' &middot; ' + self.esc(it.notes) : '') + '</div></div>'
+          + '<div class="ai-result-price">' + self.fmt(it.unitPrice * m * it.qty) + '</div>'
+          + '</div>';
+      });
+      html += '</div>';
+      html += '<div class="ai-add-bar">'
+        + '<div class="ai-add-count">&#10024; ' + items.length + ' items &middot; ~' + self.fmt(total) + '</div>'
+        + '<button class="btn-ai-add-all" onclick="App.addAiItems()">Add All to Estimate</button>'
+        + '</div>';
+
+      res.innerHTML = html;
+    })
+    .catch(function(err) {
+      res.innerHTML = '<div class="ai-error">&#9888;&#65039; ' + self.esc(err.message || 'Unknown error. Check connection and try again.') + '</div>';
+    })
+    .finally(function() { btn.disabled = false; });
+  },
+
+  clearScope() {
+    const i=document.getElementById('ai-input'); if(i) i.value='';
+    const r=document.getElementById('ai-result'); if(r) r.innerHTML='';
+    this.aiItems=null;
+  },
 
   // ─── ITEM PICKER ──────────────────────────────────────────────
   showPicker(tradeKey) {
